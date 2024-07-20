@@ -241,9 +241,8 @@ if ((config.vocalisation == "revoicer" && revoicer_set) || (config.vocalisation 
     console.log(colors.red(`Le moteur de vocalisation "${config.vocalisation}" ne peut être utilisé, veuillez vérifier votre fichier de config, coupure du programme`));
     process.exit(1); // Arrête l'exécution du programme avec un code d'erreur
 }
-//vocalisation d'une voix pour le démarrage du programme
-///vocalise("Bonjour! je m'appelle swan, votre intelligence artificielle. Que puis je pour vous?", config, openai)
-//playAudio("F:\\Documents\\GitHub\\swan4.0\\sound\\output_sound\\revoicer\\other\\voice_2_second_dem.mp3",config.player_path)
+
+
 
 
 // -----------------------------
@@ -352,14 +351,14 @@ async function spotify_go(action) {
       console.error("Erreur lors de la recherche ou de la lecture de l'album :", error);
     }
   }
-  
- // spotify_search("lofi médiavale");
+
 
 
 // -----------------------------
 // Section initialisation et redémarrage
 // -----------------------------
 async function initializeSystem() {
+    //playAudio("F:\\Documents\\GitHub\\swan4.0\\sound\\output_sound\\revoicer\\other\\voice_2_second_dem.mp3",config.player_path)
     await initializeHardware();
     await make_grammar();
     await generateCommands();
