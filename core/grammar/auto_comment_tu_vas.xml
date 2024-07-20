@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="comment_tu_vas" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="comment_tu_vas" scope="public">
+    <tag>out.action=new Object();</tag>
+    <item>Swan</item>
+    <one-of>
+      <item>Tu te portes bien </item>
+      <item>Ça va</item>
+      <item>Tout va bien chez toi</item>
+      <item>Comment vas-tu</item>
+      <item>Comment tu vas</item>
+      <item>Ça se passe bien</item>
+      <item>Es-tu en bonne santé</item>
+    </one-of>
+    <tag>out.action.action="comment_tu_vas";</tag>
+  </rule>
+</grammar>

@@ -1,0 +1,37 @@
+# Ignorer tout le contenu de node_modules
+node_modules/
+
+# Ignorer le contenu des répertoires sound_input et sound_output mais conserver les répertoires
+#sound/sound_input/*
+#!sound/sound_input/.gitkeep
+
+#sound/sound_output/*
+#!sound/sound_output/.gitkeep
+
+/sound/output_sound/openAI/other
+/sound/output_sound/revoicer/other
+
+!sound/sound_output/openAI/other/.gitkeep
+!sound/sound_output/revoicer/other/.gitkeep
+
+
+sound/input_sound/*
+!sound/input_sound/.gitkeep
+
+#sound/output_sound/*
+#!sound/output_sound/.gitkeep
+
+sound/input_mic_sound/*
+!sound/input_mic_sound/.gitkeep
+
+sound/input_listen_sound/*
+!sound/input_listen_sound/.gitkeep
+
+.env
+
+config.yaml
+config_sav.yaml
+config_test.yaml
+
+spotify.js
+!core/system/spotify.js

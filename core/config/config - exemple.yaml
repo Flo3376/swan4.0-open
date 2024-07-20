@@ -1,0 +1,83 @@
+# info pour le module listen
+listen: 
+    # #répertoire de stockageg des sons de capturés
+    path_input: "/sound/input_listen_sound/"
+    # répertoire ou se trouve le dictionnaire de compréhension
+    grammar : "./core/grammar"
+    # activation du débug
+    debug_listen: false
+    #langare
+    language: 'fr-FR'
+    # mot déclencheur
+    hotword: 'Swan'
+    # niveau de confiance minimal
+    confidence: '0.8'
+
+# Info pour le module de capture mic
+mic:
+    # #répertoire de stockageg des sons de capturés
+    path_input: "/sound/input_mic_sound/"
+    debug_mic: false
+# Info pour l'utilisation d'OpenAI
+openAI:
+     # Clé API pour le service OpenAI
+    apiKey: 
+    # assistant_id - ID de l'assistant
+    assistant_id: 
+    # thread_id - ID du thread utilisé pour conserver la conversation, peut être vidé pour lancer une conversation vierge
+    thread_id: 
+    # Nom de l'assistant
+    assistant_name: "Swan_sc_0.5_b"
+    # Modèle du robot, son niveau d'intelligence, "gpt-3.5-turbo-16k" peu coûteux, mais peu puissant, "gpt-4-turbo" très coûteux mais très puissant
+    model_assistant: "gpt-3.5-turbo-16k"
+    # Voix de l'assistant: alloy, echo, fable, onyx, nova, shimmer
+    assistant_voice: "nova"
+    #répertoire de stockageg des sons de revoicer
+    path_output :  "/sound/output_sound/"
+     
+# Info pour le push to talk
+push_to_talk:
+    keyboard :
+        # Touche du clavier pour activer l'enregistrement 
+        keyboard_key: "LEFT SHIFT"
+        # Bouton d'une manette pour activer l'enregistrement
+    joystick : 
+        # ID du vendeur de la manette
+        vendorId: 
+        # ID du produit de la manette
+        productId: 
+        # ID du tram de la manette
+        tramId: 
+        # ID du bouton pressé de la manette
+        bp_Id: 
+
+revoicer : 
+    #info sur la sortie audio par revoicer
+    # Email associé au compte Revoicer
+    email: ''
+    # Mot de passe associé au compte Revoicer
+    password: ''
+    # Identifiant de la campagne utilisée pour la génération de voix
+    campaignId: ""
+    # Ton par défaut utilisé pour la synthèse vocale "Cheerful" 
+    default_tone: 'Cheerful'
+    # Définit la langue dans laquelle les textes sont lus
+    default_langage: 'fr'
+    # Identifiant de la voix par défaut utilisée pour la synthèse vocale "fr-CA-AntoineNeural" "fr-FR-DeniseNeural" "fr-BE-CharlineNeural" "fr-FR-HenriNeural" "fr-FR-JosephineNeural"
+    default_voice: 'fr-FR-DeniseNeural'
+    #répertoire de stockageg des sons de revoicer
+    path_output :  "/sound/output_sound/"
+
+google : 
+    #clé api pour vocaliser avec google
+    apiKey :
+
+
+#module de vocalisation "revoicer" payant / "openAI" payant / "google" inconnu (prochainement)
+vocalisation : "openAI"
+# Info sur Sox
+sox_path : ';C:\\Program Files (x86)\\sox-14-4-2'
+# Info sur la sortie audio
+player_path: "C:\\Program Files (x86)\\Winamp\\winamp.exe"
+# Info sur le debug global
+debug_sw: false

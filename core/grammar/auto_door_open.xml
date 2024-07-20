@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="door_open" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="door_open" scope="public">
+    <tag>out.action=new Object();</tag>
+    <item>Swan</item>
+    <one-of>
+      <item>Peux-tu ouvrir les portes</item>
+      <item>Portes à ouvrir</item>
+      <item>Prêt à ouvrir les portes</item>
+      <item>Activation de l'ouverture des portes</item>
+      <item>Commande pour ouvrir les portes</item>
+      <item>Ouvre les portes</item>
+    </one-of>
+    <tag>out.action.action="door_open";</tag>
+  </rule>
+</grammar>

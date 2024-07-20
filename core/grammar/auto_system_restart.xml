@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="system_restart" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="system_restart" scope="public">
+    <tag>out.action=new Object();</tag>
+    <item>Swan</item>
+    <one-of>
+      <item>Peux-tu redémarrer</item>
+      <item>Redémarre l'assistant</item>
+      <item>Est-il possible de redémarrer</item>
+    </one-of>
+    <tag>out.action.action="system_restart";</tag>
+  </rule>
+</grammar>
