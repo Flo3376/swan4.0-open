@@ -1,16 +1,40 @@
-const fs2 = require('fs');   // Importe le module fs pour la gestion des fichiers.
-const colors = require('colors');
-
-
-
+// Importation des modules nécessaires pour le fonctionnement du programme.
+// Importe le module 'fs' pour la gestion des fichiers, permettant de lire et écrire des fichiers localement.
+const fs2 = require('fs');
+// Importe le module 'colors' pour permettre la coloration des textes dans la console, améliorant la lisibilité des logs.
+const colors = require('colors'); 
+// Importe des fonctions spécifiques depuis le module de configuration pour charger, afficher et mettre à jour la configuration du système.
+const { load_config, display_config,update_config } = require("./core/config/configurator");
+// Importe le module 'openai' pour interagir avec les APIs d'OpenAI, notamment GPT et autres modèles.
+const { OpenAI, Configuration } = require('openai'); 
+// Importe des fonctions du gestionnaire d'assistants AI pour créer ou mettre à jour des instances d'assistants virtuels.
+const { createAssistantIfNotExist, updateAssistant } = require('./core/system/openaiAssistant');
+// Importe des fonctions pour initialiser et récupérer l'état des boutons d'un joystick, utilisé pour interagir avec le système via un contrôleur physique.
+const { initializeDevice: initializeJoystick, getButtonState: getJoystickButtonState } = require('./core/system/JoyTracker');
+// Importe des fonctions pour écouter les entrées du clavier et récupérer l'état des touches pressées, utilisé pour des commandes via clavier.
+const { initializeKeyboardListener, getButtonState: getKeyboardButtonState } = require('./core/system/keyboardListener');
+// Importe des fonctions pour gérer l'enregistrement audio, incluant le démarrage, l'arrêt de l'enregistrement, et la vérification de l'état d'enregistrement.
+const { startRecording, stopRecording, isRecording } = require('./core/system/audioRecorder');
+// Importe des fonctions pour vocaliser du texte et jouer des fichiers audio, utilisé pour les réponses audibles du système.
+const { vocalise, playAudio } = require('./core/system/vocalizor');
+// Importe un module pour exécuter des commandes Python, utilisé pour des interactions système avancées.
+const pythonCommander = require('./core/system/pythonCommander .js'); 
+// Importe un module de reconnaissance vocale pour écouter et traiter des commandes vocales.
+const voiceModule = require('./bin/listen.js'); 
+// Importe une fonction pour générer des commandes basées sur la configuration du système, utilisé pour paramétrer des commandes personnalisées.
+const { generateCommands } = require('./core/system/command');
+// Importe une fonction pour tokeniser des entrées textuelles, utile pour le traitement et l'analyse du langage naturel.
+const { tokenize} = require('./core/system/tokenizer');
+// Importe un module de chat pour gérer des dialogues interactifs avec un assistant virtuel.
+const ChatModule = require('./core/system/chat'); 
+// Importe un contrôleur pour interagir avec l'API de Spotify, permettant de contrôler la musique.
+const SpotifyController = require('./core/system/spotify'); 
 
 
 // -----------------------------
-// Section de chargement de la configuration
+// Section de chargement des configurations et lexiques
 // -----------------------------
-const { load_config, display_config,update_config } = require("./core/config/configurator")
 
-//tentative de chargement du la configuration
 let config = load_config('./core/config/config.yaml');
 if (config) {
     console.log(colors.green('Config chargée.'));
@@ -33,18 +57,12 @@ else {
 }
 
 
-
-
 // -----------------------------
-// Section openAI
+// Section Initialisation du système OpenAI
 // -----------------------------
-let assistant;
-let thread;
-let openai
+let assistant, thread, openai;
 
-const { OpenAI, Configuration } = require('openai');
 
-const { createAssistantIfNotExist, updateAssistant } = require('./core/system/openaiAssistant');
 //vérification que revoicer peut être utiliser
 const openAI_test = config.openAI;
 const openAI_data = ['apiKey', 'model_assistant', 'assistant_voice', 'assistant_name'];
@@ -94,9 +112,6 @@ async function initializeThread() {
 // -----------------------------
 // Section push to talk clavier et joystick/manette
 // -----------------------------
-const { initializeDevice: initializeJoystick, getButtonState: getJoystickButtonState } = require('./core/system/JoyTracker');
-const { initializeKeyboardListener, getButtonState: getKeyboardButtonState } = require('./core/system/keyboardListener');
-const { startRecording, stopRecording, isRecording } = require('./core/system/audioRecorder');
 
 //vérification qu'une touche clavier est informé (obligatoire)
 if (config.push_to_talk.keyboard.keyboard_key && config.push_to_talk.keyboard.keyboard_key != '') {
@@ -201,14 +216,9 @@ async function checkButtonStates() {
 
 
 
-
-
-
 // -----------------------------
 // Section création de voix
 // -----------------------------
-const { vocalise, playAudio } = require('./core/system/vocalizor');
-
 
 //vérification que revoicer peut être utiliser
 const revoicer_test = config.revoicer;
@@ -236,37 +246,18 @@ if ((config.vocalisation == "revoicer" && revoicer_set) || (config.vocalisation 
 //playAudio("F:\\Documents\\GitHub\\swan4.0\\sound\\output_sound\\revoicer\\other\\voice_2_second_dem.mp3",config.player_path)
 
 
-
-
-
 // -----------------------------
 // Section interraction clavier souris
 // -----------------------------
-const KeyCommander = require('./core/system/KeyCommander .js');
 
 // Créer une instance du contrôleur d'entrée
-const controller = new KeyCommander();
-/*
-// Exemple de commande de souris pour déplacer la souris
-const mouseCommand = {
-    output: 'mouse',
-    action: 'move',
-    x: 500,
-    y: 300
-  };
-
-setTimeout(() => controller.handleCommand(mouseCommand), 1000);
-*/
+const controller = new pythonCommander();
 
 
 // -----------------------------
 // Section décryptage vocal autonome (listen de sarah par JP Encausse)
 // -----------------------------
-const voiceModule = require('./bin/listen.js');
 const { make_grammar } = require('./core/system/grammar');
-
-
-
 
 //si le module renvoie des logs
 const logback_listen = (message) => {
@@ -287,10 +278,9 @@ function findResponsesByAction(lexique, action) {
     }
     return null; // Retourner null si aucune action correspondante n'est trouvée
 }
-
 //si le module reconnait une commande
 const callback_listen = (data) => {
-    console.log('Recognition result:', data);
+   // console.log('Recognition result:', data);
 
     if (data.options.action.includes("spotify")) {
         spotify_go(data.options.action)
@@ -301,28 +291,16 @@ const callback_listen = (data) => {
     else{
         const responses = findResponsesByAction(lexique, data.options.action);
         //console.log(responses);// Affiche le tableau de réponses ou null si aucune action ne correspond
+        //console.log(data.options.action)
+       // console.log(lexique)
+        controller.handleCommand(lexique[data.options.action].rules[0].interact)
         vocalise(responses, config, openai, data.options.action, config.effect)
     }
 };
 
-
-
-
-
-// -----------------------------
-// Section tokenizer
-// -----------------------------
-const { generateCommands } = require('./core/system/command'); // Assurez-vous que le chemin d'accès est correct
-const { tokenize} = require('./core/system/tokenizer'); // Assurez-vous que le chemin d'accès est correct
-
-
-
-
-
 // -----------------------------
 // Section chat / traitement des demandes envoyées via le clavier ou le Speech To Text (SST)
 // -----------------------------
-const ChatModule = require('./core/system/chat');
 
 const chat = new ChatModule(openai,  config);
 chat.start();
@@ -343,7 +321,7 @@ chat.on('error', (error) => {
 // -----------------------------
 // Section spotify
 // -----------------------------
-const SpotifyController = require('./core/system/spotify');
+
 const spotifyController = new SpotifyController(config.spotify)
 
 async function spotify_go(action) {
@@ -378,15 +356,9 @@ async function spotify_go(action) {
  // spotify_search("lofi médiavale");
 
 
-
-
-
-
-
-
-///////////////////////////////////////////////
-
-// Fonction pour initialiser le système
+// -----------------------------
+// Section initialisation et redémarrage
+// -----------------------------
 async function initializeSystem() {
     await initializeHardware();
     await make_grammar();
@@ -408,7 +380,6 @@ async function initializeSystem() {
 
 async function restart ()
 {
-    //setTimeout(() => voiceModule.cleanUp(), 10000);
     config = load_config('./core/config/config.yaml');
     lexique = load_config('./core/config/lexique.yaml');
     initializeSystem()

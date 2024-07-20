@@ -126,298 +126,22 @@
   },
   {
     "phrases": [
-      "Peux-tu ouvrir les portes",
-      "Portes à ouvrir",
-      "Prêt à ouvrir les portes",
-      "Activation de l'ouverture des portes",
-      "Commande pour ouvrir les portes",
-      "Ouvre les portes"
+      "Peux-tu contacter la station pour atterrir",
+      "Demande l'autorisation d'atterrir",
+      "Contacte la station pour le décollage",
+      "Demande l'autorisation de décoller",
+      "Appelle la station"
     ],
-    "code": "door_open",
+    "code": "call_station",
     "response": [
-      "Portes ouvertes.",
-      "Les portes sont maintenant ouvertes.",
-      "Opération terminée, portes débloquées.",
-      "Portes ouvertes avec succès.",
-      "Les portes sont déverrouillées et ouvertes."
+      "Contact avec la station en cours pour atterrissage.",
+      "Demande d'autorisation d'atterrir envoyée.",
+      "Contact avec la station en cours pour décollage.",
+      "Demande d'autorisation de décoller envoyée."
     ],
     "action": {
       "type": "keyboard",
-      "key": "none",
-      "duration": "short"
-    }
-  },
-  {
-    "phrases": [
-      "Peux-tu fermer les portes",
-      "Portes à fermer",
-      "Prêt à fermer les portes",
-      "Activation de fermeture des portes",
-      "Commande pour fermer les portes",
-      "ferme les portes"
-    ],
-    "code": "door_close",
-    "response": [
-      "Portes fermées.",
-      "Les portes sont maintenant fermées.",
-      "Opération terminée, portes bloquées.",
-      "Portes fermées avec succès.",
-      "Les portes sont déverrouillées et fermées."
-    ],
-    "action": {
-      "type": "keyboard",
-      "key": "none",
-      "duration": "short"
-    }
-  },
-  {
-    "phrases": [
-      "Peux-tu démarrer la musique",
-      "Mets de la musique",
-      "Lance la lecture sur Spotify",
-      "relance la musique",
-      "Lance la musique"
-    ],
-    "code": "spotify_play",
-    "response": [
-      "Musique démarrée sur Spotify.",
-      "Lecture en cours."
-    ],
-    "action": {
-      "type": "keyboard",
-      "key": "none",
-      "duration": "short"
-    }
-  },
-  {
-    "phrases": [
-      "Peux-tu mettre en pause",
-      "Mets la musique en pause",
-      "Pause la musique",
-      "Met en pause"
-    ],
-    "code": "spotify_pause_music",
-    "response": [
-      "Musique mise en pause.",
-      "Pause activée."
-    ],
-    "action": {
-      "type": "keyboard",
-      "key": "none",
-      "duration": "short"
-    }
-  },
-  {
-    "phrases": [
-      "Peux-tu passer à la suivante",
-      "Suivant sur Spotify",
-      "Change de piste",
-      "Musique suivante",
-      "Morceau suivant"
-    ],
-    "code": "spotify_next_track",
-    "response": [
-      "Piste suivante jouée.",
-      "Changement de piste effectué."
-    ],
-    "action": {
-      "type": "keyboard",
-      "key": "none",
-      "duration": "short"
-    }
-  },
-  {
-    "phrases": [
-      "Peux-tu passer à la précédente",
-      "précédent sur Spotify",
-      "Musique précédente",
-      "morceaux précédent"
-    ],
-    "code": "spotify_previous_track",
-    "response": [
-      "Piste précédente jouée.",
-      "Changement de piste effectué."
-    ],
-    "action": {
-      "type": "keyboard",
-      "key": "none",
-      "duration": "short"
-    }
-  },
-  {
-    "phrases": [
-      "Augmente le volume",
-      "Augmente la musique",
-      "Augmente le son",
-      "Plus fort s'il te plaît"
-    ],
-    "code": "spotify_increase_volume",
-    "response": [
-      "Volume augmenté.",
-      "C'est maintenant plus fort."
-    ],
-    "action": {
-      "type": "keyboard",
-      "key": "none",
-      "duration": "short"
-    }
-  },
-  {
-    "phrases": [
-      "Baisse le volume",
-      "Baisse la musique",
-      "Baisse le son",
-      "Moins fort s'il te plaît"
-    ],
-    "code": "spotify_decrease_volume",
-    "response": [
-      "Volume diminué.",
-      "C'est maintenant plus doux."
-    ],
-    "action": {
-      "type": "keyboard",
-      "key": "none",
-      "duration": "short"
-    }
-  },
-  {
-    "phrases": [
-      "Peux-tu redémarrer",
-      "Redémarre l'assistant",
-      "Est-il possible de redémarrer"
-    ],
-    "code": "system_restart",
-    "response": [
-      "Redémarrage de l'assistant en cours.",
-      "Je redémarre, à tout de suite."
-    ],
-    "action": {
-      "type": "keyboard",
-      "key": "none"
-    }
-  },
-  {
-    "phrases": [
-      "tu es là",
-      "Es-tu disponible",
-      "Es-tu connecté",
-      "Peux-tu me répondre",
-      "Es-tu prêt à aider",
-      "Es-tu en ligne",
-      "Peux-tu interagir",
-      "Es-tu actif maintenant",
-      "Es-tu accessible",
-      "Es-tu prêt à communiquer",
-      "Peux-tu assister maintenant"
-    ],
-    "code": "test_de_swan",
-    "response": [
-      "Bonjour ! Heureux de vous voir, prêt à aider.",
-      "Salut ! Je suis là, à votre service.",
-      "Bonjour ! Comment puis-je vous assister aujourd'hui ?",
-      "Salutations ! Toujours à votre écoute.",
-      "Bonjour ! Prêt à répondre à toutes vos questions.",
-      "Je suis à votre disposition, comment puis-je vous aider ?",
-      "Bonjour ! Je suis prêt à vous aider, n'hésitez pas à demander.",
-      "Salut ! Comment puis-je vous être utile aujourd'hui ?",
-      "Bonjour ! Toujours prête à vous assister avec enthousiasme.",
-      "Salutations ! Toujours à votre écoute.",
-      "Hello ! Je suis ici, prêt à vous aider à tout moment."
-    ],
-    "action": {
-      "type": "none",
-      "key": "none",
-      "duration": "short"
-    }
-  },
-  {
-    "phrases": [
-      "Tu te portes bien ",
-      "Ça va",
-      "Tout va bien chez toi",
-      "Comment vas-tu",
-      "Comment tu vas",
-      "Ça se passe bien",
-      "Es-tu en bonne santé"
-    ],
-    "code": "comment_tu_vas",
-    "response": [
-      "Oui, je vais très bien, merci !",
-      "Tout va bien de mon côté, et toi ?",
-      "Je suis en pleine forme, merci de demander.",
-      "Ça va bien, et j'espère que toi aussi.",
-      "Oui, tout est parfait ici !",
-      "Je me porte bien, merci.",
-      "Ça va super, merci !",
-      "Je suis en bonne santé et heureux.",
-      "Tout est en ordre, merci.",
-      "Je vais bien, merci de t'en soucier."
-    ],
-    "action": {
-      "type": "none",
-      "key": "none",
-      "duration": "short"
-    }
-  },
-  {
-    "phrases": [
-      "Peux-tu rentrer les trains",
-      "Prêt à rentrer les trains",
-      "ferme le train d'attérissage",
-      "ferme les trains d'attérissage",
-      "ferme les trains",
-      "ferme le train",
-      "rentre le train d'attérissage",
-      "rentre les trains d'attérissage",
-      "rentre les trains",
-      "rentre le train"
-    ],
-    "code": "gear_up",
-    "response": [
-      "Les trains d'atterrissage sont en train de rentrer.",
-      "Je rentre les trains d'atterrissage maintenant.",
-      "Action en cours pour rentrer les trains.",
-      "Les trains seront rentrés dans un moment.",
-      "Je m'occupe de rentrer les trains d'atterrissage.",
-      "Rentrage des trains d'atterrissage initié.",
-      "Les trains d'atterrissage sont en position de rentrage.",
-      "Opération de rentrage des trains d'atterrissage en cours.",
-      "Je commence à rentrer les trains d'atterrissage.",
-      "Les trains d'atterrissage sont en cours de rétraction."
-    ],
-    "action": {
-      "type": "keyboard",
-      "key": "n",
-      "duration": "short"
-    }
-  },
-  {
-    "phrases": [
-      "Peux-tu sortir les trains",
-      "Trains d'atterrissage à sortir",
-      "Prêt à sortir les trains",
-      "Activation du déploiement des trains",
-      "Commande pour sortir les trains",
-      "ouvre le train d'attérissage",
-      "ouvre les trains d'attérissage",
-      "ouvre les trains",
-      "ouvre le train",
-      "ouvre le train d'attérissage",
-      "ouvre les trains d'attérissage",
-      "ouvre les trains",
-      "ouvre le train"
-    ],
-    "code": "gear_down",
-    "response": [
-      "Trains d'atterrissage sortis.",
-      "Les trains sont maintenant sortis.",
-      "Opération terminée, trains déployés.",
-      "Trains sortis avec succès.",
-      "Les trains d'atterrissage sont en position de vol."
-    ],
-    "action": {
-      "type": "keyboard",
-      "key": "n",
+      "key": "f3",
       "duration": "short"
     }
   },
@@ -658,6 +382,35 @@
   },
   {
     "phrases": [
+      "Tu te portes bien ",
+      "Ça va",
+      "Tout va bien chez toi",
+      "Comment vas-tu",
+      "Comment tu vas",
+      "Ça se passe bien",
+      "Es-tu en bonne santé"
+    ],
+    "code": "jump",
+    "response": [
+      "Oui, je vais très bien, merci !",
+      "Tout va bien de mon côté, et toi ?",
+      "Je suis en pleine forme, merci de demander.",
+      "Ça va bien, et j'espère que toi aussi.",
+      "Oui, tout est parfait ici !",
+      "Je me porte bien, merci.",
+      "Ça va super, merci !",
+      "Je suis en bonne santé et heureux.",
+      "Tout est en ordre, merci.",
+      "Je vais bien, merci de t'en soucier."
+    ],
+    "action": {
+      "type": "keyboard",
+      "key": "space",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
       "Peux-tu rentrer les trains",
       "Prêt à rentrer les trains",
       "ferme le train d'attérissage",
@@ -715,6 +468,27 @@
     "action": {
       "type": "keyboard",
       "key": "n",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu contacter la station pour atterrir",
+      "Demande l'autorisation d'atterrir",
+      "Contacte la station pour le décollage",
+      "Demande l'autorisation de décoller",
+      "Appelle la station"
+    ],
+    "code": "call_station",
+    "response": [
+      "Contact avec la station en cours pour atterrissage.",
+      "Demande d'autorisation d'atterrir envoyée.",
+      "Contact avec la station en cours pour décollage.",
+      "Demande d'autorisation de décoller envoyée."
+    ],
+    "action": {
+      "type": "keyboard",
+      "key": "f3",
       "duration": "short"
     }
   },
@@ -955,6 +729,35 @@
   },
   {
     "phrases": [
+      "Tu te portes bien ",
+      "Ça va",
+      "Tout va bien chez toi",
+      "Comment vas-tu",
+      "Comment tu vas",
+      "Ça se passe bien",
+      "Es-tu en bonne santé"
+    ],
+    "code": "jump",
+    "response": [
+      "Oui, je vais très bien, merci !",
+      "Tout va bien de mon côté, et toi ?",
+      "Je suis en pleine forme, merci de demander.",
+      "Ça va bien, et j'espère que toi aussi.",
+      "Oui, tout est parfait ici !",
+      "Je me porte bien, merci.",
+      "Ça va super, merci !",
+      "Je suis en bonne santé et heureux.",
+      "Tout est en ordre, merci.",
+      "Je vais bien, merci de t'en soucier."
+    ],
+    "action": {
+      "type": "keyboard",
+      "key": "space",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
       "Peux-tu rentrer les trains",
       "Prêt à rentrer les trains",
       "ferme le train d'attérissage",
@@ -1012,6 +815,27 @@
     "action": {
       "type": "keyboard",
       "key": "n",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu contacter la station pour atterrir",
+      "Demande l'autorisation d'atterrir",
+      "Contacte la station pour le décollage",
+      "Demande l'autorisation de décoller",
+      "Appelle la station"
+    ],
+    "code": "call_station",
+    "response": [
+      "Contact avec la station en cours pour atterrissage.",
+      "Demande d'autorisation d'atterrir envoyée.",
+      "Contact avec la station en cours pour décollage.",
+      "Demande d'autorisation de décoller envoyée."
+    ],
+    "action": {
+      "type": "keyboard",
+      "key": "f3",
       "duration": "short"
     }
   },
@@ -1252,6 +1076,21 @@
   },
   {
     "phrases": [
+      "saute",
+      "fais un saut"
+    ],
+    "code": "jump",
+    "response": [
+      "d'accord"
+    ],
+    "action": {
+      "type": "keyboard",
+      "key": "space",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
       "Peux-tu rentrer les trains",
       "Prêt à rentrer les trains",
       "ferme le train d'attérissage",
@@ -1309,6 +1148,27 @@
     "action": {
       "type": "keyboard",
       "key": "n",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu contacter la station pour atterrir",
+      "Demande l'autorisation d'atterrir",
+      "Contacte la station pour le décollage",
+      "Demande l'autorisation de décoller",
+      "Appelle la station"
+    ],
+    "code": "call_station",
+    "response": [
+      "Contact avec la station en cours pour atterrissage.",
+      "Demande d'autorisation d'atterrir envoyée.",
+      "Contact avec la station en cours pour décollage.",
+      "Demande d'autorisation de décoller envoyée."
+    ],
+    "action": {
+      "type": "keyboard",
+      "key": "f3",
       "duration": "short"
     }
   },

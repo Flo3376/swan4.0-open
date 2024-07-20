@@ -6,8 +6,8 @@ global:
   tag-format: "semantics/1.0"
   name: Swan
 
-test:
-  root: "tu_es_la"
+test_de_swan:
+  root: "test_de_swan"
   rules:
     - description: "test interne pour voir si les tokenizer fonction, aucune utilité dans le jeux" 
       question:
@@ -69,6 +69,22 @@ test2:
         output : none
         action : none        
         key : none
+        duration : short
+
+jump:
+  root: "jump"
+  rules:
+    - description: "test interne ou départ de conversation"  
+      question:
+        - "saute"
+        - "fais un saut"
+      responses:
+        - "d'accord"
+      action: "jump"
+      interact :
+        output : keyboard
+        action : pressKey        
+        key : space
         duration : short
 
 gear_up:
@@ -134,6 +150,28 @@ gear_down:
         action : pressKey
         key : n
         duration : short
+call_station:
+  root: "call_station"
+  rules:
+    - description: "appeler station pour autoriser au décollage ou atterissage / demander ouverture des portes du hangar"  
+      question:
+        - "Peux-tu contacter la station pour atterrir"
+        - "Demande l'autorisation d'atterrir"
+        - "Contacte la station pour le décollage"
+        - "Demande l'autorisation de décoller"
+        - "Appelle la station"
+      responses:
+        - "Contact avec la station en cours pour atterrissage."
+        - "Demande d'autorisation d'atterrir envoyée."
+        - "Contact avec la station en cours pour décollage."
+        - "Demande d'autorisation de décoller envoyée."
+      action: "call_station"
+      interact :
+        output : keyboard
+        action : pressKey
+        key : f3
+        duration : short
+
 
 door_open:
   root: "door_open"

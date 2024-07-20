@@ -66,6 +66,7 @@ class InputController {
 
     // Méthodes pour le clavier
     sendKey(key) {
+        console.log("keytap : "+key)
         robot.keyTap(key);
     }
 
