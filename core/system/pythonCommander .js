@@ -1,4 +1,4 @@
-const robot = require("robotjs");
+const { exec } = require('child_process');
 
 class InputController {
     constructor() { }
@@ -21,85 +21,69 @@ class InputController {
 
     // Gérer les actions de clavier
     handleKeyboard(action, key, text) {
-        if (action !== "none" && key !== "none") {
-            switch (action) {
-                case 'pressKey':
-                    this.sendKey(key);
-                    break;
-                case 'sendCombination':
-                    this.sendCombination(key); // Assume key is an array here
-                    break;
-                case 'sendText':
-                    this.sendText(text);
-                    break;
-                case 'holdKey':
-                    this.holdKey(key, text); // Assume text is duration in ms here
-                    break;
-                default:
-                    console.error("Invalid keyboard action");
-            }
-        }
-        else{
-            console.log("Aucune action prévue pour cette demande")
+        switch (action) {
+            case 'pressKey':
+                this.runPythonScript('press_key.py', [key]);
+                break;
+            case 'sendCombination':
+                // Assumption: key is an array converted to a space-separated string
+                this.runPythonScript('press_combination.py', [key.join(' ')]);
+                break;
+            case 'sendText':
+                this.runPythonScript('send_text.py', [text]);
+                break;
+            case 'holdKey':
+                // Assumption: text is the duration in ms
+                this.runPythonScript('hold_key.py', [key, text]);
+                break;
+            default:
+                console.error("Invalid keyboard action");
         }
     }
 
     // Gérer les actions de souris
-    handleMouse(action, x, y, button, direction, amount) {
+    handleMouse(action, x, y, button, direction, amount,duration) {
         switch (action) {
             case 'move':
-                this.moveMouse(x, y);
+                this.runPythonScript('move_mouse.py', [x, y]);
                 break;
             case 'click':
-                this.clickMouse(button);
+                if(duration=="short")
+                {
+                    this.runPythonScript('click_mouse.py', [button]);
+                }
+                else if(duration=="long")
+                    {
+                        this.runPythonScript('click_mouse_long.py', [button]);
+                    }
+                
                 break;
             case 'scroll':
-                this.scrollMouse(direction, amount);
+                this.runPythonScript('scroll_mouse.py', [direction, amount]);
                 break;
             case 'drag':
-                this.dragMouse(x, y);
+                this.runPythonScript('drag_mouse.py', [x, y]);
                 break;
             default:
                 console.error("Invalid mouse action");
         }
     }
-
-    // Méthodes pour le clavier
-    sendKey(key) {
-        console.log("keytap : "+key)
-        robot.keyTap(key);
+    // Function to run a Python script with arguments
+    runPythonScript(scriptName, args) {
+        const cmd = `python ./core/python/${scriptName} ${args.join(' ')}`;
+        exec(cmd, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.error(`Stderr: ${stderr}`);
+                return;
+            }
+            console.log(`Stdout: ${stdout}`);
+        });
     }
 
-    sendCombination(keys) {
-        keys.forEach(key => robot.keyToggle(key, 'down'));
-        keys.forEach(key => robot.keyToggle(key, 'up'));
-    }
-
-    sendText(text) {
-        robot.typeString(text);
-    }
-
-    holdKey(key, duration) {
-        robot.keyToggle(key, 'down');
-        setTimeout(() => robot.keyToggle(key, 'up'), duration);
-    }
-
-    // Méthodes pour la souris
-    moveMouse(x, y) {
-        robot.moveMouse(x, y);
-    }
-
-    clickMouse(button = 'left') {
-        robot.mouseClick(button);
-    }
-
-    scrollMouse(direction, amount) {
-        robot.scrollMouse(amount, direction);
-    }
-
-    dragMouse(x, y) {
-        robot.dragMouse(x, y);
-    }
 }
 
 module.exports = InputController;

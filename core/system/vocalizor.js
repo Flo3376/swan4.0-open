@@ -271,15 +271,8 @@ function playAudio(speechFile, playerPath,effect="none") {
             //console.log(message);
             exec(`"${playerPath}" "${message}"`, (error, stdout, stderr) => {
               const fileName = path.basename(message);
-              make_effect(speechFile, effect)
               console.log(colors.magenta(`Lecture du fichier audio avec effets "${effect}" :  "${fileName}" en cours...`));
             });
-            /*
-            console.log(`"${playerPath}" "${speechFile}"`)
-            exec(`"${playerPath}" "${speechFile}"`, (error, stdout, stderr) => {
-              console.log(`Lecture du fichier audio "${speechFile}" en cours...`);
-            });
-            */
         })
         .catch((error) => {
             console.error(error);

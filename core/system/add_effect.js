@@ -8,6 +8,8 @@ function make_effect(inputPath, effectType) {
             resolve(inputPath);
             return;
         }
+        //console.trace('Trace de maFonction');
+                
 
         const outputPath = inputPath.replace(/\.mp3$/, `_${effectType}.mp3`);
 

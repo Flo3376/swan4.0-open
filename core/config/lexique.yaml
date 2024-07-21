@@ -6,8 +6,8 @@ global:
   tag-format: "semantics/1.0"
   name: Swan
 
-test_de_swan:
-  root: "test_de_swan"
+test_swan:
+  root: "test_swan"
   rules:
     - description: "test interne pour voir si les tokenizer fonction, aucune utilité dans le jeux" 
       question:
@@ -34,15 +34,15 @@ test_de_swan:
         - "Bonjour ! Toujours prête à vous assister avec enthousiasme."
         - "Salutations ! Toujours à votre écoute."
         - "Hello ! Je suis ici, prêt à vous aider à tout moment."
-      action: "test_de_swan"
+      action: "test_swan"
       interact :
         output : none
         action : none
         key : none
         duration : short
 
-test2:
-  root: "comment_tu_vas"
+test_swan_2:
+  root: "test_swan_2"
   rules:
     - description: "test interne ou départ de conversation"  
       question:
@@ -64,7 +64,7 @@ test2:
         - "Je suis en bonne santé et heureux."
         - "Tout est en ordre, merci."
         - "Je vais bien, merci de t'en soucier."
-      action: "comment_tu_vas"
+      action: "test_swan_2"
       interact :
         output : none
         action : none        
@@ -336,6 +336,24 @@ decrease_volume:
         action : none
         key : none
         duration : short
+quantum_jump:
+  root: "quantum_jump"
+  rules:
+    - description: "lance le saut quantique"  
+      question:
+        - "Peux-tu initier le saut quantique"
+        - "Lance le saut quantique"
+        - "Lance le saut"
+        - "Active le saut quantique"
+      responses:
+        - "Initiation du saut quantique en cours."
+        - "Saut quantique activé, accrochez-vous."
+      action: "quantum_jump"
+      interact :
+        output : mouse
+        action : click
+        button : left
+        duration : long
 
 system_restart:
   root: "system_restart"
@@ -344,6 +362,7 @@ system_restart:
       question:
         - "Peux-tu redémarrer"
         - "Redémarre l'assistant"
+        - "Relance l'assistant"
         - "Est-il possible de redémarrer"
       responses:
         - "Redémarrage de l'assistant en cours."

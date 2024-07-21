@@ -182,6 +182,24 @@ async playAlbum(albumId) {
       console.log("Le token d'accès est toujours valide.");
     }
   }
+  async spotify_search(search_item) {
+    await this.refreshAccessToken(); // Rafraîchir le token
+  
+    try {
+      const results = await this.searchTracks(search_item);
+      if (results && results.length > 0) {
+        const firstTrack = results[0]; // Prendre la première piste
+        const albumId = firstTrack.album.id; // Obtenir l'ID de l'album de la première piste
+  
+        await this.playAlbum(albumId); // Jouer l'album
+        console.log("Album joué :", albumId);
+      } else {
+        console.log("Aucun résultat trouvé pour la recherche.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la recherche ou de la lecture de l'album :", error);
+    }
+  }
 
   // Méthode principale pour exécuter des actions
   async spotify_action(action) {

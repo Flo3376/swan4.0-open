@@ -2,11 +2,11 @@
 // Importe le module 'fs' pour la gestion des fichiers, permettant de lire et écrire des fichiers localement.
 const fs2 = require('fs');
 // Importe le module 'colors' pour permettre la coloration des textes dans la console, améliorant la lisibilité des logs.
-const colors = require('colors'); 
+const colors = require('colors');
 // Importe des fonctions spécifiques depuis le module de configuration pour charger, afficher et mettre à jour la configuration du système.
-const { load_config, display_config,update_config } = require("./core/config/configurator");
+const { load_config, display_config, update_config } = require("./core/config/configurator");
 // Importe le module 'openai' pour interagir avec les APIs d'OpenAI, notamment GPT et autres modèles.
-const { OpenAI, Configuration } = require('openai'); 
+const { OpenAI, Configuration } = require('openai');
 // Importe des fonctions du gestionnaire d'assistants AI pour créer ou mettre à jour des instances d'assistants virtuels.
 const { createAssistantIfNotExist, updateAssistant } = require('./core/system/openaiAssistant');
 // Importe des fonctions pour initialiser et récupérer l'état des boutons d'un joystick, utilisé pour interagir avec le système via un contrôleur physique.
@@ -18,17 +18,19 @@ const { startRecording, stopRecording, isRecording } = require('./core/system/au
 // Importe des fonctions pour vocaliser du texte et jouer des fichiers audio, utilisé pour les réponses audibles du système.
 const { vocalise, playAudio } = require('./core/system/vocalizor');
 // Importe un module pour exécuter des commandes Python, utilisé pour des interactions système avancées.
-const pythonCommander = require('./core/system/pythonCommander .js'); 
+const pythonCommander = require('./core/system/pythonCommander .js');
 // Importe un module de reconnaissance vocale pour écouter et traiter des commandes vocales.
-const voiceModule = require('./bin/listen.js'); 
+const voiceModule = require('./bin/listen.js');
 // Importe une fonction pour générer des commandes basées sur la configuration du système, utilisé pour paramétrer des commandes personnalisées.
 const { generateCommands } = require('./core/system/command');
 // Importe une fonction pour tokeniser des entrées textuelles, utile pour le traitement et l'analyse du langage naturel.
-const { tokenize} = require('./core/system/tokenizer');
+const { tokenize } = require('./core/system/tokenizer');
 // Importe un module de chat pour gérer des dialogues interactifs avec un assistant virtuel.
-const ChatModule = require('./core/system/chat'); 
+const ChatModule = require('./core/system/chat');
 // Importe un contrôleur pour interagir avec l'API de Spotify, permettant de contrôler la musique.
-const SpotifyController = require('./core/system/spotify'); 
+const SpotifyController = require('./core/system/spotify');
+
+const { exec } = require('child_process');
 
 
 // -----------------------------
@@ -62,7 +64,6 @@ else {
 // -----------------------------
 let assistant, thread, openai;
 
-
 //vérification que revoicer peut être utiliser
 const openAI_test = config.openAI;
 const openAI_data = ['apiKey', 'model_assistant', 'assistant_voice', 'assistant_name'];
@@ -81,12 +82,12 @@ const { getOrCreateThreadId } = require('./core/system/threadManager');
 
 async function initializeAssistant() {
     assistant = await createAssistantIfNotExist(config.openAI, openai);
-   
+
     const updates = {
         'assistant_id': `"${assistant.id}"`
     };
     update_config('./core/config/config.yaml', updates);
-    config.openAI.assistant_id=assistant.id
+    config.openAI.assistant_id = assistant.id
 }
 
 // Fonction pour initialiser le thread
@@ -103,7 +104,7 @@ async function initializeThread() {
         'thread_id': `"${thread}"`
     };
     update_config('./core/config/config.yaml', updates);
-    config.openAI.thread_id=thread
+    config.openAI.thread_id = thread
 }
 
 
@@ -192,19 +193,17 @@ async function checkButtonStates() {
                 });
                 console.log("        " + transcription.text);
 
-                if(config.tokenizer=="openAI")
-                {
+                if (config.tokenizer == "openAI") {
                     chat.ask_question(transcription.text);
                 }
-                else{
-                    let result =await tokenize(transcription.text)
-                    if (result.isTokenized)
-                    {
+                else {
+                    let result = await tokenize(transcription.text)
+                    if (result.isTokenized) {
                         console.log(lexique[result.response].rules[0].interact)
                         controller.handleCommand(lexique[result.response].rules[0].interact)
                         vocalise(lexique[result.response].rules[0].responses, config, openai, "", config.effect)
                     }
-                    
+
                 }
             }
         }
@@ -250,7 +249,7 @@ if ((config.vocalisation == "revoicer" && revoicer_set) || (config.vocalisation 
 // -----------------------------
 
 // Créer une instance du contrôleur d'entrée
-const controller = new pythonCommander();
+const python_c = new pythonCommander();
 
 
 // -----------------------------
@@ -279,7 +278,7 @@ function findResponsesByAction(lexique, action) {
 }
 //si le module reconnait une commande
 const callback_listen = (data) => {
-   // console.log('Recognition result:', data);
+    // console.log('Recognition result:', data);
 
     if (data.options.action.includes("spotify")) {
         spotify_go(data.options.action)
@@ -287,13 +286,26 @@ const callback_listen = (data) => {
     else if (data.options.action.includes("system_restart")) {
         restart();
     }
-    else{
+    else {
         const responses = findResponsesByAction(lexique, data.options.action);
         //console.log(responses);// Affiche le tableau de réponses ou null si aucune action ne correspond
         //console.log(data.options.action)
-       // console.log(lexique)
-        controller.handleCommand(lexique[data.options.action].rules[0].interact)
-        vocalise(responses, config, openai, data.options.action, config.effect)
+        //console.log(lexique)
+
+        // Si 'rules' n'existe pas, 'ruleInteract' sera undefined
+        const ruleInteract = lexique[data.options.action]?.rules[0]?.interact;
+        if (ruleInteract) {
+            python_c.handleCommand(lexique[data.options.action].rules[0].interact)
+            vocalise(responses, config, openai, data.options.action, config.effect)
+        } else {
+            vocalise("Alerte, corruption des lexiques détectée. Veuillez vider le répertoire grammar des fichiers auto.", config, openai, "", "none")
+            console.error(`La propriété 'rules' est manquante ou 'interact' n'est pas défini pour la commande ${data.options.action}`);
+            console.log(data.options.action)
+            console.log(lexique)
+        }
+
+        
+        
     }
 };
 
@@ -301,11 +313,11 @@ const callback_listen = (data) => {
 // Section chat / traitement des demandes envoyées via le clavier ou le Speech To Text (SST)
 // -----------------------------
 
-const chat = new ChatModule(openai,  config);
+const chat = new ChatModule(openai, config);
 chat.start();
 
 chat.on('response', (response) => {
-   /// console.log("Réponse de l'assistant:", response);
+    /// console.log("Réponse de l'assistant:", response);
     vocalise(response, config, openai, "other", config.effect)
 });
 
@@ -321,36 +333,19 @@ chat.on('error', (error) => {
 // Section spotify
 // -----------------------------
 
-const spotifyController = new SpotifyController(config.spotify)
+const spotify = new SpotifyController(config.spotify)
 
 async function spotify_go(action) {
-    const success = await spotifyController.spotify_action(action);
+    const success = await spotify.spotify_action(action);
     if (!success) {
-      vocalise("Désolé mais je n'y arrive pas.", config, openai, "error_generic", config.effect);
+        vocalise("Désolé mais je n'y arrive pas.", config, openai, "error_generic", config.effect);
     }
-    else{
+    else {
         const responses = findResponsesByAction(lexique, action);
         vocalise(responses, config, openai, action, config.effect)
     }
-  }
-  async function spotify_search(search_item) {
-    await spotifyController.refreshAccessToken(); // Rafraîchir le token
-  
-    try {
-      const results = await spotifyController.searchTracks(search_item);
-      if (results && results.length > 0) {
-        const firstTrack = results[0]; // Prendre la première piste
-        const albumId = firstTrack.album.id; // Obtenir l'ID de l'album de la première piste
-  
-        await spotifyController.playAlbum(albumId); // Jouer l'album
-        console.log("Album joué :", albumId);
-      } else {
-        console.log("Aucun résultat trouvé pour la recherche.");
-      }
-    } catch (error) {
-      console.error("Erreur lors de la recherche ou de la lecture de l'album :", error);
-    }
-  }
+}
+
 
 
 
@@ -362,7 +357,7 @@ async function initializeSystem() {
     await initializeHardware();
     await make_grammar();
     await generateCommands();
-    
+
     if (openAI_set) {
         await initializeAssistant();
         await initializeThread();
@@ -371,14 +366,13 @@ async function initializeSystem() {
     }
     await voiceModule.start('unique-id', config.listen, callback_listen, logback_listen);
     await tokenize("ai-tus en line"); //plein de faute, c'est volontaire
-    await tokenize("Es-tu en ligne"); 
-    vocalise("Bonjour! je m'appelle swan, votre intelligence artificielle. Que puis je faire pour vous?", config, openai,"",config.effect)
-    //await spotifyController.playTrack("0C80GCp0mMuBzLf3EAXqxv");
-    
+    await tokenize("Es-tu en ligne");
+    vocalise("Bonjour! je m'appelle swan, votre intelligence artificielle. Que puis je faire pour vous?", config, openai, "", config.effect)
+    //await spotify.playTrack("0C80GCp0mMuBzLf3EAXqxv");
+
 }
 
-async function restart ()
-{
+async function restart() {
     config = load_config('./core/config/config.yaml');
     lexique = load_config('./core/config/lexique.yaml');
     initializeSystem()

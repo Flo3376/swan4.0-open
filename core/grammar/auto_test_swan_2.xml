@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="comment_tu_vas" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
-  <rule id="comment_tu_vas" scope="public">
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="test_swan_2" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="test_swan_2" scope="public">
     <tag>out.action=new Object();</tag>
     <item>Swan</item>
     <one-of>
@@ -12,6 +12,6 @@
       <item>Ça se passe bien</item>
       <item>Es-tu en bonne santé</item>
     </one-of>
-    <tag>out.action.action="comment_tu_vas";</tag>
+    <tag>out.action.action="test_swan_2";</tag>
   </rule>
 </grammar>

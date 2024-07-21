@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="test_de_swan" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
-  <rule id="test_de_swan" scope="public">
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="test_swan" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="test_swan" scope="public">
     <tag>out.action=new Object();</tag>
     <item>Swan</item>
     <one-of>
@@ -16,6 +16,6 @@
       <item>Es-tu prêt à communiquer</item>
       <item>Peux-tu assister maintenant</item>
     </one-of>
-    <tag>out.action.action="test_de_swan";</tag>
+    <tag>out.action.action="test_swan";</tag>
   </rule>
 </grammar>

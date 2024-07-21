@@ -6,6 +6,7 @@
     <one-of>
       <item>Peux-tu redémarrer</item>
       <item>Redémarre l'assistant</item>
+      <item>Relance l'assistant</item>
       <item>Est-il possible de redémarrer</item>
     </one-of>
     <tag>out.action.action="system_restart";</tag>
