@@ -8,6 +8,7 @@
       <item>Mets la musique en pause</item>
       <item>Pause la musique</item>
       <item>Met en pause</item>
+      <item>coupe la musique</item>
     </one-of>
     <tag>out.action.action="spotify_pause_music";</tag>
   </rule>

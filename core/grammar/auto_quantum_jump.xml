@@ -6,6 +6,7 @@
     <one-of>
       <item>Peux-tu initier le saut quantique</item>
       <item>Lance le saut quantique</item>
+      <item>Lance le saut</item>
       <item>Active le saut quantique</item>
     </one-of>
     <tag>out.action.action="quantum_jump";</tag>

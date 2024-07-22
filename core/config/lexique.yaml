@@ -84,7 +84,7 @@ jump:
       interact :
         output : keyboard
         action : pressKey        
-        key : space
+        key : "{space}"
         duration : short
 
 gear_up:
@@ -117,7 +117,7 @@ gear_up:
       interact :
         output : keyboard
         action : pressKey
-        key : n
+        key : "{n}"
         duration : short
 
 gear_down:
@@ -148,7 +148,7 @@ gear_down:
       interact :
         output : keyboard
         action : pressKey
-        key : n
+        key : "{n}"
         duration : short
 call_station:
   root: "call_station"
@@ -169,7 +169,7 @@ call_station:
       interact :
         output : keyboard
         action : pressKey
-        key : f3
+        key : "{f3}"
         duration : short
 
 
@@ -194,7 +194,7 @@ door_open:
       interact :
         output : keyboard
         action : pressKey
-        key : none
+        key : "{ctrl_l}{v}"
         duration : short
 
 door_close:
@@ -250,6 +250,7 @@ pause_music:
         - "Mets la musique en pause"
         - "Pause la musique"
         - "Met en pause"
+        - "coupe la musique"
       responses:
         - "Musique mise en pause."
         - "Pause activée."
@@ -354,6 +355,43 @@ quantum_jump:
         action : click
         button : left
         duration : long
+
+nav_mod:
+  root: "nav_mod"
+  rules:
+    - description: "passe sur le master mod navigation"  
+      question:
+        - "Peux-tu passer en mode navigation"
+        - "Active le mode navigation"
+        - "Bascule en mode navigation"
+        - "Passe en mode navigation"
+      responses:
+        - "Mode navigation activé."
+        - "Nous sommes maintenant en mode navigation."
+      action: "nav_mod"
+      interact :
+        output : keyboard
+        action : pressKey
+        key : "{shift_r}{ù}"
+        duration : short
+combat_mod:
+  root: "combat_mod"
+  rules:
+    - description: "passe sur le master mod combat"  
+      question:
+        - "Peux-tu passer en mode combat"
+        - "Active le mode combat"
+        - "Bascule en mode combat"
+        - "Passe en mode combat"
+      responses:
+        - "Mode combat activé."
+        - "Nous sommes maintenant en mode combat."
+      action: "combat_mod"
+      interact :
+        output : keyboard
+        action : pressKey
+        key : "{shift_r}{*}"
+        duration : short
 
 system_restart:
   root: "system_restart"

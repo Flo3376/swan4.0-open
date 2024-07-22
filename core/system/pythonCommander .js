@@ -1,18 +1,20 @@
 const { exec } = require('child_process');
-
+// Importe le module 'colors' pour permettre la coloration des textes dans la console, améliorant la lisibilité des logs.
+const colors = require('colors');
 class InputController {
     constructor() { }
 
     // Dispatcher pour gérer les commandes entrantes
     handleCommand(command) {
-        const { output, action, key, text, x, y, button, direction, amount } = command;
+        const { output, action, key, text, x, y, button, direction, amount,duration } = command;
 
         switch (output) {
             case 'keyboard':
-                this.handleKeyboard(action, key, text);
+                this.runPythonScript(`test.py "${key}" "${duration}"`);
+                //this.handleKeyboard(action, key, text);
                 break;
             case 'mouse':
-                this.handleMouse(action, x, y, button, direction, amount);
+                this.handleMouse(action, x, y, button, direction, amount,duration);
                 break;
             default:
                 console.error("Invalid output type");
@@ -54,7 +56,7 @@ class InputController {
                 }
                 else if(duration=="long")
                     {
-                        this.runPythonScript('click_mouse_long.py', [button]);
+                        this.runPythonScript(`click_mouse_long.py ${button}`);
                     }
                 
                 break;
@@ -69,8 +71,9 @@ class InputController {
         }
     }
     // Function to run a Python script with arguments
-    runPythonScript(scriptName, args) {
-        const cmd = `python ./core/python/${scriptName} ${args.join(' ')}`;
+    runPythonScript(scriptName) {
+        const cmd = `python ./core/python/${scriptName}`;
+        console.log(colors.magenta(`Commande envoyé : ${cmd}`));
         exec(cmd, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error: ${error.message}`);

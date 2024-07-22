@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="nav_mod" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="nav_mod" scope="public">
+    <tag>out.action=new Object();</tag>
+    <item>Swan</item>
+    <one-of>
+      <item>Peux-tu passer en mode navigation</item>
+      <item>Active le mode navigation</item>
+      <item>Bascule en mode navigation</item>
+      <item>Passe en mode navigation</item>
+    </one-of>
+    <tag>out.action.action="nav_mod";</tag>
+  </rule>
+</grammar>
