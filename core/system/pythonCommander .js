@@ -10,7 +10,7 @@ class InputController {
 
         switch (output) {
             case 'keyboard':
-                this.runPythonScript(`test.py "${key}" "${duration}"`);
+                this.runPythonScript(`send_to_keyboard.py "${key}" "${duration}"`);
                 //this.handleKeyboard(action, key, text);
                 break;
             case 'mouse':

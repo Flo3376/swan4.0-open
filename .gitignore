@@ -35,3 +35,4 @@ config_test.yaml
 
 spotify.js
 !core/system/spotify.js
+#core/data/cookies.json
