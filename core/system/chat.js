@@ -11,7 +11,7 @@ class ChatModule extends EventEmitter {
         super();  // Initialisation de l'émetteur d'événements
         this.openai = openaiInstance;
         this.assistant = config.openAI.assistant_id;
-        this.threadId = config.openAI.thread_i;
+        this.threadId = config.openAI.thread_id;
         this.tokenizer = config.tokenizer;
     }
 

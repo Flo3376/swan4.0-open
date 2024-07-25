@@ -11,7 +11,7 @@ listen:
     # mot déclencheur
     hotword: 'Swan'
     # niveau de confiance minimal
-    confidence: '0.8'
+    confidence: '0.80'
 
 # Info pour le module de capture mic
 mic:
@@ -21,35 +21,35 @@ mic:
 # Info pour l'utilisation d'OpenAI
 openAI:
      # Clé API pour le service OpenAI
-    apiKey: 
+    apiKey: ""
     # assistant_id - ID de l'assistant
-    assistant_id: 
+    assistant_id : ""
     # thread_id - ID du thread utilisé pour conserver la conversation, peut être vidé pour lancer une conversation vierge
-    thread_id: 
+    thread_id : ""
     # Nom de l'assistant
-    assistant_name: "Swan_sc_0.5_b"
+    assistant_name: "Swan_sc_0.6_b"
     # Modèle du robot, son niveau d'intelligence, "gpt-3.5-turbo-16k" peu coûteux, mais peu puissant, "gpt-4-turbo" très coûteux mais très puissant
     model_assistant: "gpt-3.5-turbo-16k"
     # Voix de l'assistant: alloy, echo, fable, onyx, nova, shimmer
     assistant_voice: "nova"
     #répertoire de stockageg des sons de revoicer
-    path_output :  "/sound/output_sound/"
+    path_output :  "/sound/output_sound/openAI/"
      
 # Info pour le push to talk
 push_to_talk:
     keyboard :
         # Touche du clavier pour activer l'enregistrement 
-        keyboard_key: "LEFT SHIFT"
+        keyboard_key: "SCROLL LOCK"
         # Bouton d'une manette pour activer l'enregistrement
     joystick : 
         # ID du vendeur de la manette
-        vendorId: 
+        vendorId: 13124
         # ID du produit de la manette
-        productId: 
+        productId: 32971
         # ID du tram de la manette
-        tramId: 
+        tramId: 21
         # ID du bouton pressé de la manette
-        bp_Id: 
+        bp_Id: 0x40
 
 revoicer : 
     #info sur la sortie audio par revoicer
@@ -58,24 +58,39 @@ revoicer :
     # Mot de passe associé au compte Revoicer
     password: ''
     # Identifiant de la campagne utilisée pour la génération de voix
-    campaignId: ""
-    # Ton par défaut utilisé pour la synthèse vocale "Cheerful" 
-    default_tone: 'Cheerful'
+    campaignId: "55351"
+    # Ton par défaut utilisé pour la synthèse vocale "Cheerful" "sad" "normal" !!!attention seule "fr-FR-DeniseNeural" peut utiliser les 3 mods, les autres voix devront être réglé sur normal
+    default_tone: 'normal'
     # Définit la langue dans laquelle les textes sont lus
     default_langage: 'fr'
     # Identifiant de la voix par défaut utilisée pour la synthèse vocale "fr-CA-AntoineNeural" "fr-FR-DeniseNeural" "fr-BE-CharlineNeural" "fr-FR-HenriNeural" "fr-FR-JosephineNeural"
     default_voice: 'fr-FR-DeniseNeural'
     #répertoire de stockageg des sons de revoicer
-    path_output :  "/sound/output_sound/"
+    path_output :  "/sound/output_sound/revoicer/"
 
 google : 
     #clé api pour vocaliser avec google
     apiKey :
 
+spotify :
+    clientId : ""
+    clientSecret : ""
+    client_acces_token : ""
+    client_refresh_token : ""
+    redirectUri : http://localhost:8888/callback
+    client_pref_device : ""
+    defaultVolume : 50
+
 
 #module de vocalisation "revoicer" payant / "openAI" payant / "google" inconnu (prochainement)
-vocalisation : "openAI"
+vocalisation : "revoicer"
+#effet sur la voix "bocal"/"small_speaker"/"radio"/"telephone" /"none"
+effect : "bocal"
 # Info sur Sox
+
+#décrytagge info "local" (gratuit) / openAI (payant)
+tokenizer : "local"
+
 sox_path : ';C:\\Program Files (x86)\\sox-14-4-2'
 # Info sur la sortie audio
 player_path: "C:\\Program Files (x86)\\Winamp\\winamp.exe"

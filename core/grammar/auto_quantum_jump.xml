@@ -2,7 +2,7 @@
 <grammar version="1.0" xml:lang="fr-FR" mode="voice" root="quantum_jump" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
   <rule id="quantum_jump" scope="public">
     <tag>out.action=new Object();</tag>
-    <item>Swan</item>
+    <item>Robert</item>
     <one-of>
       <item>Peux-tu initier le saut quantique</item>
       <item>Lance le saut quantique</item>

@@ -344,7 +344,8 @@
     "code": "nav_mod",
     "response": [
       "Mode navigation activé.",
-      "Nous sommes maintenant en mode navigation."
+      "Nous sommes maintenant en mode navigation.",
+      "ok je passe en mod navigation"
     ],
     "action": {
       "type": "keyboard",

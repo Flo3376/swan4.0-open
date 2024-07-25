@@ -98,21 +98,49 @@
         </div>
         <hr>
         <div class="section">
-            <h2>Module OpenAI <h6>optionnel</h4> </h2>
+            <h2 style="display: inline; margin-right: 10px;">Module OpenAI</h2>
+            <h6 style="display: inline; color: gray; font-size: 0.75em;">optionnel</h6>
+            <i class="fa fa-question-circle" style="font-size: 24px; color: #007BFF; vertical-align: middle;" title="La partie OpenAI comprend un des systèmes de reconnaissance vocale, l'intelligence qui répondra, et un des systèmes de création de voix. Nécessite un compte OpenAI payant pour fonctionner."></i><br>
             <label>API Key :</label>
-            <input type="text" id="apiKey" name="openAI[apiKey]" value="<%= config.openAI.apiKey %>" onchange="checkAPIKey()" title="Nécessaire pour utiliser la reconnaissance vocale, l'intelligence artificielle et la création de voie OpenAI. Assurez-vous d'avoir un compte valide et actif."><br>
+            <input type="text" id="apiKey" name="openAI[apiKey]" value="<%= config.openAI.apiKey %>" onchange="checkAPIKey()" title="Votre clé API openAI"><br>
             <label>Assistant Name :</label>
             <input type="text" name="openAI[assistant_name]" value="<%= config.openAI.assistant_name %>" title="Nom de votre assitant sur votre dashboard openAI"><br>
             <label>Assistant ID :</label>
             <input type="text" name="openAI[assistant_id]" value="<%= config.openAI.assistant_id %>" title="Identifiant de votre assistant. Laisser vide pour un premier démarrage ou création d'un nouvelle assitant via votre dashboard"><br>
-            <!-- Ajoutez d'autres champs ici si nécessaire -->
             <label>Thread ID :</label>
             <input type="text" id="thread_id" name="openAI[thread_id]" value="<%= config.openAI.thread_id %>" title="Identifiant unique pour suivre une conversation spécifique avec OpenAI. Laissez vide pour démarrer une nouvelle conversation."><br>
             <label>Modèle d'assistant :</label>
             <select id="modelSelect" name="openAI[model_assistant]" title="Choisissez le modèle OpenAI selon le coût et la puissance. Les modèles plus puissants comme 'gpt-4-turbo' offrent une meilleure performance mais sont plus coûteux, tandis que 'gpt-3.5-turbo-16k' est plus abordable mais moins puissant.">
                 <option value="gpt-3.5-turbo-16k">GPT-3.5 Turbo 16k</option>
                 <option value="gpt-4-turbo">GPT-4 Turbo</option>
-            </select>
+            </select><br>
+            <label>Voix de l'assistant :</label>
+            <select id="voiceSelect" name="openAI[assistant_voice]" title="Si plus bas, openAI a été sélectioner pour vocaliser les réponses, vous pouvez utiliser les voix suivantes">
+                <option value="alloy">alloy</option>
+                <option value="echo">echo</option>
+                <option value="fablek">fable</option>
+                <option value="onyx">onyxo</option>
+                <option value="nova">nova</option>
+                <option value="shimmer">shimmer</option>
+            </select><br>
+            <label>Sauvegarde des réponse openAI :</label>
+            <input type="text" name="openAI[path_output]" value="<%= config.openAI.path_output %>" disabled title="Chaque réponse vocal crée par openAI sera sauvegarder et trier par action."><br>
+            
+        </div>
+        <hr>
+        <div class="section">
+            <h2>Push to talk  <i class="fa fa-question-circle" style="font-size: 24px; color: #007BFF;"title="Afin d'éviter de requête inutile et couteuse à openAI, la détection vocal payante peut être gérer par 2 push to talk (clavier et manette de jeux)"></i></h2>
+            <label>Touche du clavier :</label>
+            <input type="text" id="keyboard_key" name="push_to_talk.keyboard[keyboard_key]" value="<%= config.push_to_talk.keyboard.keyboard_key %>" title="La touche qui provoquera l'écoute sur openAI"><br><br>
+            <label>Touche de la manette :</label>
+            <label>vendorId :</label>
+            <input type="text" id="apivendorIdKey" name="push_to_talk.joystick[vendorId]" value="<%= config.push_to_talk.joystick.vendorId %>" title="La touche qui provoquera l'écoute sur openAI"><br>
+            <label>productId :</label>
+            <input type="text" id="productId" name="push_to_talk.joystick[productId]" value="<%= config.push_to_talk.joystick.productId %>" title="La touche qui provoquera l'écoute sur openAI"><br>
+            <label>tramId :</label>
+            <input type="text" id="tramId" name="push_to_talk.joystick[tramId]" value="<%= config.push_to_talk.joystick.tramId %>" title="La touche qui provoquera l'écoute sur openAI"><br>
+            <label>bp_Id :</label>
+            <input type="text" id="apiKey" name="push_to_talk.joystick[bp_Id]" value="<%= config.push_to_talk.joystick.bp_Id %>" title="La touche qui provoquera l'écoute sur openAI"><br>
         </div>
 
         <div class="section">

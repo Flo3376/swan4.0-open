@@ -2,7 +2,7 @@
 <grammar version="1.0" xml:lang="fr-FR" mode="voice" root="door_close" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
   <rule id="door_close" scope="public">
     <tag>out.action=new Object();</tag>
-    <item>Swan</item>
+    <item>Robert</item>
     <one-of>
       <item>Peux-tu fermer les portes</item>
       <item>Portes à fermer</item>

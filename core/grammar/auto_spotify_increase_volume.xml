@@ -2,7 +2,7 @@
 <grammar version="1.0" xml:lang="fr-FR" mode="voice" root="spotify_increase_volume" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
   <rule id="spotify_increase_volume" scope="public">
     <tag>out.action=new Object();</tag>
-    <item>Swan</item>
+    <item>Robert</item>
     <one-of>
       <item>Augmente le volume</item>
       <item>Augmente la musique</item>

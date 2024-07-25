@@ -367,7 +367,7 @@ async function initializeSystem() {
     await voiceModule.start('unique-id', config.listen, callback_listen, logback_listen);
     await tokenize("ai-tus en line"); //plein de faute, c'est volontaire
     await tokenize("Es-tu en ligne");
-    vocalise("Bonjour! je m'appelle swan, votre intelligence artificielle. Que puis je faire pour vous?", config, openai, "", config.effect)
+    //vocalise("Bonjour! je m'appelle swan, votre intelligence artificielle. Que puis je faire pour vous?", config, openai, "", config.effect)
     //await spotify.playTrack("0C80GCp0mMuBzLf3EAXqxv");
 
 }

@@ -4,7 +4,7 @@ global:
   mode: "voice"
   xmlns: "http://www.w3.org/2001/06/grammar"
   tag-format: "semantics/1.0"
-  name: Swan
+  name: Robert
 
 test_swan:
   root: "test_swan"
@@ -150,6 +150,7 @@ gear_down:
         action : pressKey
         key : "{n}"
         duration : short
+
 call_station:
   root: "call_station"
   rules:
@@ -337,6 +338,7 @@ decrease_volume:
         action : none
         key : none
         duration : short
+
 quantum_jump:
   root: "quantum_jump"
   rules:
@@ -368,12 +370,14 @@ nav_mod:
       responses:
         - "Mode navigation activé."
         - "Nous sommes maintenant en mode navigation."
+        - "ok je passe en mod navigation"
       action: "nav_mod"
       interact :
         output : keyboard
         action : pressKey
         key : "{shift_r}{ù}"
         duration : short
+
 combat_mod:
   root: "combat_mod"
   rules:
