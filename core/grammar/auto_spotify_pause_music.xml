@@ -2,7 +2,7 @@
 <grammar version="1.0" xml:lang="fr-FR" mode="voice" root="spotify_pause_music" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
   <rule id="spotify_pause_music" scope="public">
     <tag>out.action=new Object();</tag>
-    <item>Robert</item>
+    <item>Swan</item>
     <one-of>
       <item>Peux-tu mettre en pause</item>
       <item>Mets la musique en pause</item>

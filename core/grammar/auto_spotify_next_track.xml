@@ -2,7 +2,7 @@
 <grammar version="1.0" xml:lang="fr-FR" mode="voice" root="spotify_next_track" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
   <rule id="spotify_next_track" scope="public">
     <tag>out.action=new Object();</tag>
-    <item>Robert</item>
+    <item>Swan</item>
     <one-of>
       <item>Peux-tu passer à la suivante</item>
       <item>Suivant sur Spotify</item>

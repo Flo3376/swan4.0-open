@@ -30,6 +30,8 @@ const ChatModule = require('./core/system/chat');
 // Importe un contrôleur pour interagir avec l'API de Spotify, permettant de contrôler la musique.
 const SpotifyController = require('./core/system/spotify');
 
+const path = require('path');
+
 const { exec } = require('child_process');
 
 
@@ -278,34 +280,30 @@ function findResponsesByAction(lexique, action) {
 }
 //si le module reconnait une commande
 const callback_listen = (data) => {
-    // console.log('Recognition result:', data);
-
-    if (data.options.action.includes("spotify")) {
-        spotify_go(data.options.action)
-    }
-    else if (data.options.action.includes("system_restart")) {
-        restart();
-    }
-    else {
-        const responses = findResponsesByAction(lexique, data.options.action);
-        //console.log(responses);// Affiche le tableau de réponses ou null si aucune action ne correspond
-        //console.log(data.options.action)
-        //console.log(lexique)
-
-        // Si 'rules' n'existe pas, 'ruleInteract' sera undefined
-        const ruleInteract = lexique[data.options.action]?.rules[0]?.interact;
-        if (ruleInteract) {
-            python_c.handleCommand(lexique[data.options.action].rules[0].interact)
-            vocalise(responses, config, openai, data.options.action, config.effect)
+    // Vérifie si 'options' et 'action' sont définis dans 'data'
+    if (data && data.options && data.options.action) {
+        if (data.options.action.includes("spotify")) {
+            spotify_go(data.options.action);
+        } else if (data.options.action.includes("system_restart")) {
+            restart();
         } else {
-            vocalise("Alerte, corruption des lexiques détectée. Veuillez vider le répertoire grammar des fichiers auto.", config, openai, "", "none")
-            console.error(`La propriété 'rules' est manquante ou 'interact' n'est pas défini pour la commande ${data.options.action}`);
-            console.log(data.options.action)
-            console.log(lexique)
-        }
+            const responses = findResponsesByAction(lexique, data.options.action);
+            const ruleInteract = lexique[data.options.action]?.rules[0]?.interact;
 
-        
-        
+            if (ruleInteract) {
+                python_c.handleCommand(lexique[data.options.action].rules[0].interact);
+                vocalise(responses, config, openai, data.options.action, config.effect);
+            } else {
+                vocalise("Alerte, corruption des lexiques détectée. Veuillez vider le répertoire grammar des fichiers auto.", config, openai, "", "none");
+                console.error(`La propriété 'rules' est manquante ou 'interact' n'est pas défini pour la commande ${data.options.action}`);
+                console.log(data.options.action);
+                console.log(lexique);
+            }
+        }
+    } else {
+        // Message personnalisé pour indiquer que la reconnaissance a échoué et inviter à consulter le fichier audio
+        console.error("Erreur: 'data.options' ou 'data.options.action' est undefined. Le programme a détecté un son mais ne l'a pas reconnu.");
+        console.log("Veuillez consulter le fichier audio pour plus de détails:", data.filename);
     }
 };
 
@@ -387,6 +385,43 @@ async function restart() {
         process.exit(1);
     }
 })();
+
+function deleteOldFiles() {
+    fs2.readdir("sound/input_listen_sound", (err, files) => {
+        if (err) {
+            console.error('Erreur lors de la lecture du répertoire:', err);
+            return;
+        }
+
+        files.forEach(file => {
+            if (file !== '.gitkeep') { // Ignorer le fichier .gitkeep
+                const filePath = path.join("sound/input_listen_sound", file);
+                fs2.stat(filePath, (err, stats) => {
+                    if (err) {
+                        console.error('Erreur lors de la récupération des informations du fichier:', err);
+                        return;
+                    }
+
+                    const now = new Date().getTime();
+                    const endTime = new Date(stats.mtime).getTime() + 5 * 60000; // 5 minutes en millisecondes
+
+                    if (now > endTime) {
+                        fs2.unlink(filePath, err => {
+                            if (err) {
+                                console.error('Erreur lors de la suppression du fichier:', err);
+                            } else {
+                                //console.log(`Fichier supprimé: ${filePath}`);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+}
+
+// Exécute la fonction deleteOldFiles toutes les minutes
+setInterval(deleteOldFiles, 60000);
 /*
 console.log(colors.red('Ce texte est en rouge'));
 console.log(colors.green('Ce texte est en vert'));

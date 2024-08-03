@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="leave_post" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="leave_post" scope="public">
+    <tag>out.action=new Object();</tag>
+    <item>Swan</item>
+    <one-of>
+      <item>Je te laisse les commandes</item>
+      <item>Je quitte la passerelle</item>
+      <item>Prends le contrôle, je sors</item>
+      <item>Gère tout, je quitte le poste</item>
+    </one-of>
+    <tag>out.action.action="leave_post";</tag>
+  </rule>
+</grammar>

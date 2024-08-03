@@ -2,7 +2,7 @@
 <grammar version="1.0" xml:lang="fr-FR" mode="voice" root="test_swan" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
   <rule id="test_swan" scope="public">
     <tag>out.action=new Object();</tag>
-    <item>Robert</item>
+    <item>Swan</item>
     <one-of>
       <item>tu es là</item>
       <item>Es-tu disponible</item>

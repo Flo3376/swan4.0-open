@@ -4,7 +4,7 @@ global:
   mode: "voice"
   xmlns: "http://www.w3.org/2001/06/grammar"
   tag-format: "semantics/1.0"
-  name: Robert
+  name: Swan
 
 test_swan:
   root: "test_swan"
@@ -151,28 +151,68 @@ gear_down:
         key : "{n}"
         duration : short
 
-call_station:
-  root: "call_station"
+call_station_enter:
+  root: "call_station_enter"
   rules:
-    - description: "appeler station pour autoriser au décollage ou atterissage / demander ouverture des portes du hangar"  
+    - description: "appeler station pour autoriser à l'atterissage / demander ouverture des portes du hangar"  
       question:
         - "Peux-tu contacter la station pour atterrir"
         - "Demande l'autorisation d'atterrir"
-        - "Contacte la station pour le décollage"
-        - "Demande l'autorisation de décoller"
-        - "Appelle la station"
+        - "on arrive"
+        - "Demande l'ouverture des portes"
       responses:
         - "Contact avec la station en cours pour atterrissage."
         - "Demande d'autorisation d'atterrir envoyée."
-        - "Contact avec la station en cours pour décollage."
-        - "Demande d'autorisation de décoller envoyée."
-      action: "call_station"
+        
+      action: "call_station_enter"
       interact :
         output : keyboard
         action : pressKey
         key : "{f3}"
         duration : short
 
+call_station_exit:
+  root: "call_station_exit"
+  rules:
+    - description: "appeler station pour autoriser au décollage / demander ouverture des portes du hangar"  
+      question:
+        - "Contacte la station pour le décollage"
+        - "Demande l'autorisation de décoller"
+        - "Appelle la station"
+        - "on y va"
+        - "on décolle"
+
+      responses:
+        - "Contact avec la station en cours pour décollage."
+        - "Demande d'autorisation de décoller envoyée."
+      action: "call_station_exit"
+      interact :
+        output : keyboard
+        action : pressKey
+        key : "{f3}"
+        duration : short
+
+leave_post:
+  root: "leave_post"
+  rules:
+    - id: "leave_post"
+      description: "Gérer la sortie du poste de pilotage ou de la passerelle et préparer le départ de l'utilisateur"
+      question:
+        - "Je te laisse les commandes"
+        - "Je quitte la passerelle"
+        - "Prends le contrôle, je sors"
+        - "Gère tout, je quitte le poste"
+      responses:
+        - "Commandes sécurisées, vous pouvez quitter en toute sécurité."
+        - "Poste en mode sécurisé, bon départ."
+        - "Je prends le relais, sortie autorisée."
+        - "Contrôle total activé, vous pouvez vous retirer."
+      action: "leave_post"
+      interact:
+        output: keyboard
+        action: pressKey
+        key: "{y}"
+        duration: long
 
 door_open:
   root: "door_open"

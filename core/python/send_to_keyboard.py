@@ -78,7 +78,7 @@ def main():
     keys_string = args[0]
     duration_arg = args[1]
 
-    duration = 0.2 if duration_arg == "short" else 1 if duration_arg == "long" else float(duration_arg)
+    duration = 0.2 if duration_arg == "short" else 2 if duration_arg == "long" else float(duration_arg)
     keys = re.findall(r'\{([^}]*)\}', keys_string)
 
     if len(keys) == 1:
