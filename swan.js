@@ -20,7 +20,7 @@ const { vocalise, playAudio } = require('./core/system/vocalizor');
 // Importe un module pour exécuter des commandes Python, utilisé pour des interactions système avancées.
 const pythonCommander = require('./core/system/pythonCommander .js');
 // Importe un module de reconnaissance vocale pour écouter et traiter des commandes vocales.
-const voiceModule = require('./bin/listen.js');
+const voiceModule = require('./core/system/listen.js');
 // Importe une fonction pour générer des commandes basées sur la configuration du système, utilisé pour paramétrer des commandes personnalisées.
 const { generateCommands } = require('./core/system/command');
 // Importe une fonction pour tokeniser des entrées textuelles, utile pour le traitement et l'analyse du langage naturel.
@@ -33,6 +33,8 @@ const SpotifyController = require('./core/system/spotify');
 const path = require('path');
 
 const { exec } = require('child_process');
+
+const { cleanDirectory } = require('./core/system/fileCleaner');
 
 
 // -----------------------------
@@ -386,6 +388,14 @@ async function restart() {
     }
 })();
 
+
+// -----------------------------
+// Section module de nettoyage
+// -----------------------------
+cleanDirectory('sound/input_listen_sound');
+cleanDirectory('core/exe/my_player/output');
+
+/*
 function deleteOldFiles() {
     fs2.readdir("sound/input_listen_sound", (err, files) => {
         if (err) {
@@ -419,9 +429,9 @@ function deleteOldFiles() {
         });
     });
 }
-
+*/
 // Exécute la fonction deleteOldFiles toutes les minutes
-setInterval(deleteOldFiles, 60000);
+//setInterval(deleteOldFiles, 60000);
 /*
 console.log(colors.red('Ce texte est en rouge'));
 console.log(colors.green('Ce texte est en vert'));

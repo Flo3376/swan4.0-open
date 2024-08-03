@@ -24,6 +24,9 @@ sound/input_sound/*
 sound/input_mic_sound/*
 !sound/input_mic_sound/.gitkeep
 
+core/exe/my_player*
+!core/exe/my_player.gitkeep
+
 sound/input_listen_sound/*
 !sound/input_listen_sound/.gitkeep
 
