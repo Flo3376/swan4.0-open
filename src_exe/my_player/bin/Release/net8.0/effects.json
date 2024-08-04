@@ -1,0 +1,19 @@
+{
+    "bocal": [
+        "equalizer=f=1000:width_type=h:width=200:g=-10",
+        "aecho=0.8:0.88:60:0.4"
+    ],
+    "small_speaker": [
+        "highpass=f=300",
+        "lowpass=f=3000"
+    ],
+    "radio": [
+        "highpass=f=300",
+        "lowpass=f=3000",
+        "aecho=0.8:0.9:50:0.3"
+    ],
+    "telephone": [
+        "equalizer=f=800:width_type=h:width=1400:g=-20",
+        "compand=attacks=0.3:decays=1:soft-knee=6:points=-70/-70|-60/-20|0/-20:gain=0:volume=0.2:delay=0.3"
+    ]
+}

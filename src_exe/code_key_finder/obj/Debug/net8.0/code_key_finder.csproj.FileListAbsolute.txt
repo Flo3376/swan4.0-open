@@ -1,0 +1,14 @@
+C:\Users\FP24V\source\repos\code_key_finder\bin\Debug\net8.0\code_key_finder.exe
+C:\Users\FP24V\source\repos\code_key_finder\bin\Debug\net8.0\code_key_finder.deps.json
+C:\Users\FP24V\source\repos\code_key_finder\bin\Debug\net8.0\code_key_finder.runtimeconfig.json
+C:\Users\FP24V\source\repos\code_key_finder\bin\Debug\net8.0\code_key_finder.dll
+C:\Users\FP24V\source\repos\code_key_finder\bin\Debug\net8.0\code_key_finder.pdb
+C:\Users\FP24V\source\repos\code_key_finder\obj\Debug\net8.0\code_key_finder.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\FP24V\source\repos\code_key_finder\obj\Debug\net8.0\code_key_finder.AssemblyInfoInputs.cache
+C:\Users\FP24V\source\repos\code_key_finder\obj\Debug\net8.0\code_key_finder.AssemblyInfo.cs
+C:\Users\FP24V\source\repos\code_key_finder\obj\Debug\net8.0\code_key_finder.csproj.CoreCompileInputs.cache
+C:\Users\FP24V\source\repos\code_key_finder\obj\Debug\net8.0\code_key_finder.dll
+C:\Users\FP24V\source\repos\code_key_finder\obj\Debug\net8.0\refint\code_key_finder.dll
+C:\Users\FP24V\source\repos\code_key_finder\obj\Debug\net8.0\code_key_finder.pdb
+C:\Users\FP24V\source\repos\code_key_finder\obj\Debug\net8.0\code_key_finder.genruntimeconfig.cache
+C:\Users\FP24V\source\repos\code_key_finder\obj\Debug\net8.0\ref\code_key_finder.dll

@@ -18,7 +18,7 @@ const { startRecording, stopRecording, isRecording } = require('./core/system/au
 // Importe des fonctions pour vocaliser du texte et jouer des fichiers audio, utilisé pour les réponses audibles du système.
 const { vocalise, playAudio } = require('./core/system/vocalizor');
 // Importe un module pour exécuter des commandes Python, utilisé pour des interactions système avancées.
-const pythonCommander = require('./core/system/pythonCommander .js');
+const outputCommander = require('./core/system/outputCommander.js');
 // Importe un module de reconnaissance vocale pour écouter et traiter des commandes vocales.
 const voiceModule = require('./core/system/listen.js');
 // Importe une fonction pour générer des commandes basées sur la configuration du système, utilisé pour paramétrer des commandes personnalisées.
@@ -253,7 +253,7 @@ if ((config.vocalisation == "revoicer" && revoicer_set) || (config.vocalisation 
 // -----------------------------
 
 // Créer une instance du contrôleur d'entrée
-const python_c = new pythonCommander();
+const output_c = new outputCommander();
 
 
 // -----------------------------
@@ -293,7 +293,7 @@ const callback_listen = (data) => {
             const ruleInteract = lexique[data.options.action]?.rules[0]?.interact;
 
             if (ruleInteract) {
-                python_c.handleCommand(lexique[data.options.action].rules[0].interact);
+                output_c.handleCommand(lexique[data.options.action].rules[0].interact);
                 vocalise(responses, config, openai, data.options.action, config.effect);
             } else {
                 vocalise("Alerte, corruption des lexiques détectée. Veuillez vider le répertoire grammar des fichiers auto.", config, openai, "", "none");

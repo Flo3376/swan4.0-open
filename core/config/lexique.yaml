@@ -83,8 +83,8 @@ jump:
       action: "jump"
       interact :
         output : keyboard
-        action : pressKey        
-        key : "{space}"
+        action : key
+        key : "ESPACE"
         duration : short
 
 gear_up:
@@ -116,8 +116,8 @@ gear_up:
       action: "gear_up"
       interact :
         output : keyboard
-        action : pressKey
-        key : "{n}"
+        action : key
+        key : "N"
         duration : short
 
 gear_down:
@@ -147,8 +147,8 @@ gear_down:
       action: "gear_down"
       interact :
         output : keyboard
-        action : pressKey
-        key : "{n}"
+        action : key
+        key : "N"
         duration : short
 
 call_station_enter:
@@ -167,8 +167,8 @@ call_station_enter:
       action: "call_station_enter"
       interact :
         output : keyboard
-        action : pressKey
-        key : "{f3}"
+        action : key
+        key : "f3"
         duration : short
 
 call_station_exit:
@@ -188,8 +188,8 @@ call_station_exit:
       action: "call_station_exit"
       interact :
         output : keyboard
-        action : pressKey
-        key : "{f3}"
+        action : key
+        key : "f3"
         duration : short
 
 leave_post:
@@ -210,8 +210,8 @@ leave_post:
       action: "leave_post"
       interact:
         output: keyboard
-        action: pressKey
-        key: "{y}"
+        action: key
+        key: "Y"
         duration: long
 
 door_open:
@@ -234,8 +234,8 @@ door_open:
       action: "door_open"
       interact :
         output : keyboard
-        action : pressKey
-        key : "{ctrl_l}{v}"
+        action : key
+        key : )
         duration : short
 
 door_close:
@@ -258,9 +258,28 @@ door_close:
       action: "door_close"
       interact :
         output : keyboard
-        action : pressKey
-        key : none
+        action : key
+        key : \=
         duration : short
+ready_to_fly:
+  root: "ready_to_fly"
+  rules:
+    - description: "Démarrer les systèmes pour être prêt à voler"
+      question:
+        - "Prépare le vol"
+        - "Active tous les systèmes de vol"
+        - "Mets en route les systèmes pour le décollage"
+        - "Es-tu prêt à voler"
+      responses:
+        - "Tous les systèmes de vol sont en cours d'activation."
+        - "Préparation au vol complétée, prêt à décoller."
+        - "Systèmes vérifiés et opérationnels, prêt pour le vol."
+      action: "ready_to_fly"
+      interact:
+        output: keyboard
+        action: COMBO
+        key: "ALTDROITE+R"
+        duration: short
 
 spotify_play:
   root: "spotify_play"
@@ -379,8 +398,8 @@ decrease_volume:
         key : none
         duration : short
 
-quantum_jump:
-  root: "quantum_jump"
+quantum_jump_start:
+  root: "quantum_jump_start"
   rules:
     - description: "lance le saut quantique"  
       question:
@@ -391,11 +410,34 @@ quantum_jump:
       responses:
         - "Initiation du saut quantique en cours."
         - "Saut quantique activé, accrochez-vous."
-      action: "quantum_jump"
+      action: "quantum_jump_start"
       interact :
         output : mouse
-        action : click
-        button : left
+        action : mouse_click
+        key : left
+        duration : long
+
+quantum_jump_stop:
+  root: "quantum_jump_stop"
+  rules:
+    - description: "coupe le saut quantique"  
+      question:
+        - "Arrête le saut quantique"
+        - "Arrête le saut"
+        - "Coupe le saut"
+        - "Coupe le saut quantique maintenant"
+        - "Désactive le saut quantique"
+        - "Stoppe le saut quantique immédiatement"
+      responses:
+        - "Saut quantique arrêté."
+        - "Le saut quantique est maintenant désactivé."
+        - "Arrêt du saut quantique confirmé."
+        - "On a oublie quelque chose?"
+      action: "quantum_jump_stop"
+      interact :
+        output : mouse
+        action : mouse_click
+        key : left
         duration : long
 
 nav_mod:
@@ -414,8 +456,8 @@ nav_mod:
       action: "nav_mod"
       interact :
         output : keyboard
-        action : pressKey
-        key : "{shift_r}{ù}"
+        action : combo
+        key : "SHIFTDROITE+ù"
         duration : short
 
 combat_mod:
@@ -433,8 +475,8 @@ combat_mod:
       action: "combat_mod"
       interact :
         output : keyboard
-        action : pressKey
-        key : "{shift_r}{*}"
+        action : combo
+        key : "SHIFTDROITE+\\"
         duration : short
 
 system_restart:

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ready_to_fly" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="ready_to_fly" scope="public">
+    <tag>out.action=new Object();</tag>
+    <item>Swan</item>
+    <one-of>
+      <item>Prépare le vol</item>
+      <item>Active tous les systèmes de vol</item>
+      <item>Mets en route les systèmes pour le décollage</item>
+      <item>Es-tu prêt à voler</item>
+    </one-of>
+    <tag>out.action.action="ready_to_fly";</tag>
+  </rule>
+</grammar>
