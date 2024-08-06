@@ -29,12 +29,50 @@ const { tokenize } = require('./core/system/tokenizer');
 const ChatModule = require('./core/system/chat');
 // Importe un contrôleur pour interagir avec l'API de Spotify, permettant de contrôler la musique.
 const SpotifyController = require('./core/system/spotify');
+const yaml = require('js-yaml');
 
 const path = require('path');
 
 const { exec } = require('child_process');
 
 const { cleanDirectory } = require('./core/system/fileCleaner');
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+
+// -----------------------------
+// Section de configuration par le web
+// -----------------------------
+app.set('view engine', 'ejs'); // Utiliser EJS comme moteur de template
+app.set('views', path.join(__dirname, 'core', 'views'));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Route pour afficher le formulaire
+app.get('/', (req, res) => {
+    try {
+      const filePath = path.join(__dirname, 'core', 'config', 'lexique.yaml');
+      const fileContents = fs2.readFileSync(filePath, 'utf8');
+      const data = yaml.load(fileContents);
+      console.log(JSON.stringify(data, null, 2)); // Ajoutez cette ligne pour inspecter les données
+      res.render('index', { data: data });
+    } catch (e) {
+      console.error(e);
+      res.status(500).send('Erreur lors de la lecture du fichier');
+    }
+  });
+
+// Route pour traiter les données du formulaire
+app.post('/modifier', (req, res) => {
+  const nouvelleDonnee = req.body.data;
+  // Ici, vous pourriez ajouter du code pour mettre à jour une base de données
+  res.send(`Donnée mise à jour : ${nouvelleDonnee}`);
+});
+
+const PORT = 2954;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
 
 
 // -----------------------------

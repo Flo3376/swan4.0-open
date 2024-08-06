@@ -277,7 +277,7 @@ ready_to_fly:
       action: "ready_to_fly"
       interact:
         output: keyboard
-        action: COMBO
+        action: combo
         key: "ALTDROITE+R"
         duration: short
 

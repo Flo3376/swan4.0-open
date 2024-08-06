@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactions YAML</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Style de base pour le thème sombre */
+body {
+    background-color: #121212; /* Arrière-plan très sombre */
+    color: #e0e0e0;           /* Texte clair pour le contraste */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a {
+    color: #bb86fc;           /* Couleur pour les liens */
+}
+
+.card {
+    background-color: #1e1e1e; /* Arrière-plan des cartes */
+    border-color: #333;       /* Bordure légèrement plus claire que le fond de carte */
+}
+
+.card-header {
+    background-color: #333;   /* Arrière-plan plus sombre pour les en-têtes */
+    color: #ffffff;
+}
+
+.card-body {
+    background-color: #242424; /* Arrière-plan des corps de carte */
+    color: #e0e0e0;
+}
+
+.form-control {
+    background-color: #333;   /* Arrière-plan pour les zones de texte et autres contrôles de formulaire */
+    color: #e0e0e0;           /* Texte clair */
+    border: 1px solid #444;   /* Bordure légèrement plus claire */
+}
+
+.form-control:focus {
+    border-color: #bb86fc;   /* Bordure de focus pour les éléments de formulaire */
+    outline: none;
+}
+
+.btn-primary {
+    background-color: #6200ee; /* Arrière-plan pour les boutons primaires */
+    border-color: #3700b3;     /* Bordure pour les boutons */
+}
+
+.btn-primary:hover {
+    background-color: #3700b3; /* Arrière-plan plus sombre lors du survol */
+}
+
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Interactions disponibles</h1>
+        <% let count = 0; %>
+        <% for (const key in data) { %>
+            <% if (key !== "global" && data[key].rules) { %>
+                <div class="card mt-3">
+                    <div class="card-header toggle-header" data-target="#cardBody<%= count %>">
+                        <%= key %>
+                        <% if (data[key].rules.length > 0) { %>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<%= data[key].rules[0].description %>
+                        <% } %>
+                    </div>
+                    <div class="card-body collapse" id="cardBody<%= count %>">
+                        <% data[key].rules.forEach(function(rule, index) { %>
+                            <form class="rule-form">
+                                <h5 class="card-title">Description: <%= rule.description %></h5>
+                                <h6>Questions:</h6>
+                                <textarea class="form-control mb-2 auto-height" name="questions<%= count %>" rows="5"><%= rule.question.join('\n').trim() %></textarea>
+                                <h6>Réponses:</h6>
+                                <textarea class="form-control mb-2 auto-height" name="responses<%= count %>" rows="5"><%= rule.responses.join('\n').trim() %></textarea>
+                                <% if (rule.interact) { %>
+                                    <div>
+                                        <strong>Interact Details:</strong>
+                                    </div>
+                                    <div>
+                                        <strong>Output:</strong>
+                                        <select class="form-control mb-2 output-select" id="output<%= count %>" name="output<%= count %>">
+                                            <option value="none" <%= rule.interact.output === "none" ? "selected" : "" %>>None</option>
+                                            <option value="keyboard" <%= rule.interact.output === "keyboard" ? "selected" : "" %>>Keyboard</option>
+                                            <option value="mouse" <%= rule.interact.output === "mouse" ? "selected" : "" %>>Mouse</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <strong>Action:</strong>
+                                        <select class="form-control mb-2 action-select" id="action<%= count %>" name="action<%= count %>">
+                                            <option class="none" value="none" style="display: none;">Aucune/option>
+                                            <!-- Keyboard options -->
+                                            <option class="keyboard" value="key" <%= rule.interact.action === "key" ? "selected" : "" %>>une touche</option>
+                                            <option class="keyboard" value="combo" <%= rule.interact.action === "combo" ? "selected" : "" %>>une combinaison de touche</option>
+                                            <option class="keyboard" value="sequence" <%= rule.interact.action === "sequence" ? "selected" : "" %>>une suite de touche</option>
+                                            <option class="keyboard" value="phrase" <%= rule.interact.action === "phrase" ? "selected" : "" %>>une phrase à taper</option>
+                                            <!-- Mouse options -->
+                                            <option class="mouse" value="mouseclick" >Click souris</option>
+                                            <option class="mouse" value="mousemove" >Déplacer la souris</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <strong>Type d'appuie:</strong>
+                                        <select class="form-control mb-2 duration-select" id="duration<%= count %> name="duration<%= count %>">
+                                            <option value="short" <%= rule.interact.duration === "short" ? "selected" : "" %>>appuie court</option>
+                                            <option value="long" <%= rule.interact.duration === "long" ? "selected" : "" %>>appuie long</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <strong>Interact Details:</strong>
+                                        
+                                        <p>Key: <%= rule.interact.key %></p>
+                                        
+                                    </div>
+                                <% } else { %>
+                                    <p>Aucun détail d'interaction fourni.</p>
+                                <% } %>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                            <% }); %>
+                        </div>
+                    </div>
+                    <% count++; %>
+                <% } %>
+            <% } %>
+        </div>
+    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Attache un gestionnaire de clic pour chaque en-tête de carte qui peut être basculé.
+                $('.toggle-header').click(function() {
+                    // Récupère l'identifiant de l'élément à basculer, stocké dans l'attribut 'data-target'.
+                    const collapsibleTargetId = $(this).attr('data-target');
+                    // Bascule la visibilité de l'élément cible en utilisant la fonction collapse de Bootstrap.
+                    $(collapsibleTargetId).collapse('toggle');
+                });
+        
+                // Gestionnaire d'événement pour la sélection du type de sortie ('output').
+                $('.output-select').change(function() {
+                    // Trouve le menu 'Action' associé en remontant au formulaire parent et en cherchant le select 'action-select'.
+                    const relatedActionSelectMenu = $(this).closest('.rule-form').find('.action-select');
+                    // Lit la valeur sélectionnée dans le menu 'Output'.
+                    const selectedOutputType = $(this).val();
+                    // Cache toutes les options du menu 'Action' par défaut.
+                    relatedActionSelectMenu.find('option').hide();
+                    // Affiche et ajuste les options disponibles en fonction du type de sortie sélectionné.
+                    if (selectedOutputType === 'keyboard') {
+                        // Affiche uniquement les options liées au clavier.
+                        relatedActionSelectMenu.find('.keyboard').show();
+                        // Sélectionne par défaut l'option 'key' pour le clavier.
+                        relatedActionSelectMenu.val('key').show();
+                    } else if (selectedOutputType === 'mouse') {
+                        // Affiche uniquement les options liées à la souris.
+                        relatedActionSelectMenu.find('.mouse').show();
+                        // Sélectionne par défaut l'option 'mouseclick' pour la souris.
+                        relatedActionSelectMenu.val('mouseclick').show();
+                    } else {
+                        // Si 'none' est sélectionné, cache le menu 'Action' entièrement.
+                        relatedActionSelectMenu.val('none').hide();
+                        relatedActionSelectMenu.find('.keyboard').hide();
+
+                        relatedActionSelectMenu.find('.mouse').hide();
+                        relatedActionSelectMenu.find('.duration').hide();
+                    }
+                }).trigger('change'); // Déclenche immédiatement l'événement change pour initialiser l'état correct des sélections.
+        
+                // Gestionnaire d'événement pour la soumission des formulaires dans les cartes.
+                $('.rule-form').on('submit', function(e) {
+                    // Empêche la soumission classique du formulaire qui provoquerait le rechargement de la page.
+                    e.preventDefault();
+                    // Affiche une alerte indiquant où et comment les modifications seraient normalement enregistrées.
+                    alert('Changes would be saved here.');
+                });
+            });
+        </script>
+        
+    </body>
+    </html>

@@ -73,7 +73,7 @@ class SpotifyController {
     try {
       await this.spotifyApi.setVolume(volumePercent);
       console.log(`Volume fixé à ${volumePercent}%`);
-      this.volume=volumePercent;
+      this.volume = volumePercent;
       return true;
     } catch (error) {
       console.error('Erreur de réglage du volume:', error);
@@ -110,27 +110,27 @@ class SpotifyController {
   }
 
   // Méthode pour jouer un album spécifique
-async playAlbum(albumId) {
-  await this.refreshAccessToken();
-  await this.setActiveDevice(this.client_pref_device);
-  try {
-    await this.spotifyApi.play({
-      context_uri: `spotify:album:${albumId}`  // Utiliser context_uri pour un album
-    });
-    console.log(`Lecture de l'album avec ID: ${albumId}`);
-    return true;
-  } catch (error) {
-    console.error("Erreur lors de la lecture de l'album:", error);
-    return false;
+  async playAlbum(albumId) {
+    await this.refreshAccessToken();
+    await this.setActiveDevice(this.client_pref_device);
+    try {
+      await this.spotifyApi.play({
+        context_uri: `spotify:album:${albumId}`  // Utiliser context_uri pour un album
+      });
+      console.log(`Lecture de l'album avec ID: ${albumId}`);
+      return true;
+    } catch (error) {
+      console.error("Erreur lors de la lecture de l'album:", error);
+      return false;
+    }
   }
-}
 
 
   // Méthode pour obtenir les appareils disponibles
   async getDevices() {
     try {
       const data = await this.spotifyApi.getMyDevices();
-      console.log('Appareils disponibles:', data.body.devices);
+      //console.log('Appareils disponibles:', data.body.devices);
       return data.body.devices;
     } catch (error) {
       console.error('Erreur lors de la récupération des appareils:', error);
@@ -169,7 +169,7 @@ async playAlbum(albumId) {
         this.spotifyApi.setAccessToken(data.body['access_token']);
         // Mise à jour de l'heure d'expiration du token
         this.tokenExpiryTime = Date.now() + data.body['expires_in'] * 1000;
-        
+
         if (data.body['refresh_token']) {
           this.spotifyApi.setRefreshToken(data.body['refresh_token']);
         }
@@ -184,13 +184,13 @@ async playAlbum(albumId) {
   }
   async spotify_search(search_item) {
     await this.refreshAccessToken(); // Rafraîchir le token
-  
+
     try {
       const results = await this.searchTracks(search_item);
       if (results && results.length > 0) {
         const firstTrack = results[0]; // Prendre la première piste
         const albumId = firstTrack.album.id; // Obtenir l'ID de l'album de la première piste
-  
+
         await this.playAlbum(albumId); // Jouer l'album
         console.log("Album joué :", albumId);
       } else {
@@ -203,8 +203,30 @@ async playAlbum(albumId) {
 
   // Méthode principale pour exécuter des actions
   async spotify_action(action) {
-    await this.refreshAccessToken();
-    await this.setActiveDevice(this.client_pref_device);
+
+    await this.refreshAccessToken(); // Rafraîchir le token
+
+    const devices = await this.getDevices(); // Obtenir la liste des appareils
+    let deviceActive = false;
+
+    // Vérifier si l'appareil préféré est actif
+    if (devices.length > 0) {
+      devices.forEach(device => {
+        if (device.id === this.client_pref_device && device.is_active) {
+          deviceActive = true;
+          console.log("Appareil préféré déjà actif:", device.name);
+        }
+      });
+
+      // Si l'appareil préféré n'est pas actif, l'activer
+      if (!deviceActive) {
+        console.log("Activation de l'appareil préféré:", this.client_pref_device);
+        await this.setActiveDevice(this.client_pref_device);
+      }
+    } else {
+      console.log("Aucun appareil disponible.");
+      return false;
+    }
 
     switch (action) {
       case 'spotify_play':
