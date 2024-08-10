@@ -23,6 +23,7 @@ test_swan:
         - "Es-tu prêt à communiquer"
         - "Peux-tu assister maintenant"
       responses:
+        - "Non, je dort encore papa"
         - "Bonjour ! Heureux de vous voir, prêt à aider."
         - "Salut ! Je suis là, à votre service."
         - "Bonjour ! Comment puis-je vous assister aujourd'hui ?"
