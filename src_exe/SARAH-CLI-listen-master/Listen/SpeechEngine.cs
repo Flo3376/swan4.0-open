@@ -232,7 +232,7 @@ namespace net.encausse.sarah {
             //Log("Recognition rejected. Attempting to save audio data...");
 
             // Check if the RecognitionResult is available
-            if (e.Result != null)
+            /*if (e.Result != null)
             {
                 //Log("Confidence of rejected result: " + e.Result.Confidence);
 
@@ -259,7 +259,7 @@ namespace net.encausse.sarah {
             else
             {
                 Log("No audio data available for rejected recognition.");
-            }
+            }*/
         }
 
         // -------------------------------------------
