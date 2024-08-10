@@ -53,7 +53,7 @@ app.get('/', (req, res) => {
       const filePath = path.join(__dirname, 'core', 'config', 'lexique.yaml');
       const fileContents = fs2.readFileSync(filePath, 'utf8');
       const data = yaml.load(fileContents);
-      console.log(JSON.stringify(data, null, 2)); // Ajoutez cette ligne pour inspecter les données
+      //console.log(JSON.stringify(data, null, 2)); // Ajoutez cette ligne pour inspecter les données
       res.render('index', { data: data });
     } catch (e) {
       console.error(e);
