@@ -15,12 +15,13 @@ async function generateCommands() {
         if (!key.startsWith('global')) {
             config[key].rules.forEach(rule => {
                 const command = {
-                    "phrases": rule.question,
+                    "phrases": rule.questions,
                     "code": rule.action,
                     "response": rule.responses,
                     "action": {
-                        "type": rule.interact['output'],
-                        "key": rule.interact['key'],
+                        "output": rule.interact['output'],
+                        "type": rule.interact['type'],
+                        "action_input": rule.interact['action_input'],
                         "duration": rule.interact['duration']
                     },
                 };

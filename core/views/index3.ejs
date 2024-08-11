@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Configuration des Actions</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+
+    <style>
+        body {
+            background-color: #121212;
+            color: #ccc;
+            /* Amélioration de la lisibilité des textes */
+        }
+
+        #leftPanel {
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 2px solid #333;
+            background-color: #242424;
+        }
+
+        #rightPanel {
+            height: 100vh;
+            overflow-y: auto;
+            background-color: #333;
+        }
+
+        .list-group-item {
+            background-color: #242424;
+            border-color: #444;
+            color: #ccc;
+            /* Assure que le texte est bien lisible */
+            cursor: pointer;
+            /* Indique que l'élément est cliquable */
+        }
+
+        .action-buttons button {
+            color: #ccc;
+            /* Couleur des icônes pour qu'elles soient visibles en mode sombre */
+        }
+
+        .tooltip-inner {
+            background-color: #333;
+            /* Couleur d'arrière-plan pour les infobulles */
+            color: #ccc;
+            /* Couleur du texte pour les infobulles */
+        }
+        .keyboard {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .keyboard-row {
+            display: flex;
+            
+            margin: 5px 0;
+        }
+
+        .key {
+            padding: 10px;
+            margin: 0 5px;
+            width: 40px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .key_t2 {
+            padding: 10px;
+            margin: 0 5px;
+            width: 55px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .key_t3 {
+            padding: 10px;
+            margin: 0 5px;
+            width: 60px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .key_t4 {
+            padding: 10px;
+            margin: 0 5px;
+            width: 80px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .key_t5 {
+            padding: 10px;
+            margin: 0 5px;
+            width: 100px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .key_t6 {
+            padding: 10px;
+            margin: 0 5px;
+            width: 130px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .key_t7 {
+            padding: 10px;
+            margin: 0 5px;
+            width: 318px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .key_t8 {
+            padding: 10px;
+            margin: 0 5px;
+            width: 95px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .spacer {
+        display: inline-block;
+        height: 10px; /* Hauteur pour garder l'alignement avec les touches si nécessaire */
+        }
+        .spacer_100 {
+            width: 100px;
+        }
+        .spacer_90 {
+            width: 90px;
+        }
+        .spacer_295 {
+            width: 295px;
+        }
+
+        .spacer_50 {
+            width: 50px;
+        }
+        .spacer_40 {
+            width: 37px;
+        }
+
+        .spacer_30 {
+            width: 30px;
+        }
+        .spacer_30 {
+            width: 20px;
+        }
+
+        .spacer_10 {
+            width: 20px;
+        }
+        .key-active {
+    background-color: #4CAF50; /* Vert, ou toute autre couleur qui indique "actif" */
+    color: white;
+}
+.modal-xl {
+        --bs-modal-width: 1225px;
+    }
+
+    .modal-content {
+    background-color: #333; /* Gris foncé */
+    color: #fff; /* Texte blanc pour contraster avec le fond sombre */
+}
+
+.modal-header, .modal-footer {
+    background-color: #222; /* Un gris encore plus foncé pour les headers et footers */
+    border-color: #444; /* Une bordure légèrement plus claire pour délimiter les sections */
+}
+
+.modal-body {
+    background-color: #333;
+}
+
+/* Boutons dans le modal footer pour un meilleur contraste */
+.modal-footer .btn {
+    background-color: #555; /* Gris moyen pour les boutons */
+    color: #fff; /* Texte blanc */
+}
+
+.modal-footer .btn:hover {
+    background-color: #666; /* Un gris légèrement plus clair au survol */
+}
+
+/* Modifier les couleurs pour les liens si nécessaire */
+.modal-content a {
+    color: #4aa; /* Une couleur de lien claire pour un bon contraste */
+}
+    </style>
+</head>
+
+<body>
+    <!-- Modal pour la configuration de Keyboard Key -->
+    <div class="modal modal-xl" id="keyboardKeyModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Configuration de Touche</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="keyboard-container"></div>
+                    <form id="keyConfigForm">
+                        <div class="form-group">
+                            <label for="keyInput">Touche:</label>
+                            <input type="text" class="form-control" id="keyInput">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="saveKeyConfig()">Sauvegarder</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal pour la configuration de Keyboard Key -->
+    <div class="modal modal-xl" id="keyboardComboModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Configuration de Touche</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="keyboard-combo-container"></div>
+                    <form id="keyConfigForm">
+                        <div class="form-group">
+                            <label for="keyInput">Touches:</label>
+                            <input type="text" class="form-control" id="keyInput">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="saveKeyConfig()">Sauvegarder</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-md-4" id="leftPanel">
+                <div class="d-flex justify-content-between align-items-center p-3 mb-2 bg-dark">
+                    <button class="btn btn-primary" onclick="addCard()" data-bs-toggle="tooltip"
+                        data-bs-placement="bottom" title="Ajouter une action"><i class="bi bi-plus-circle"></i></button>
+                    <button class="btn btn-success" onclick="saveChanges()" data-bs-toggle="tooltip"
+                        data-bs-placement="bottom" title="Sauvegarder les changements"><i
+                            class="bi bi-save"></i></button>
+                </div>
+                <ul class="list-group">
+                    <% for (const key in data) { %>
+                        <% if (key !=="global" && data[key].rules) { %>
+                            <li class="list-group-item" onclick="showDetails('<%= key %>')">
+                                <% if (data[key].rules.length> 0) { %>
+                                    <%= data[key].rules[0].description %>
+                                        <% } %>
+                            </li>
+                            <% } %>
+                                <% } %>
+                </ul>
+            </div>
+
+            <div class="col-md-8" id="rightPanel">
+                <div id="detailsContent">
+                    <h3 class="info_user">Cliquez sur une action pour voir les détails</h3>
+
+                    <form class="rule-form" style="display: none;">
+                        <h5 class="card-title"><span id="title_card"></span>&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;<button class="btn btn-success" onclick="saveCard()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Sauvegarder la carte"><i class="bi bi-save"></i></button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteCard()" title="Supprimer la carte"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-sm btn-outline-warning" onclick="duplicateCard()" title="Dupliquer la carte"><i class="bi bi-files"></i></button></h5>
+                        <hr>
+                        <h6>Code:</h6>
+                        <input type="text" id="code" name="code" class="form-control">
+                        <br>
+                        <h6>Description:</h6>
+                        <input type="text" id="description" name="description" class="form-control">
+                        <hr>
+                        <h6>Questions:</h6>
+                        <textarea class="form-control mb-2 auto-height" name="questions" id="questions" rows="5"></textarea>
+                        <br>
+                        <h6>Réponses:</h6>
+                        <textarea class="form-control mb-2 auto-height" name="responses" id="responses" rows="5"></textarea>
+                        <hr>
+                        <div>
+                            <strong>Détails de l'interaction:</strong>
+                        </div>
+                        <div>
+                            <strong>Output:</strong>
+                            <select class="form-control mb-2 output-select" id="outputSelect" name="output">
+                                <option value="none">None</option>
+                                <option value="keyboard" selected="">Keyboard</option>
+                                <option value="mouse">Mouse</option>
+                            </select>
+                        </div>
+                        <div class="type-select">
+                            <strong>Type:</strong>
+                            <select class="form-control mb-2 type-select" id="typeSelect" name="Type">
+                                <option value="none">None</option>
+                                <option value="key">Key</option>
+                                <option value="combo">Combo</option>
+                                <option value="sequence">Sequence</option>
+                                <option value="phrase">Phrase</option>
+                                <option value="mouseclick" hidden="">Mouseclick</option>
+                                <option value="mousemove" hidden="">Mousemove</option>
+                            </select>
+                        </div>
+                        <div class="durationSelect">
+                            <strong>Durée:</strong>
+                            <select class="form-control mb-2 durationSelect" id="durationSelect" name="duration">
+                                <option value="short" >Short</option>
+                                <option value="long">Long</option>
+                            </select>
+                        </div>
+                        <div class="action-Input">
+                            
+                            <strong>Action: <button class="btn btn-primary" id="modal_activator" data-modal-type="none"><i class="bi bi-pencil-fill"></i></button></strong>
+                            <input type="text" class="form-control action-Input"  id="actionInput" name="actionInput" disabled="">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+        var lexique = <%- JSON.stringify(data) %>;
+
+        var typeValue="";
+        function addCard() {
+            console.log("Ajouter une nouvelle action");
+        }
+
+        function saveChanges() {
+            console.log("Sauvegarder les changements");
+        }
+
+        function saveCard() {
+            console.log("Sauvegarder les changements", cardId);
+        }
+
+        function editCard(cardId) {
+            console.log("Modifier l'action", cardId);
+        }
+
+        function deleteCard(cardId) {
+            console.log("Supprimer l'action", cardId);
+        }
+
+        function duplicateCard(cardId) {
+            console.log("Dupliquer l'action", cardId);
+        }
+
+        function showDetails(actionId) {
+            var details = lexique[actionId];
+            if (details) {
+                var rules = details.rules[0]; // Assumant qu'il y a toujours au moins une règle
+
+                // Cacher les éléments info_user
+                document.querySelectorAll('.info_user').forEach(function(element) {
+                    element.style.display = 'none';
+                });
+
+                // Afficher les éléments rule-form
+                document.querySelectorAll('.rule-form').forEach(function(element) {
+                    element.style.display = '';
+                });
+                document.getElementById('title_card').innerHTML = actionId;
+                document.getElementById('code').value = actionId;
+
+                if(rules.description) document.getElementById('description').value = rules.description;
+                if(rules.question) document.getElementById('questions').value = rules.question.join('\n').trim();
+                if(rules.responses) document.getElementById('responses').value = rules.responses.join('\n').trim();
+
+                // Récupération de l'élément select outputSelect
+                let selectElement = document.getElementById('outputSelect');
+
+                // Détermination de la valeur à sélectionner, avec vérification de la présence de rules.interact.output
+                let selectedValue = rules.interact.output ? rules.interact.output : "none";
+
+                // Sélection de l'option
+                Array.from(selectElement.options).forEach(option => {
+                    option.selected = (option.value === selectedValue);
+                });
+
+                // Récupération de l'élément select typeSelect
+                selectElement = document.getElementById('typeSelect');
+
+                // Détermination de la valeur à sélectionner, avec vérification de la présence de rules.interact.output
+                selectedValue = rules.interact.type ? rules.interact.type : "none";
+
+                // Sélection de l'option
+                Array.from(selectElement.options).forEach(option => {
+                    option.selected = (option.value === selectedValue);
+                });
+
+                // Récupération de l'élément select durationSelect
+                selectElement = document.getElementById('durationSelect');
+
+                // Détermination de la valeur à sélectionner, avec vérification de la présence de rules.interact.output
+                selectedValue = rules.interact.output ? rules.interact.duration : "short";
+
+                // Sélection de l'option
+                Array.from(selectElement.options).forEach(option => {
+                    option.selected = (option.value === selectedValue);
+                });
+
+                if(rules.action) document.getElementById('actionInput').value = rules.action;
+                
+                updateVisibility();
+            }
+        }
+
+        function updateVisibility() {
+            const outputSelect = document.getElementById('outputSelect');
+            const typeSelect = document.getElementById('typeSelect');
+            const modalActivator = document.getElementById('modal_activator');
+
+            const outputValue = outputSelect.value;
+            typeValue = typeSelect.value;
+
+            updateKeyBehavior(); 
+
+            console.log(outputValue)
+            switch (outputValue) {
+                case 'none':
+                    var elements = document.querySelectorAll('.type-select, .durationSelect, .action-Input');
+                    elements.forEach(element => {
+                        element.style.display = 'none'; // Manipule chaque élément ayant la classe 'some-class'
+                    });
+
+                    // Forcer les valeurs
+                    document.getElementById('typeSelect').value = 'none';
+                    document.getElementById('durationSelect').value = 'none';
+                    document.getElementById('actionInput').value = '';
+                    modalActivator.setAttribute('data-modal-type', 'none');
+                    break;
+                case 'keyboard':
+                    var elements = document.querySelectorAll('.type-select, .durationSelect, .action-Input');
+                    elements.forEach(element => {
+                        element.style.display = ''; // Manipule chaque élément ayant la classe 'some-class'
+                    });
+
+                    // Filtre des options peut être ajouté ici
+                    filterTypeOptions(outputValue); // Appel à la fonction de filtrage des options
+
+                    console.log(typeValue)
+
+                    // Déterminer quel modal ouvrir basé sur le type spécifique de clavier
+                    if (typeValue === 'key' || typeValue === 'combo' || typeValue === 'sequence' || typeValue === 'phrase') {
+                        modalActivator.setAttribute('data-modal-type', 'keyboard_' + typeValue);
+                    }
+
+                    break;
+                case 'mouse':
+                    var elements = document.querySelectorAll('.type-select, .durationSelect, .action-Input');
+                    elements.forEach(element => {
+                        element.style.display = ''; // Manipule chaque élément ayant la classe 'some-class'
+                    });
+
+                    // Filtre des options peut être ajouté ici
+                    filterTypeOptions(outputValue); // Appel à la fonction de filtrage des options
+
+                    // Modifier pour les types de souris
+                    if (typeValue === 'mouseclick' || typeValue === 'mousemove') {
+                        modalActivator.setAttribute('data-modal-type', 'mouse_' + typeValue);
+                    }
+
+                    break;
+            }
+        }
+
+        
+
+        function filterTypeOptions(output) {
+            const typeSelect = document.getElementById('typeSelect');
+            const options = typeSelect.options;
+
+            for (let option of options) {
+                // Masquer les options qui ne correspondent pas à l'output sélectionné
+                if (output === 'keyboard' && (option.value.includes('mouse'))) {
+                    option.hidden = true;
+                } else if (output === 'mouse' && !option.value.includes('mouse')) {
+                    option.hidden = true;
+                } else {
+                    option.hidden = false;
+                }
+            }
+        }
+
+        function openModalBasedOnType(modalType) {
+            switch (modalType) {
+                case 'keyboard_key':
+                    $('#keyboardKeyModal').modal('show');
+                    openKeyboardModal();
+                    break;
+                case 'keyboard_combo':
+                    $('#keyboardComboModal').modal('show');
+                    openKeyboarCombodModal();
+                    break;
+                case 'sequence':
+                    $('#keyboardSequenceModal').modal('show');
+                    break;
+                case 'phrase':
+                    $('#keyboardPhraseModal').modal('show');
+                    break;
+                case 'mouseclick':
+                    $('#mouseClickModal').modal('show');
+                    break;
+                case 'mousemove':
+                    $('#mouseMoveModal').modal('show');
+                    break;
+                default:
+                    console.log('No modal associated with this type : ' +modalType);
+                    break;
+            }
+        }
+
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('outputSelect').addEventListener('change', updateVisibility);
+        document.getElementById('typeSelect').addEventListener('change', updateVisibility);
+
+
+            var modalActivator = document.getElementById('modal_activator');
+            if (modalActivator) {
+                modalActivator.addEventListener('click', function () {
+                    var modalType = this.getAttribute('data-modal-type');
+                    openModalBasedOnType(modalType);
+                });
+            } else {
+                console.error('Modal activator button not found');
+            }
+        });
+        document.querySelector('.rule-form').addEventListener('submit', function(event) {
+            event.preventDefault();  // Empêche la soumission du formulaire
+            // Vous pouvez ajouter ici d'autres logiques
+        });
+        function openKeyboardModal() {
+            const keyboardHtml = document.getElementById('keyboard-template').innerHTML;
+            document.getElementById('keyboard-container').innerHTML = keyboardHtml;
+            $('#keyboardModal').modal('show');
+            updateKeyBehavior();
+        }
+
+        function openKeyboardModal() {
+            const keyboardHtml = document.getElementById('keyboard-template').innerHTML;
+            document.getElementById('keyboard-container').innerHTML = keyboardHtml;
+            $('#keyboardModal').modal('show');
+            updateKeyBehavior();
+        }
+
+        function openKeyboarCombodModal(){
+            const keyboardHtml = document.getElementById('keyboard-template').innerHTML;
+            document.getElementById('keyboard-combo-container').innerHTML = keyboardHtml;
+            $('#keyboardComboModal').modal('show');
+            updateKeyBehavior();
+        }
+
+        function updateKeyBehavior() {
+            const keys = document.querySelectorAll('.key');
+
+            keys.forEach(key => {
+                key.addEventListener('click', function() {
+                    if (typeValue === "key") {
+                        // Désactive toutes les autres touches
+                        keys.forEach(k => k.classList.remove('key-active'));
+                        // Active la touche cliquée
+                        this.classList.add('key-active');
+
+                        document.querySelectorAll('.key').forEach(key => {
+                            key.addEventListener('click', function() {
+                                const keyTranslate = this.getAttribute('key_translate'); // Récupère la valeur de key_translate
+                                const keyInput = document.getElementById('keyInput'); // Référence à l'input dans la modal
+                                if(keyInput) {
+                                    keyInput.value = keyTranslate; // Met à jour l'input avec la valeur récupérée
+                                }
+                                
+                                // Si vous utilisez des classes pour indiquer une touche active :
+                                document.querySelectorAll('.key').forEach(k => k.classList.remove('key-active'));
+                                this.classList.add('key-active'); // Met en évidence la touche sélectionnée
+                            });
+                        });
+
+
+                    } else if (typeValue === "combo") {
+                        // Toggle de la classe active pour permettre plusieurs sélections
+                        this.classList.toggle('key-active');
+
+                        document.querySelectorAll('.key').forEach(key => {
+                            key.addEventListener('click', function() {
+                                // Basculer la classe active pour permettre la sélection de plusieurs touches
+                                this.classList.toggle('key-active');
+
+                                // Mettre à jour l'input pour afficher toutes les touches actives
+                                updateComboInput();
+                            });
+                        });
+
+                        function updateComboInput() {
+                            const activeKeys = document.querySelectorAll('.key.key-active');
+                            const keyInput = document.getElementById('keyInput');
+                            if(keyInput) {
+                                keyInput.value = Array.from(activeKeys).map(k => k.getAttribute('key_translate')).join(' + ');
+                            }
+                        }
+
+
+                    }
+                    // Ajouter d'autres conditions si nécessaire
+                });
+            });
+        }
+
+        // Initialisation du comportement des touches
+        updateKeyBehavior();
+    </script>
+    <script type="text/template" id="keyboard-template">
+        <div class="keyboard">
+            <div class="keyboard-row">
+                <button class="key" key_code="27" key_translate="Escape">ESC</button>
+                <div class="spacer spacer_40"></div> <!-- Espace de 50px -->
+                <button class="key" key_code="112" key_translate="F1">F1</button>
+                <button class="key" key_code="113" key_translate="F2">F2</button>
+                <button class="key" key_code="114" key_translate="F3">F3</button>
+                <button class="key" key_code="115" key_translate="F4">F4</button>
+                <div class="spacer spacer_40"></div> <!-- Espace de 50px -->
+                <button class="key" key_code="116" key_translate="F5">F5</button>
+                <button class="key" key_code="117" key_translate="F6">F6</button>
+                <button class="key" key_code="118" key_translate="F7">F7</button>
+                <button class="key" key_code="119" key_translate="F8">F8</button>
+                <div class="spacer spacer_40"></div> <!-- Espace de 50px -->
+                <button class="key" key_code="120" key_translate="F9">F9</button>
+                <button class="key" key_code="121" key_translate="F10">F10</button>
+                <button class="key" key_code="122" key_translate="F11">F11</button>
+                <button class="key" key_code="123" key_translate="F12">F12</button>
+                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                <button class="key" key_code="44" key_translate="Print Screen">PRT</button>
+                <button class="key" key_code="145" key_translate="Scroll Lock ">AD</button>
+                <button class="key" key_code="19" key_translate="Pause">PA</button>
+            </div>
+            <br>
+            <div class="keyboard-row">
+                <button class="key" key_code="222" key_translate="²">²</button>
+                <button class="key" key_code="49" key_translate="1">1</button>
+                <button class="key" key_code="50" key_translate="2">2</button>
+                <button class="key" key_code="51" key_translate="3">3</button>
+                <button class="key" key_code="52" key_translate="4">4</button>
+                <button class="key" key_code="53" key_translate="5">5</button>
+                <button class="key" key_code="54" key_translate="6">6</button>
+                <button class="key" key_code="55" key_translate="7">7</button>
+                <button class="key" key_code="56" key_translate="8">8</button>
+                <button class="key" key_code="57" key_translate="9">9</button>
+                <button class="key" key_code="48" key_translate="0">0</button>
+                <button class="key" key_code="219" key_translate="Degree">°</button>
+                <button class="key" key_code="187" key_translate="Plus">+</button>
+                <button class="key key_t5" key_code="8" key_translate="Backspace"><i class="bi bi-backspace"></i></button>
+                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                <button class="key" key_code="45" key_translate="Insert">INS</button>
+                <button class="key" key_code="36" key_translate="Home"><i class="bi bi-house"></i></button>
+                <button class="key" key_code="33" key_translate="Page Up"><i class="bi bi-arrow-up-square-fill"></i></button>
+                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                <button class="key" key_code="144" key_translate="NUMPAD_Lock"><i class="bi bi-file-lock"></i></button>
+                <button class="key" key_code="111" key_translate="NUMPAD_Divide">/</button>
+                <button class="key" key_code="106" key_translate="NUMPAD_Multiply">*</button>
+                <button class="key" key_code="109" key_translate="NUMPAD_Subtract">-</button>
+            </div>
+            
+            <div class="keyboard-row">
+                <button class="key key_t3" key_code="9" key_translate="Tab">tab</button>
+                <button class="key" key_code="65" key_translate="A">A</button>
+                <button class="key" key_code="90" key_translate="Z">Z</button>
+                <button class="key" key_code="69" key_translate="E">E</button>
+                <button class="key" key_code="82" key_translate="R">R</button>
+                <button class="key" key_code="84" key_translate="T">T</button>
+                <button class="key" key_code="89" key_translate="Y">Y</button>
+                <button class="key" key_code="85" key_translate="U">U</button>
+                <button class="key" key_code="73" key_translate="I">I</button>
+                <button class="key" key_code="79" key_translate="O">O</button>
+                <button class="key" key_code="80" key_translate="P">P</button>
+                <button class="key" key_code="221" key_translate="Caret">^</button>
+                <button class="key" key_code="186" key_translate="Dollar">$</button>
+                <button class="key key_t4" key_code="13" key_translate="Enter">ENTER</button>
+                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                <button class="key" key_code="46" key_translate="Delete">SUP</button>
+                <button class="key" key_code="35" key_translate="End">FIN</button>
+                <button class="key" key_code="34" key_translate="Page Down"><i class="bi bi-arrow-down-square-fill"></i></button>
+                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                <button class="key" key_code="103" key_translate="NUMPAD_7">7</button>
+                <button class="key" key_code="104" key_translate="NUMPAD_8">8</button>
+                <button class="key" key_code="105" key_translate="NUMPAD_9">9</button>
+                <button class="key" key_code="107" key_translate="NUMPAD_Plus">+</button>
+            </div>
+            <div class="keyboard-row">
+                <button class="key key_t4" key_code="107" key_translate="Shift">MAJ</button>
+                <button class="key" key_code="81" key_translate="Q">Q</button>
+                <button class="key" key_code="83" key_translate="S">S</button>
+                <button class="key" key_code="68" key_translate="D">D</button>
+                <button class="key" key_code="70" key_translate="F">F</button>
+                <button class="key" key_code="71" key_translate="G">G</button>
+                <button class="key" key_code="72" key_translate="H">H</button>
+                <button class="key" key_code="74" key_translate="J">J</button>
+                <button class="key" key_code="75" key_translate="K">K</button>
+                <button class="key" key_code="76" key_translate="L">L</button>
+                <button class="key" key_code="77" key_translate="M">M</button>
+                <button class="key" key_code="192" key_translate="Ù">ù</button>
+                <button class="key" key_code="220" key_translate="Asterisk">*</button>
+                <div class="spacer spacer_295"></div> <!-- Espace de 30px -->
+                <button class="key" key_code="100" key_translate="NUMPAD_4">4</button>
+                <button class="key" key_code="101" key_translate="NUMPAD_5">5</button>
+                <button class="key" key_code="102" key_translate="NUMPAD_6">6</button>
+            </div>
+            <div class="keyboard-row">
+                <button class="key key_t2" key_code="" key_translate="Left Shift"><i class="bi bi-shift-fill"></i></button>
+                <button class="key" key_code="226" key_translate="Greater Than">></button>
+                <button class="key" key_code="87" key_translate="W">W</button>
+                <button class="key" key_code="88" key_translate="X">X</button>
+                <button class="key" key_code="67" key_translate="C">C</button>
+                <button class="key" key_code="86" key_translate="V">V</button>
+                <button class="key" key_code="66" key_translate="B">B</button>
+                <button class="key" key_code="78" key_translate="N">N</button>
+                <button class="key" key_code="188" key_translate="Comma">,</button>
+                <button class="key" key_code="190" key_translate="Period">.</button>
+                <button class="key" key_code="191" key_translate="Slash">/</button>
+                <button class="key" key_code="223" key_translate="Exclamation">!</button>
+                <button class="key key_t6" key_code="" key_translate="Right Shift"><i class="bi bi-shift-fill"></i></button>
+                <div class="spacer spacer_90"></div> <!-- Espace de 30px -->
+                <button class="key" key_code="38" key_translate="Arrow Up"><i class="bi bi-arrow-up-square-fill"></i></button>
+                <div class="spacer spacer_90"></div> <!-- Espace de 30px -->
+                <button class="key" key_code="97" key_translate="NUMPAD_1">1</button>
+                <button class="key" key_code="98" key_translate="NUMPAD_2">2</button>
+                <button class="key" key_code="99" key_translate="NUMPAD_3">3</button>
+            </div>
+            
+            <div class="keyboard-row">
+                <button class="key key_t3" key_code="" key_translate="Left Control">CTRL</button>
+                <button class="key" key_code="" key_translate="Windows"><i class="bi bi-windows"></i></button>
+                <button class="key key_t3" key_code="" key_translate="Left Alt">ALT</button>
+                <button class="key key_t7" key_code="32" key_translate="Space"></button>
+                <button class="key key_t3" key_code="" key_translate="Right Alt">ALT</button>
+                <button class="key" key_code="" key_translate="Function">FN</button>
+                <button class="key" key_code="" key_translate="Menu"><i class="bi bi-menu-button-wide-fill"></i></button>
+                <button class="key key_t3" key_code="" key_translate="Right Control">CTRL</button>
+                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                <button class="key" key_code="37" key_translate="Arrow Left"><i class="bi bi-arrow-left-square-fill"></i></button>
+                <button class="key" key_code="40" key_translate="Arrow Down"><i class="bi bi-arrow-down-square-fill"></i></button>
+                <button class="key" key_code="39" key_translate="Arrow Right"><i class="bi bi-arrow-right-square-fill"></i></button>
+                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                <button class="key key_t8" key_code="96" key_translate="NUMPAD_0">0</button>
+                <button class="key" key_code="110" key_translate="NUMPAD_Period">.</button>
+                <button class="key" key_code="13" key_translate="NUMPAD_Enter"><i class="bi bi-arrow-return-left"></i></button>
+            </div>
+            
+        </div>
+    </script>
+</body>
+
+</html>

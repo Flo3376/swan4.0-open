@@ -28,7 +28,7 @@ async function generateXML(testConfig, config) {
         ruleElement.ele('tag').text('out.action=new Object();');
         ruleElement.ele('item', config.global.name);
         const oneOfElement = ruleElement.ele('one-of');
-        rule.question.forEach(question => {
+        rule.questions.forEach(question => {
             oneOfElement.ele('item', {}, question);
         });
         ruleElement.ele('tag').text(`out.action.action="${rule.action}";`);

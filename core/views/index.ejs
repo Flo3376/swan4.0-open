@@ -48,6 +48,7 @@
             color: #ccc;
             /* Couleur du texte pour les infobulles */
         }
+
         .keyboard {
             display: flex;
             flex-direction: column;
@@ -55,7 +56,7 @@
 
         .keyboard-row {
             display: flex;
-            
+
             margin: 5px 0;
         }
 
@@ -69,16 +70,18 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         .key_t2 {
             padding: 10px;
             margin: 0 5px;
-            width: 50px;
+            width: 55px;
             text-align: center;
             cursor: pointer;
             background-color: #eee;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         .key_t3 {
             padding: 10px;
             margin: 0 5px;
@@ -89,6 +92,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         .key_t4 {
             padding: 10px;
             margin: 0 5px;
@@ -99,6 +103,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         .key_t5 {
             padding: 10px;
             margin: 0 5px;
@@ -109,14 +114,62 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
+        .key_t6 {
+            padding: 10px;
+            margin: 0 5px;
+            width: 130px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .key_t7 {
+            padding: 10px;
+            margin: 0 5px;
+            width: 318px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .key_t8 {
+            padding: 10px;
+            margin: 0 5px;
+            width: 95px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
         .spacer {
-        display: inline-block;
-        height: 10px; /* Hauteur pour garder l'alignement avec les touches si nécessaire */
+            display: inline-block;
+            height: 10px;
+            /* Hauteur pour garder l'alignement avec les touches si nécessaire */
+        }
+
+        .spacer_100 {
+            width: 100px;
+        }
+
+        .spacer_90 {
+            width: 90px;
+        }
+
+        .spacer_295 {
+            width: 295px;
         }
 
         .spacer_50 {
             width: 50px;
         }
+
         .spacer_40 {
             width: 37px;
         }
@@ -124,6 +177,7 @@
         .spacer_30 {
             width: 30px;
         }
+
         .spacer_30 {
             width: 20px;
         }
@@ -131,16 +185,60 @@
         .spacer_10 {
             width: 20px;
         }
-        .modal-dialog {
-    max-width: 90%; /* ou une autre largeur selon les besoins */
-    height: auto;  /* ajuste la hauteur automatiquement selon le contenu */
-}
+
+        .key-active {
+            background-color: #4CAF50;
+            /* Vert, ou toute autre couleur qui indique "actif" */
+            color: white;
+        }
+
+        .modal-xl {
+            --bs-modal-width: 1225px;
+        }
+
+        .modal-content {
+            background-color: #333;
+            /* Gris foncé */
+            color: #fff;
+            /* Texte blanc pour contraster avec le fond sombre */
+        }
+
+        .modal-header,
+        .modal-footer {
+            background-color: #222;
+            /* Un gris encore plus foncé pour les headers et footers */
+            border-color: #444;
+            /* Une bordure légèrement plus claire pour délimiter les sections */
+        }
+
+        .modal-body {
+            background-color: #333;
+        }
+
+        /* Boutons dans le modal footer pour un meilleur contraste */
+        .modal-footer .btn {
+            background-color: #555;
+            /* Gris moyen pour les boutons */
+            color: #fff;
+            /* Texte blanc */
+        }
+
+        .modal-footer .btn:hover {
+            background-color: #666;
+            /* Un gris légèrement plus clair au survol */
+        }
+
+        /* Modifier les couleurs pour les liens si nécessaire */
+        .modal-content a {
+            color: #4aa;
+            /* Une couleur de lien claire pour un bon contraste */
+        }
     </style>
 </head>
 
 <body>
     <!-- Modal pour la configuration de Keyboard Key -->
-    <div class="modal modal-xl" id="keyboardKeyModal" tabindex="-1">
+    <div class="modal modal-xl" id="keyboard_Modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -150,7 +248,162 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="keyboard-container"></div>
+                    <div class="keyboard-container">
+                        <div class="keyboard">
+                            <div class="keyboard-row">
+                                <button class="key" key_code="27" key_translate="Escape">ESC</button>
+                                <div class="spacer spacer_40"></div> <!-- Espace de 50px -->
+                                <button class="key" key_code="112" key_translate="F1">F1</button>
+                                <button class="key" key_code="113" key_translate="F2">F2</button>
+                                <button class="key" key_code="114" key_translate="F3">F3</button>
+                                <button class="key" key_code="115" key_translate="F4">F4</button>
+                                <div class="spacer spacer_40"></div> <!-- Espace de 50px -->
+                                <button class="key" key_code="116" key_translate="F5">F5</button>
+                                <button class="key" key_code="117" key_translate="F6">F6</button>
+                                <button class="key" key_code="118" key_translate="F7">F7</button>
+                                <button class="key" key_code="119" key_translate="F8">F8</button>
+                                <div class="spacer spacer_40"></div> <!-- Espace de 50px -->
+                                <button class="key" key_code="120" key_translate="F9">F9</button>
+                                <button class="key" key_code="121" key_translate="F10">F10</button>
+                                <button class="key" key_code="122" key_translate="F11">F11</button>
+                                <button class="key" key_code="123" key_translate="F12">F12</button>
+                                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                                <button class="key" key_code="44" key_translate="Print Screen">PRT</button>
+                                <button class="key" key_code="145" key_translate="Scroll Lock ">AD</button>
+                                <button class="key" key_code="19" key_translate="Pause">PA</button>
+                            </div>
+                            <br>
+                            <div class="keyboard-row">
+                                <button class="key" key_code="222" key_translate="²">²</button>
+                                <button class="key" key_code="49" key_translate="1">1</button>
+                                <button class="key" key_code="50" key_translate="2">2</button>
+                                <button class="key" key_code="51" key_translate="3">3</button>
+                                <button class="key" key_code="52" key_translate="4">4</button>
+                                <button class="key" key_code="53" key_translate="5">5</button>
+                                <button class="key" key_code="54" key_translate="6">6</button>
+                                <button class="key" key_code="55" key_translate="7">7</button>
+                                <button class="key" key_code="56" key_translate="8">8</button>
+                                <button class="key" key_code="57" key_translate="9">9</button>
+                                <button class="key" key_code="48" key_translate="0">0</button>
+                                <button class="key" key_code="219" key_translate="Degree">°</button>
+                                <button class="key" key_code="187" key_translate="Plus">+</button>
+                                <button class="key key_t5" key_code="8" key_translate="Backspace"><i
+                                        class="bi bi-backspace"></i></button>
+                                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                                <button class="key" key_code="45" key_translate="Insert">INS</button>
+                                <button class="key" key_code="36" key_translate="Home"><i
+                                        class="bi bi-house"></i></button>
+                                <button class="key" key_code="33" key_translate="Page Up"><i
+                                        class="bi bi-arrow-up-square-fill"></i></button>
+                                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                                <button class="key" key_code="144" key_translate="NUMPAD_Lock"><i
+                                        class="bi bi-file-lock"></i></button>
+                                <button class="key" key_code="111" key_translate="NUMPAD_Divide">/</button>
+                                <button class="key" key_code="106" key_translate="NUMPAD_Multiply">*</button>
+                                <button class="key" key_code="109" key_translate="NUMPAD_Subtract">-</button>
+                            </div>
+
+                            <div class="keyboard-row">
+                                <button class="key key_t3" key_code="9" key_translate="Tab">tab</button>
+                                <button class="key" key_code="65" key_translate="A">A</button>
+                                <button class="key" key_code="90" key_translate="Z">Z</button>
+                                <button class="key" key_code="69" key_translate="E">E</button>
+                                <button class="key" key_code="82" key_translate="R">R</button>
+                                <button class="key" key_code="84" key_translate="T">T</button>
+                                <button class="key" key_code="89" key_translate="Y">Y</button>
+                                <button class="key" key_code="85" key_translate="U">U</button>
+                                <button class="key" key_code="73" key_translate="I">I</button>
+                                <button class="key" key_code="79" key_translate="O">O</button>
+                                <button class="key" key_code="80" key_translate="P">P</button>
+                                <button class="key" key_code="221" key_translate="Caret">^</button>
+                                <button class="key" key_code="186" key_translate="Dollar">$</button>
+                                <button class="key key_t4" key_code="13" key_translate="Enter">ENTER</button>
+                                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                                <button class="key" key_code="46" key_translate="Delete">SUP</button>
+                                <button class="key" key_code="35" key_translate="End">FIN</button>
+                                <button class="key" key_code="34" key_translate="Page Down"><i
+                                        class="bi bi-arrow-down-square-fill"></i></button>
+                                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                                <button class="key" key_code="103" key_translate="NUMPAD_7">7</button>
+                                <button class="key" key_code="104" key_translate="NUMPAD_8">8</button>
+                                <button class="key" key_code="105" key_translate="NUMPAD_9">9</button>
+                                <button class="key" key_code="107" key_translate="NUMPAD_Plus">+</button>
+                            </div>
+                            <div class="keyboard-row">
+                                <button class="key key_t4" key_code="107" key_translate="Shift">MAJ</button>
+                                <button class="key" key_code="81" key_translate="Q">Q</button>
+                                <button class="key" key_code="83" key_translate="S">S</button>
+                                <button class="key" key_code="68" key_translate="D">D</button>
+                                <button class="key" key_code="70" key_translate="F">F</button>
+                                <button class="key" key_code="71" key_translate="G">G</button>
+                                <button class="key" key_code="72" key_translate="H">H</button>
+                                <button class="key" key_code="74" key_translate="J">J</button>
+                                <button class="key" key_code="75" key_translate="K">K</button>
+                                <button class="key" key_code="76" key_translate="L">L</button>
+                                <button class="key" key_code="77" key_translate="M">M</button>
+                                <button class="key" key_code="192" key_translate="Ù">ù</button>
+                                <button class="key" key_code="220" key_translate="Asterisk">*</button>
+                                <div class="spacer spacer_295"></div> <!-- Espace de 30px -->
+                                <button class="key" key_code="100" key_translate="NUMPAD_4">4</button>
+                                <button class="key" key_code="101" key_translate="NUMPAD_5">5</button>
+                                <button class="key" key_code="102" key_translate="NUMPAD_6">6</button>
+                            </div>
+                            <div class="keyboard-row">
+                                <button class="key key_t2" key_code="" key_translate="Left Shift"
+                                    data-modifier="true"><i class="bi bi-shift-fill"></i></button>
+                                <button class="key" key_code="226" key_translate="Greater Than">></button>
+                                <button class="key" key_code="87" key_translate="W">W</button>
+                                <button class="key" key_code="88" key_translate="X">X</button>
+                                <button class="key" key_code="67" key_translate="C">C</button>
+                                <button class="key" key_code="86" key_translate="V">V</button>
+                                <button class="key" key_code="66" key_translate="B">B</button>
+                                <button class="key" key_code="78" key_translate="N">N</button>
+                                <button class="key" key_code="188" key_translate="Comma">,</button>
+                                <button class="key" key_code="190" key_translate="Period">.</button>
+                                <button class="key" key_code="191" key_translate="Slash">/</button>
+                                <button class="key" key_code="223" key_translate="Exclamation">!</button>
+                                <button class="key key_t6" key_code="" key_translate="Right Shift"
+                                    data-modifier="true"><i class="bi bi-shift-fill"></i></button>
+                                <div class="spacer spacer_90"></div> <!-- Espace de 30px -->
+                                <button class="key" key_code="38" key_translate="Arrow Up"><i
+                                        class="bi bi-arrow-up-square-fill"></i></button>
+                                <div class="spacer spacer_90"></div> <!-- Espace de 30px -->
+                                <button class="key" key_code="97" key_translate="NUMPAD_1">1</button>
+                                <button class="key" key_code="98" key_translate="NUMPAD_2">2</button>
+                                <button class="key" key_code="99" key_translate="NUMPAD_3">3</button>
+                            </div>
+
+                            <div class="keyboard-row">
+                                <button class="key key_t3" key_code="" key_translate="Left Control"
+                                    data-modifier="true">CTRL</button>
+                                <button class="key" key_code="" key_translate="Windows" data-modifier="true"><i
+                                        class="bi bi-windows"></i></button>
+                                <button class="key key_t3" key_code="" key_translate="Left Alt"
+                                    data-modifier="true">ALT</button>
+                                <button class="key key_t7" key_code="32" key_translate="Space"></button>
+                                <button class="key key_t3" key_code="" key_translate="Right Alt"
+                                    data-modifier="true">ALT</button>
+                                <button class="key" key_code="" key_translate="Function">FN</button>
+                                <button class="key" key_code="" key_translate="Menu"><i
+                                        class="bi bi-menu-button-wide-fill"></i></button>
+                                <button class="key key_t3" key_code="" key_translate="Right Control"
+                                    data-modifier="true">CTRL</button>
+                                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                                <button class="key" key_code="37" key_translate="Arrow Left"><i
+                                        class="bi bi-arrow-left-square-fill"></i></button>
+                                <button class="key" key_code="40" key_translate="Arrow Down"><i
+                                        class="bi bi-arrow-down-square-fill"></i></button>
+                                <button class="key" key_code="39" key_translate="Arrow Right"><i
+                                        class="bi bi-arrow-right-square-fill"></i></button>
+                                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
+                                <button class="key key_t8" key_code="96" key_translate="NUMPAD_0">0</button>
+                                <button class="key" key_code="110" key_translate="NUMPAD_Period">.</button>
+                                <button class="key" key_code="13" key_translate="NUMPAD_Enter"><i
+                                        class="bi bi-arrow-return-left"></i></button>
+                            </div>
+
+                        </div>
+                    </div>
                     <form id="keyConfigForm">
                         <div class="form-group">
                             <label for="keyInput">Touche:</label>
@@ -159,19 +412,21 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="saveKeyConfig()">Sauvegarder</button>
+                    <button type="button" class="btn btn-primary" onclick="updateKeyInput()"
+                        data-bs-dismiss="modal">Sauvegarder</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="container-fluid h-100">
         <div class="row h-100">
             <div class="col-md-4" id="leftPanel">
                 <div class="d-flex justify-content-between align-items-center p-3 mb-2 bg-dark">
                     <button class="btn btn-primary" onclick="addCard()" data-bs-toggle="tooltip"
                         data-bs-placement="bottom" title="Ajouter une action"><i class="bi bi-plus-circle"></i></button>
-                    <button class="btn btn-success" onclick="saveChanges()" data-bs-toggle="tooltip"
+                    <button class="btn btn-success" onclick="save_lexique()" data-bs-toggle="tooltip"
                         data-bs-placement="bottom" title="Sauvegarder les changements"><i
                             class="bi bi-save"></i></button>
                 </div>
@@ -193,21 +448,29 @@
                     <h3 class="info_user">Cliquez sur une action pour voir les détails</h3>
 
                     <form class="rule-form" style="display: none;">
-                        <h5 class="card-title"><span id="title_card"></span>&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;<button class="btn btn-success" onclick="saveCard()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Sauvegarder la carte"><i class="bi bi-save"></i></button>
-                            <button class="btn btn-sm btn-outline-danger" onclick="deleteCard()" title="Supprimer la carte"><i class="bi bi-trash"></i></button>
-                            <button class="btn btn-sm btn-outline-warning" onclick="duplicateCard()" title="Dupliquer la carte"><i class="bi bi-files"></i></button></h5>
+                        <h5 class="card-title"><span id="title_card"></span>&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;<button
+                                class="btn btn-success" onclick="saveCard()" data-bs-toggle="tooltip"
+                                data-bs-placement="bottom" title="Sauvegarder la carte"><i
+                                    class="bi bi-save"></i></button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteCard()"
+                                title="Supprimer la carte"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-sm btn-outline-warning" onclick="duplicateCard()"
+                                title="Dupliquer la carte"><i class="bi bi-files"></i></button>
+                        </h5>
                         <hr>
                         <h6>Code:</h6>
-                        <input type="text" id="code" name="code" class="form-control">
+                        <input type="text" id="code" name="code" class="form-control" disabled>
                         <br>
                         <h6>Description:</h6>
                         <input type="text" id="description" name="description" class="form-control">
                         <hr>
                         <h6>Questions:</h6>
-                        <textarea class="form-control mb-2 auto-height" name="questions" id="questions" rows="5"></textarea>
+                        <textarea class="form-control mb-2 auto-height" name="questions" id="questions"
+                            rows="5"></textarea>
                         <br>
                         <h6>Réponses:</h6>
-                        <textarea class="form-control mb-2 auto-height" name="responses" id="responses" rows="5"></textarea>
+                        <textarea class="form-control mb-2 auto-height" name="responses" id="responses"
+                            rows="5"></textarea>
                         <hr>
                         <div>
                             <strong>Détails de l'interaction:</strong>
@@ -235,14 +498,16 @@
                         <div class="durationSelect">
                             <strong>Durée:</strong>
                             <select class="form-control mb-2 durationSelect" id="durationSelect" name="duration">
-                                <option value="short" >Short</option>
+                                <option value="short">Short</option>
                                 <option value="long">Long</option>
                             </select>
                         </div>
                         <div class="action-Input">
-                            
-                            <strong>Action: <button class="btn btn-primary" id="modal_activator" data-modal-type="none"><i class="bi bi-pencil-fill"></i></button></strong>
-                            <input type="text" class="form-control action-Input"  id="actionInput" name="actionInput" disabled="">
+
+                            <strong>Action: <button class="btn btn-primary" id="modal_activator"
+                                    data-modal-type="none"><i class="bi bi-pencil-fill"></i></button></strong>
+                            <input type="text" class="form-control action-Input" id="actionInput" name="actionInput"
+                                disabled="">
                         </div>
                     </form>
                 </div>
@@ -254,6 +519,57 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script>
         var lexique = <%- JSON.stringify(data) %>;
+        var typeValue = "";
+        var actual_code_cards = "";
+
+        const modifierPriority = {
+            'Left Control': 1,
+            'Left Alt': 2,
+            'Left Shift': 3,
+            'Right  Control': 4,
+            'Right  Alt': 5,
+            'Right Shift': 6
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Ajout des écouteurs pour les sélections des options
+            document.getElementById('outputSelect').addEventListener('change', updateVisibility);
+            document.getElementById('typeSelect').addEventListener('change', updateVisibility);
+
+            // Ajout des écouteurs pour les actions du formulaire
+            document.querySelector('.rule-form').addEventListener('submit', function (event) {
+                event.preventDefault(); // Empêche la soumission du formulaire
+                // Implémentez ici des logiques supplémentaires si nécessaire
+            });
+
+            // Initialisation des tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+
+            const keys = document.querySelectorAll('.key');
+            keys.forEach(key => {
+                key.removeEventListener('click', handleKeyClick);
+                key.addEventListener('click', handleKeyClick);
+            });
+
+
+        });
+
+        document.getElementById('modal_activator').addEventListener('click', function () {
+            console.log("modal")
+            var modalType = this.getAttribute('data-modal-type');
+
+            //remise à zero du clavier
+            document.querySelectorAll('.key').forEach(k => k.classList.remove('key-active'));
+            document.getElementById('keyInput').value = "";
+
+            var modalElement = document.getElementById('keyboard_Modal');
+            var myModal = new bootstrap.Modal(modalElement);
+            myModal.show();
+        });
+
         function addCard() {
             console.log("Ajouter une nouvelle action");
         }
@@ -263,7 +579,64 @@
         }
 
         function saveCard() {
-            console.log("Sauvegarder les changements", cardId);
+            console.log("Sauvegarder les changements pour la carte:", actual_code_cards);
+
+             // Création de l'objet interact basé sur la valeur de 'output'
+            let outputValue = document.getElementById('outputSelect').value;
+            let interact = {
+                output: outputValue
+            };
+
+            let isNewCard = !(actual_code_cards in lexique);
+            
+            if (isNewCard) {
+                console.log("Création d'une nouvelle carte.");
+            } else {
+                console.log("Mise à jour d'une carte existante.");
+            }
+
+            // Ajouter conditionnellement les autres propriétés si 'output' n'est pas 'none'
+            if (outputValue !== "none") {
+                interact.type = document.getElementById('typeSelect').value;
+                interact.action_input = document.getElementById('actionInput').value;
+                interact.duration = document.getElementById('durationSelect').value;
+            }
+
+            // Construction de l'objet card
+            let card = {
+                root: actual_code_cards,
+                rules: [{
+                    action: actual_code_cards,
+                    description: document.getElementById('description').value,
+                    questions: document.getElementById('questions').value.split("\n"),
+                    responses: document.getElementById('responses').value.split("\n"),
+                    interact: interact
+                }]
+            };
+
+            lexique[actual_code_cards] = card;
+            console.log("Carte sauvegardée :", card);
+
+            //save_lexique();
+        }
+
+        function save_lexique() {
+            const url = '/update_lexique'; // Remplacez par l'URL du serveur qui gère la sauvegarde
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(lexique)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Succès:', data);
+            })
+            .catch((error) => {
+                console.error('Erreur:', error);
+            });
         }
 
         function editCard(cardId) {
@@ -279,282 +652,110 @@
         }
 
         function showDetails(actionId) {
+            actual_code_cards = actionId;
             var details = lexique[actionId];
             if (details) {
-                var rules = details.rules[0]; // Assumant qu'il y a toujours au moins une règle
+                var rules = details.rules[0];
 
-                // Cacher les éléments info_user
-                document.querySelectorAll('.info_user').forEach(function(element) {
-                    element.style.display = 'none';
-                });
+                // Gérer l'affichage des éléments UI
+                document.querySelectorAll('.info_user').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('.rule-form').forEach(el => el.style.display = '');
 
-                // Afficher les éléments rule-form
-                document.querySelectorAll('.rule-form').forEach(function(element) {
-                    element.style.display = '';
-                });
-                document.getElementById('title_card').innerHTML = actionId;
+                // Mettre à jour les champs du formulaire
+                document.getElementById('title_card').textContent = actionId;
                 document.getElementById('code').value = actionId;
-
-                if(rules.description) document.getElementById('description').value = rules.description;
-                if(rules.question) document.getElementById('questions').value = rules.question.join('\n').trim();
-                if(rules.responses) document.getElementById('responses').value = rules.responses.join('\n').trim();
-
-                // Récupération de l'élément select outputSelect
-                let selectElement = document.getElementById('outputSelect');
-
-                // Détermination de la valeur à sélectionner, avec vérification de la présence de rules.interact.output
-                let selectedValue = rules.interact.output ? rules.interact.output : "none";
-
-                // Sélection de l'option
-                Array.from(selectElement.options).forEach(option => {
-                    option.selected = (option.value === selectedValue);
+                ['description', 'questions', 'responses'].forEach(field => {
+                    //console.log(field, rules[field]);  // Affiche la structure des données dans la console
+                    if (rules[field]) {
+                        if (Array.isArray(rules[field])) {
+                            document.getElementById(field).value = rules[field].join('\n').trim();
+                        } else {
+                            document.getElementById(field).value = rules[field].trim();
+                        }
+                    }
                 });
 
-                // Récupération de l'élément select typeSelect
-                selectElement = document.getElementById('typeSelect');
-
-                // Détermination de la valeur à sélectionner, avec vérification de la présence de rules.interact.output
-                selectedValue = rules.interact.type ? rules.interact.type : "none";
-
-                // Sélection de l'option
-                Array.from(selectElement.options).forEach(option => {
-                    option.selected = (option.value === selectedValue);
+                // Mettre à jour les sélections des listes déroulantes
+                ['output', 'type', 'duration'].forEach(attr => {
+                    let selectValue = rules.interact[attr] || "none";
+                    let selectElement = document.getElementById(attr + 'Select');
+                    Array.from(selectElement.options).forEach(option => {
+                        option.selected = (option.value === selectValue);
+                    });
                 });
 
-                // Récupération de l'élément select durationSelect
-                selectElement = document.getElementById('durationSelect');
+                document.getElementById('actionInput').value = rules.interact && rules.interact.action_input ? rules.interact.action_input : '';
 
-                // Détermination de la valeur à sélectionner, avec vérification de la présence de rules.interact.output
-                selectedValue = rules.interact.output ? rules.interact.duration : "short";
-
-                // Sélection de l'option
-                Array.from(selectElement.options).forEach(option => {
-                    option.selected = (option.value === selectedValue);
-                });
-
-                if(rules.action) document.getElementById('actionInput').value = rules.action;
-                
                 updateVisibility();
             }
         }
 
         function updateVisibility() {
-            const outputSelect = document.getElementById('outputSelect');
-            const typeSelect = document.getElementById('typeSelect');
-            const modalActivator = document.getElementById('modal_activator');
+            const outputValue = document.getElementById('outputSelect').value;
+            typeValue = document.getElementById('typeSelect').value;
 
-            const outputValue = outputSelect.value;
-            const typeValue = typeSelect.value;
+            document.querySelectorAll('.type-select, .durationSelect, .action-Input').forEach(el => {
+                el.style.display = (outputValue === 'none') ? 'none' : '';
+            });
 
-            console.log(outputValue)
-            switch (outputValue) {
-                case 'none':
-                    var elements = document.querySelectorAll('.type-select, .durationSelect, .action-Input');
-                    elements.forEach(element => {
-                        element.style.display = 'none'; // Manipule chaque élément ayant la classe 'some-class'
-                    });
+            filterTypeOptions(outputValue);
 
-                    // Forcer les valeurs
-                    document.getElementById('typeSelect').value = 'none';
-                    document.getElementById('durationSelect').value = 'none';
-                    document.getElementById('actionInput').value = '';
-                    modalActivator.setAttribute('data-modal-type', 'none');
-                    break;
-                case 'keyboard':
-                    var elements = document.querySelectorAll('.type-select, .durationSelect, .action-Input');
-                    elements.forEach(element => {
-                        element.style.display = ''; // Manipule chaque élément ayant la classe 'some-class'
-                    });
+            // Mettre à jour le type de modal selon l'output et le type
+            document.getElementById('modal_activator').setAttribute('data-modal-type',
+                outputValue === 'keyboard' ? 'keyboard_' + typeValue :
+                    outputValue === 'mouse' ? 'mouse_' + typeValue : 'none'
+            );
 
-                    // Filtre des options peut être ajouté ici
-                    filterTypeOptions(outputValue); // Appel à la fonction de filtrage des options
-
-                    console.log(typeValue)
-
-                    // Déterminer quel modal ouvrir basé sur le type spécifique de clavier
-                    if (typeValue === 'key' || typeValue === 'combo' || typeValue === 'sequence' || typeValue === 'phrase') {
-                        modalActivator.setAttribute('data-modal-type', 'keyboard_' + typeValue);
-                    }
-
-                    break;
-                case 'mouse':
-                    var elements = document.querySelectorAll('.type-select, .durationSelect, .action-Input');
-                    elements.forEach(element => {
-                        element.style.display = ''; // Manipule chaque élément ayant la classe 'some-class'
-                    });
-
-                    // Filtre des options peut être ajouté ici
-                    filterTypeOptions(outputValue); // Appel à la fonction de filtrage des options
-
-                    // Modifier pour les types de souris
-                    if (typeValue === 'mouseclick' || typeValue === 'mousemove') {
-                        modalActivator.setAttribute('data-modal-type', 'mouse_' + typeValue);
-                    }
-
-                    break;
-            }
         }
-
-        
 
         function filterTypeOptions(output) {
             const typeSelect = document.getElementById('typeSelect');
-            const options = typeSelect.options;
+            Array.from(typeSelect.options).forEach(option => {
+                option.hidden = (output === 'keyboard' && option.value.includes('mouse')) ||
+                    (output === 'mouse' && !option.value.includes('mouse'));
+            });
+        }
 
-            for (let option of options) {
-                // Masquer les options qui ne correspondent pas à l'output sélectionné
-                if (output === 'keyboard' && (option.value.includes('mouse'))) {
-                    option.hidden = true;
-                } else if (output === 'mouse' && !option.value.includes('mouse')) {
-                    option.hidden = true;
-                } else {
-                    option.hidden = false;
-                }
+        function updateKeyInput() {
+            document.getElementById('actionInput').value = document.getElementById('keyInput').value;
+        }
+
+        function handleKeyClick() {
+            // Gestion du mode "key" pour une touche unique
+            if (typeValue === "key") {
+                document.querySelectorAll('.key').forEach(k => k.classList.remove('key-active'));
+                this.classList.add('key-active');
+                document.getElementById('keyInput').value = this.getAttribute('key_translate');
+                updateKeyInput();
+            }
+            // Gestion du mode "combo" pour des combinaisons de touches
+            else if (typeValue === "combo") {
+                this.classList.toggle('key-active');
+                updateComboInput();
             }
         }
 
-        function openModalBasedOnType(modalType) {
-            switch (modalType) {
-                case 'keyboard_key':
-                    $('#keyboardKeyModal').modal('show');
-                    openKeyboardModal();
-                    break;
-                case 'combo':
-                    $('#keyboardComboModal').modal('show');
-                    break;
-                case 'sequence':
-                    $('#keyboardSequenceModal').modal('show');
-                    break;
-                case 'phrase':
-                    $('#keyboardPhraseModal').modal('show');
-                    break;
-                case 'mouseclick':
-                    $('#mouseClickModal').modal('show');
-                    break;
-                case 'mousemove':
-                    $('#mouseMoveModal').modal('show');
-                    break;
-                default:
-                    console.log('No modal associated with this type : ' +modalType);
-                    break;
+        function updateComboInput() {
+            const activeKeys = Array.from(document.querySelectorAll('.key.key-active'));
+            const modifiers = activeKeys.filter(key => key.hasAttribute('data-modifier'));
+
+            // Trier les modificateurs selon la carte de priorité
+            modifiers.sort((a, b) => {
+                const aPriority = modifierPriority[a.getAttribute('key_translate')] || 999;
+                const bPriority = modifierPriority[b.getAttribute('key_translate')] || 999;
+                return aPriority - bPriority;
+            });
+
+            const nonModifiers = activeKeys.filter(key => !key.hasAttribute('data-modifier'));
+
+            // Combinez d'abord les modificateurs triés, puis les non-modificateurs
+            const keyInput = document.getElementById('keyInput');
+            if (keyInput) {
+                keyInput.value = [...modifiers, ...nonModifiers]
+                    .map(key => key.getAttribute('key_translate'))
+                    .join(' + ');
             }
         }
-
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-
-        document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('outputSelect').addEventListener('change', updateVisibility);
-        document.getElementById('typeSelect').addEventListener('change', updateVisibility);
-
-
-            var modalActivator = document.getElementById('modal_activator');
-            if (modalActivator) {
-                modalActivator.addEventListener('click', function () {
-                    var modalType = this.getAttribute('data-modal-type');
-                    openModalBasedOnType(modalType);
-                });
-            } else {
-                console.error('Modal activator button not found');
-            }
-        });
-        document.querySelector('.rule-form').addEventListener('submit', function(event) {
-            event.preventDefault();  // Empêche la soumission du formulaire
-            // Vous pouvez ajouter ici d'autres logiques
-        });
-        function openKeyboardModal() {
-            const keyboardHtml = document.getElementById('keyboard-template').innerHTML;
-            document.getElementById('keyboard-container').innerHTML = keyboardHtml;
-            $('#keyboardModal').modal('show');
-        }
-    </script>
-    <script type="text/template" id="keyboard-template">
-        <div class="keyboard">
-            <div class="keyboard-row">
-                <button class="key">ESC</button>
-                <div class="spacer spacer_40"></div> <!-- Espace de 50px -->
-                <button class="key">F1</button>
-                <button class="key">F2</button>
-                <button class="key">F3</button>
-                <button class="key">F4</button>
-                <div class="spacer spacer_40"></div> <!-- Espace de 50px -->
-                <button class="key">F5</button>
-                <button class="key">F6</button>
-                <button class="key">F7</button>
-                <button class="key">F8</button>
-                <div class="spacer spacer_40"></div> <!-- Espace de 50px -->
-                <button class="key">F9</button>
-                <button class="key">F10</button>
-                <button class="key">F11</button>
-                <button class="key">F12</button>
-                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
-                <button class="key">PRT</button>
-                <button class="key">AD</button>
-                <button class="key">PA</button>
-            </div><br>
-            <div class="keyboard-row">
-                <button class="key">²</button>
-                <button class="key">1</button>
-                <button class="key">2</button>
-                <button class="key">3</button>
-                <button class="key">4</button>
-                <button class="key">5</button>
-                <button class="key">6</button>
-                <button class="key">7</button>
-                <button class="key">8</button>
-                <button class="key">9</button>
-                <button class="key">0</button>
-                <button class="key">°</button>
-                <button class="key">+</button>
-                <button class="key_t5"><i class="bi bi-backspace"></i></button>
-                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
-                <button class="key">INS</button>
-                <button class="key"><i class="bi bi-house"></i></button>
-                <button class="key"><i class="bi bi-arrow-up-square-fill"></i></button>
-            </div>
-            <div class="keyboard-row">
-                <button class="key_t3">tab</button>
-                <button class="key">A</button>
-                <button class="key">Z</button>
-                <button class="key">E</button>
-                <button class="key">R</button>
-                <button class="key">T</button>
-                <button class="key">Y</button>
-                <button class="key">U</button>
-                <button class="key">I</button>
-                <button class="key">O</button>
-                <button class="key">P</button>
-                <button class="key">^</button>
-                <button class="key">$</button>
-                <button class="key_t4">ENTER</button>
-                <div class="spacer spacer_40"></div> <!-- Espace de 30px -->
-                <button class="key">SUP</button>
-                <button class="key">FIN</button>
-                <button class="key"><i class="bi bi-arrow-down-square-fill"></i></button>
-                
-                <!-- Ajoutez d'autres touches -->
-            </div>
-            <div class="keyboard-row">
-                <button class="key_t4">MAJ</button>
-                <button class="key">Q</button>
-                <button class="key">S</button>
-                <button class="key">D</button>
-                <button class="key">F</button>
-                <button class="key">G</button>
-                <button class="key">H</button>
-                <button class="key">J</button>
-                <button class="key">K</button>
-                <button class="key">L</button>
-                <button class="key">M</button>
-                <button class="key">ù</button>
-                <button class="key">*</button>
-                
-                <!-- Ajoutez d'autres touches -->
-            </div>
-            <!-- Plus de lignes selon nécessaire -->
-        </div>
     </script>
 </body>
 

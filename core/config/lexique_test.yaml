@@ -8,9 +8,8 @@ global:
 test_swan:
   root: test_swan
   rules:
-    - action: test_swan
-      description: >-
-        test interne pour voir si le tokenizer fonction, aucune utilité dans le
+    - description: >-
+        test interne pour voir si les tokenizer fonction, aucune utilité dans le
         jeux
       questions:
         - tu es là
@@ -37,13 +36,16 @@ test_swan:
         - Bonjour ! Toujours prête à vous assister avec enthousiasme.
         - Salutations ! Toujours à votre écoute.
         - Hello ! Je suis ici, prêt à vous aider à tout moment.
+      action: test_swan
       interact:
         output: none
+        type: none
+        action_input: none
+        duration: short
 test_swan_2:
   root: test_swan_2
   rules:
-    - action: test_swan_2
-      description: test interne ou départ de conversation
+    - description: test interne ou départ de conversation
       questions:
         - 'Tu te portes bien '
         - Ça va
@@ -63,8 +65,12 @@ test_swan_2:
         - Je suis en bonne santé et heureux.
         - Tout est en ordre, merci.
         - Je vais bien, merci de t'en soucier.
+      action: test_swan_2
       interact:
         output: none
+        type: none
+        action_input: none
+        duration: short
 jump:
   root: jump
   rules:
@@ -274,8 +280,7 @@ ready_to_fly:
 spotify_play:
   root: spotify_play
   rules:
-    - action: spotify_play
-      description: spotify_play
+    - description: spotify_play
       questions:
         - Peux-tu démarrer la musique
         - Mets de la musique
@@ -285,13 +290,16 @@ spotify_play:
       responses:
         - Musique démarrée sur Spotify.
         - Lecture en cours.
+      action: spotify_play
       interact:
-        output: none
+        output: keyboard
+        type: none
+        action_input: none
+        duration: short
 pause_music:
-  root: pause_music
+  root: spotify_pause_music
   rules:
-    - action: pause_music
-      description: spotify_pause_music
+    - description: spotify_pause_music
       questions:
         - Peux-tu mettre en pause
         - Mets la musique en pause
@@ -301,13 +309,16 @@ pause_music:
       responses:
         - Musique mise en pause.
         - Pause activée.
+      action: spotify_pause_music
       interact:
-        output: none
+        output: keyboard
+        type: none
+        action_input: none
+        duration: short
 next_track:
-  root: next_track
+  root: spotify_next_track
   rules:
-    - action: next_track
-      description: spotify_next_track
+    - description: spotify_next_track
       questions:
         - Peux-tu passer à la suivante
         - Suivant sur Spotify
@@ -317,13 +328,16 @@ next_track:
       responses:
         - Piste suivante jouée.
         - Changement de piste effectué.
+      action: spotify_next_track
       interact:
-        output: none
+        output: keyboard
+        type: none
+        action_input: none
+        duration: short
 previous_track:
-  root: previous_track
+  root: spotify_previous_track
   rules:
-    - action: previous_track
-      description: spotify_previous_track
+    - description: spotify_previous_track
       questions:
         - Peux-tu passer à la précédente
         - précédent sur Spotify
@@ -332,13 +346,16 @@ previous_track:
       responses:
         - Piste précédente jouée.
         - Changement de piste effectué.
+      action: spotify_previous_track
       interact:
-        output: none
+        output: keyboard
+        type: none
+        action_input: none
+        duration: short
 increase_volume:
-  root: increase_volume
+  root: spotify_increase_volume
   rules:
-    - action: increase_volume
-      description: spotify_increase_volume
+    - description: spotify_increase_volume
       questions:
         - Augmente le volume
         - Augmente la musique
@@ -347,13 +364,16 @@ increase_volume:
       responses:
         - Volume augmenté.
         - C'est maintenant plus fort.
+      action: spotify_increase_volume
       interact:
-        output: none
+        output: keyboard
+        type: none
+        action_input: none
+        duration: short
 decrease_volume:
-  root: decrease_volume
+  root: spotify_decrease_volume
   rules:
-    - action: decrease_volume
-      description: spotify_decrease_volume
+    - description: spotify_decrease_volume
       questions:
         - Baisse le volume
         - Baisse la musique
@@ -362,8 +382,12 @@ decrease_volume:
       responses:
         - Volume diminué.
         - C'est maintenant plus doux.
+      action: spotify_decrease_volume
       interact:
-        output: none
+        output: keyboard
+        type: none
+        action_input: none
+        duration: short
 quantum_jump_start:
   root: quantum_jump_start
   rules:
@@ -444,8 +468,7 @@ combat_mod:
 system_restart:
   root: system_restart
   rules:
-    - action: system_restart
-      description: system_restart
+    - description: system_restart
       questions:
         - Peux-tu redémarrer
         - Redémarre l'assistant
@@ -454,5 +477,8 @@ system_restart:
       responses:
         - Redémarrage de l'assistant en cours.
         - Je redémarre, à tout de suite.
+      action: system_restart
       interact:
-        output: none
+        output: keyboard
+        type: none
+        action_input: none

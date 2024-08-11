@@ -15,6 +15,7 @@
     ],
     "code": "test_swan",
     "response": [
+      "Non, je dort encore papa",
       "Bonjour ! Heureux de vous voir, prêt à aider.",
       "Salut ! Je suis là, à votre service.",
       "Bonjour ! Comment puis-je vous assister aujourd'hui ?",
@@ -28,9 +29,7 @@
       "Hello ! Je suis ici, prêt à vous aider à tout moment."
     ],
     "action": {
-      "type": "none",
-      "key": "none",
-      "duration": "short"
+      "output": "none"
     }
   },
   {
@@ -57,9 +56,7 @@
       "Je vais bien, merci de t'en soucier."
     ],
     "action": {
-      "type": "none",
-      "key": "none",
-      "duration": "short"
+      "output": "none"
     }
   },
   {
@@ -72,8 +69,9 @@
       "d'accord"
     ],
     "action": {
-      "type": "keyboard",
-      "key": "ESPACE",
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "ESPACE",
       "duration": "short"
     }
   },
@@ -104,8 +102,9 @@
       "Les trains d'atterrissage sont en cours de rétraction."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "N",
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "N",
       "duration": "short"
     }
   },
@@ -134,8 +133,9 @@
       "Les trains d'atterrissage sont en position de vol."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "N",
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "N",
       "duration": "short"
     }
   },
@@ -152,8 +152,9 @@
       "Demande d'autorisation d'atterrir envoyée."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "f3",
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "f3",
       "duration": "short"
     }
   },
@@ -171,8 +172,9 @@
       "Demande d'autorisation de décoller envoyée."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "f3",
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "f3",
       "duration": "short"
     }
   },
@@ -191,8 +193,8 @@
       "Contrôle total activé, vous pouvez vous retirer."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "Y",
+      "output": "keyboard",
+      "action_input": "Y",
       "duration": "long"
     }
   },
@@ -214,8 +216,9 @@
       "Les portes sont déverrouillées et ouvertes."
     ],
     "action": {
-      "type": "keyboard",
-      "key": ")",
+      "output": "keyboard",
+      "type": "key",
+      "action_input": ")",
       "duration": "short"
     }
   },
@@ -237,8 +240,9 @@
       "Les portes sont déverrouillées et fermées."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "\\=",
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "\\=",
       "duration": "short"
     }
   },
@@ -256,8 +260,7 @@
       "Systèmes vérifiés et opérationnels, prêt pour le vol."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "ALTDROITE+R",
+      "output": "keyboard",
       "duration": "short"
     }
   },
@@ -275,9 +278,7 @@
       "Lecture en cours."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "none",
-      "duration": "short"
+      "output": "none"
     }
   },
   {
@@ -288,15 +289,13 @@
       "Met en pause",
       "coupe la musique"
     ],
-    "code": "spotify_pause_music",
+    "code": "pause_music",
     "response": [
       "Musique mise en pause.",
       "Pause activée."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "none",
-      "duration": "short"
+      "output": "none"
     }
   },
   {
@@ -307,15 +306,13 @@
       "Musique suivante",
       "Morceau suivant"
     ],
-    "code": "spotify_next_track",
+    "code": "next_track",
     "response": [
       "Piste suivante jouée.",
       "Changement de piste effectué."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "none",
-      "duration": "short"
+      "output": "none"
     }
   },
   {
@@ -325,15 +322,13 @@
       "Musique précédente",
       "morceaux précédent"
     ],
-    "code": "spotify_previous_track",
+    "code": "previous_track",
     "response": [
       "Piste précédente jouée.",
       "Changement de piste effectué."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "none",
-      "duration": "short"
+      "output": "none"
     }
   },
   {
@@ -343,15 +338,13 @@
       "Augmente le son",
       "Plus fort s'il te plaît"
     ],
-    "code": "spotify_increase_volume",
+    "code": "increase_volume",
     "response": [
       "Volume augmenté.",
       "C'est maintenant plus fort."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "none",
-      "duration": "short"
+      "output": "none"
     }
   },
   {
@@ -361,15 +354,13 @@
       "Baisse le son",
       "Moins fort s'il te plaît"
     ],
-    "code": "spotify_decrease_volume",
+    "code": "decrease_volume",
     "response": [
       "Volume diminué.",
       "C'est maintenant plus doux."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "none",
-      "duration": "short"
+      "output": "none"
     }
   },
   {
@@ -385,8 +376,9 @@
       "Saut quantique activé, accrochez-vous."
     ],
     "action": {
-      "type": "mouse",
-      "key": "left",
+      "output": "mouse",
+      "type": "mouse_click",
+      "action_input": "left",
       "duration": "long"
     }
   },
@@ -407,8 +399,9 @@
       "On a oublie quelque chose?"
     ],
     "action": {
-      "type": "mouse",
-      "key": "left",
+      "output": "mouse",
+      "type": "mouse_click",
+      "action_input": "left",
       "duration": "long"
     }
   },
@@ -426,8 +419,9 @@
       "ok je passe en mod navigation"
     ],
     "action": {
-      "type": "keyboard",
-      "key": "SHIFTDROITE+ù",
+      "output": "keyboard",
+      "type": "combo",
+      "action_input": "Right Shift + Ù",
       "duration": "short"
     }
   },
@@ -444,8 +438,9 @@
       "Nous sommes maintenant en mode combat."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "SHIFTDROITE+\\",
+      "output": "keyboard",
+      "type": "combo",
+      "action_input": "SHIFTDROITE+\\",
       "duration": "short"
     }
   },
@@ -462,8 +457,7 @@
       "Je redémarre, à tout de suite."
     ],
     "action": {
-      "type": "keyboard",
-      "key": "none"
+      "output": "none"
     }
   }
 ]

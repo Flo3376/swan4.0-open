@@ -46,6 +46,7 @@ const app = express();
 app.set('view engine', 'ejs'); // Utiliser EJS comme moteur de template
 app.set('views', path.join(__dirname, 'core', 'views'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Route pour afficher le formulaire
 app.get('/', (req, res) => {
@@ -61,11 +62,24 @@ app.get('/', (req, res) => {
     }
   });
 
-// Route pour traiter les données du formulaire
-app.post('/modifier', (req, res) => {
-  const nouvelleDonnee = req.body.data;
-  // Ici, vous pourriez ajouter du code pour mettre à jour une base de données
-  res.send(`Donnée mise à jour : ${nouvelleDonnee}`);
+  app.post('/update_lexique', (req, res) => {
+    const nouvelleDonnee = req.body;
+    // Convertir l'objet JSON en YAML
+    const yamlStr = yaml.dump(nouvelleDonnee);
+    console.log("YAML généré:", yamlStr); // Log pour voir le YAML généré
+
+    // Chemin du fichier où sauvegarder le YAML
+    const filePath = path.join(__dirname, 'core', 'config', 'lexique.yaml');
+
+    // Écrire les données dans le fichier YAML
+    fs2.writeFile(filePath, yamlStr, 'utf8', (err) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Erreur lors de la sauvegarde du fichier.');
+        } else {
+            res.json({ message: `Donnée mise à jour et sauvegardée dans ${filePath}` });
+        }
+    });
 });
 
 const PORT = 2954;
