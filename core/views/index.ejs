@@ -430,17 +430,10 @@
                         data-bs-placement="bottom" title="Sauvegarder les changements"><i
                             class="bi bi-save"></i></button>
                 </div>
-                <ul class="list-group">
-                    <% for (const key in data) { %>
-                        <% if (key !=="global" && data[key].rules) { %>
-                            <li class="list-group-item" onclick="showDetails('<%= key %>')">
-                                <% if (data[key].rules.length> 0) { %>
-                                    <%= data[key].rules[0].description %>
-                                        <% } %>
-                            </li>
-                            <% } %>
-                                <% } %>
-                </ul>
+                <div id="card_list">
+                    
+                </div>
+                
             </div>
 
             <div class="col-md-8" id="rightPanel">
@@ -519,6 +512,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script>
         var lexique = <%- JSON.stringify(data) %>;
+        refresh_cards();
         var typeValue = "";
         var actual_code_cards = "";
 
@@ -571,11 +565,34 @@
         });
 
         function addCard() {
-            console.log("Ajouter une nouvelle action");
+            actual_code_cards = "";
+            document.getElementById('code').disabled = false;
+            // Gérer l'affichage des éléments UI
+            document.querySelectorAll('.info_user').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.rule-form').forEach(el => el.style.display = '');
+
+            document.getElementById("code").value="";
+            document.getElementById("description").value="";
+            document.getElementById("questions").value="";
+            document.getElementById("responses").value="";
+            document.getElementById('outputSelect').value = 'none';
+            updateVisibility();
         }
 
-        function saveChanges() {
-            console.log("Sauvegarder les changements");
+        function refresh_cards() {
+            actual_code_cards = "";
+            document.getElementById("card_list").value="";
+            let htmlCardList="<ul class='list-group'>";
+                for (const key in lexique){
+                    if (key !=="global" && lexique[key].rules){
+                        if (lexique[key].rules.length> 0){
+                            htmlCardList+=`<li class="list-group-item" onclick='showDetails("${key}")''>${lexique[key].rules[0].description}</li>`;
+                        }
+                    }
+                }
+            
+            htmlCardList+="</ul>";
+            document.getElementById("card_list").innerHTML=htmlCardList;
         }
 
         function saveCard() {
@@ -616,6 +633,7 @@
 
             lexique[actual_code_cards] = card;
             console.log("Carte sauvegardée :", card);
+            refresh_cards();
 
             //save_lexique();
         }
@@ -664,6 +682,7 @@
                 // Mettre à jour les champs du formulaire
                 document.getElementById('title_card').textContent = actionId;
                 document.getElementById('code').value = actionId;
+                document.getElementById('code').disabled = true;
                 ['description', 'questions', 'responses'].forEach(field => {
                     //console.log(field, rules[field]);  // Affiche la structure des données dans la console
                     if (rules[field]) {

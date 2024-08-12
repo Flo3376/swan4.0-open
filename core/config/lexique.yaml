@@ -43,7 +43,9 @@ test_swan_2:
   root: test_swan_2
   rules:
     - action: test_swan_2
-      description: test interne ou départ de conversation
+      description: >-
+        test interne pour voir si le tokenizer fonction, aucune utilité dans le
+        jeux
       questions:
         - 'Tu te portes bien '
         - Ça va
@@ -68,13 +70,13 @@ test_swan_2:
 jump:
   root: jump
   rules:
-    - description: test interne ou départ de conversation
+    - action: jump
+      description: test interne pour voir si le tokenizer fonction, fait sauter le joueur
       questions:
         - saute
         - fais un saut
       responses:
         - d'accord
-      action: jump
       interact:
         output: keyboard
         type: key
