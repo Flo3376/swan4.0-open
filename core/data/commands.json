@@ -377,8 +377,8 @@
     ],
     "action": {
       "output": "mouse",
-      "type": "mouse_click",
-      "action_input": "left",
+      "type": "mouseclick",
+      "action_input": "Left Clik",
       "duration": "long"
     }
   },
@@ -400,8 +400,8 @@
     ],
     "action": {
       "output": "mouse",
-      "type": "mouse_click",
-      "action_input": "left",
+      "type": "mouseclick",
+      "action_input": "Left Clik",
       "duration": "long"
     }
   },
@@ -440,7 +440,7 @@
     "action": {
       "output": "keyboard",
       "type": "combo",
-      "action_input": "SHIFTDROITE+\\",
+      "action_input": "Right Shift + 8",
       "duration": "short"
     }
   },

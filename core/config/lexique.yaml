@@ -80,7 +80,7 @@ jump:
       interact:
         output: keyboard
         type: key
-        action_input: ESPACE
+        action_input: '{Space}'
         duration: short
 gear_up:
   root: gear_up
@@ -117,7 +117,8 @@ gear_up:
 gear_down:
   root: gear_down
   rules:
-    - description: l'utilisatateur souhaite faire ouvrir les trains
+    - action: gear_down
+      description: l'utilisatateur souhaite faire ouvrir les trains
       questions:
         - Peux-tu sortir les trains
         - Trains d'atterrissage à sortir
@@ -138,16 +139,16 @@ gear_down:
         - Opération terminée, trains déployés.
         - Trains sortis avec succès.
         - Les trains d'atterrissage sont en position de vol.
-      action: gear_down
       interact:
         output: keyboard
         type: key
-        action_input: 'N'
+        action_input: '{N}'
         duration: short
 call_station_enter:
   root: call_station_enter
   rules:
-    - description: >-
+    - action: call_station_enter
+      description: >-
         appeler station pour autoriser à l'atterissage / demander ouverture des
         portes du hangar
       questions:
@@ -158,16 +159,16 @@ call_station_enter:
       responses:
         - Contact avec la station en cours pour atterrissage.
         - Demande d'autorisation d'atterrir envoyée.
-      action: call_station_enter
       interact:
         output: keyboard
         type: key
-        action_input: f3
+        action_input: '{F3}'
         duration: short
 call_station_exit:
   root: call_station_exit
   rules:
-    - description: >-
+    - action: call_station_exit
+      description: >-
         appeler station pour autoriser au décollage / demander ouverture des
         portes du hangar
       questions:
@@ -179,16 +180,15 @@ call_station_exit:
       responses:
         - Contact avec la station en cours pour décollage.
         - Demande d'autorisation de décoller envoyée.
-      action: call_station_exit
       interact:
         output: keyboard
         type: key
-        action_input: f3
+        action_input: '{F3}'
         duration: short
 leave_post:
   root: leave_post
   rules:
-    - id: leave_post
+    - action: leave_post
       description: >-
         Gérer la sortie du poste de pilotage ou de la passerelle et préparer le
         départ de l'utilisateur
@@ -202,16 +202,16 @@ leave_post:
         - Poste en mode sécurisé, bon départ.
         - Je prends le relais, sortie autorisée.
         - Contrôle total activé, vous pouvez vous retirer.
-      action: leave_post
       interact:
         output: keyboard
-        action: key
-        action_input: 'Y'
+        type: key
+        action_input: '{Y}'
         duration: long
 door_open:
   root: door_open
   rules:
-    - description: l'utilisatateur souhaite faire ouvrir les portes du vaisseau
+    - action: door_open
+      description: l'utilisatateur souhaite faire ouvrir les portes du vaisseau
       questions:
         - Peux-tu ouvrir les portes
         - Portes à ouvrir
@@ -225,16 +225,16 @@ door_open:
         - Opération terminée, portes débloquées.
         - Portes ouvertes avec succès.
         - Les portes sont déverrouillées et ouvertes.
-      action: door_open
       interact:
         output: keyboard
         type: key
-        action_input: )
+        action_input: '{Degree}'
         duration: short
 door_close:
   root: door_close
   rules:
-    - description: l'utilisatateur souhaite faire fermer les portes du vaisseau
+    - action: door_close
+      description: l'utilisatateur souhaite faire fermer les portes du vaisseau
       questions:
         - Peux-tu fermer les portes
         - Portes à fermer
@@ -248,16 +248,16 @@ door_close:
         - Opération terminée, portes bloquées.
         - Portes fermées avec succès.
         - Les portes sont déverrouillées et fermées.
-      action: door_close
       interact:
         output: keyboard
         type: key
-        action_input: \=
+        action_input: '{Plus}'
         duration: short
 ready_to_fly:
   root: ready_to_fly
   rules:
-    - description: Démarrer les systèmes pour être prêt à voler
+    - action: ready_to_fly
+      description: Démarrer les systèmes pour être prêt à voler
       questions:
         - Prépare le vol
         - Active tous les systèmes de vol
@@ -267,11 +267,10 @@ ready_to_fly:
         - Tous les systèmes de vol sont en cours d'activation.
         - Préparation au vol complétée, prêt à décoller.
         - Systèmes vérifiés et opérationnels, prêt pour le vol.
-      action: ready_to_fly
       interact:
         output: keyboard
-        action: combo
-        key: ALTDROITE+R
+        type: combo
+        action_input: '{Right_Alt}{R}'
         duration: short
 spotify_play:
   root: spotify_play
@@ -369,7 +368,8 @@ decrease_volume:
 quantum_jump_start:
   root: quantum_jump_start
   rules:
-    - description: lance le saut quantique
+    - action: quantum_jump_start
+      description: lance le saut quantique
       questions:
         - Peux-tu initier le saut quantique
         - Lance le saut quantique
@@ -378,16 +378,16 @@ quantum_jump_start:
       responses:
         - Initiation du saut quantique en cours.
         - Saut quantique activé, accrochez-vous.
-      action: quantum_jump_start
       interact:
         output: mouse
-        type: mouse_click
-        action_input: left
+        type: mouseclick
+        action_input: '{Left Clik}'
         duration: long
 quantum_jump_stop:
   root: quantum_jump_stop
   rules:
-    - description: coupe le saut quantique
+    - action: quantum_jump_stop
+      description: coupe le saut quantique
       questions:
         - Arrête le saut quantique
         - Arrête le saut
@@ -400,11 +400,10 @@ quantum_jump_stop:
         - Le saut quantique est maintenant désactivé.
         - Arrêt du saut quantique confirmé.
         - On a oublie quelque chose?
-      action: quantum_jump_stop
       interact:
         output: mouse
-        type: mouse_click
-        action_input: left
+        type: mouseclick
+        action_input: '{Left Clik}'
         duration: long
 nav_mod:
   root: nav_mod
@@ -423,12 +422,13 @@ nav_mod:
       interact:
         output: keyboard
         type: combo
-        action_input: Right Shift + Ù
+        action_input: '{Right_Shift}{Ù}'
         duration: short
 combat_mod:
   root: combat_mod
   rules:
-    - description: passe sur le master mod combat
+    - action: combat_mod
+      description: passe sur le master mod combat
       questions:
         - Peux-tu passer en mode combat
         - Active le mode combat
@@ -437,11 +437,10 @@ combat_mod:
       responses:
         - Mode combat activé.
         - Nous sommes maintenant en mode combat.
-      action: combat_mod
       interact:
         output: keyboard
         type: combo
-        action_input: SHIFTDROITE+\
+        action_input: '{Right_Shift}{8}'
         duration: short
 system_restart:
   root: system_restart
