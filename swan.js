@@ -78,6 +78,7 @@ app.get('/', (req, res) => {
             res.status(500).send('Erreur lors de la sauvegarde du fichier.');
         } else {
             res.json({ message: `Donnée mise à jour et sauvegardée dans ${filePath}` });
+            restart();
         }
     });
 });
@@ -409,8 +410,11 @@ async function spotify_go(action) {
 async function initializeSystem() {
     //playAudio("F:\\Documents\\GitHub\\swan4.0\\sound\\output_sound\\revoicer\\other\\voice_2_second_dem.mp3",config.player_path)
     await initializeHardware();
+    //await vocalise("Démarrage des capteurs environnementaux.", config, openai, "error_generic", config.effect);
     await make_grammar();
+    //await vocalise("Démarrage du moteur linguistique auxiliaire.", config, openai, "error_generic", config.effect);
     await generateCommands();
+    //await vocalise("Création des pallettes de Commandes.", config, openai, "error_generic", config.effect);
 
     if (openAI_set) {
         await initializeAssistant();

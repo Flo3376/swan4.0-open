@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="starmap_close" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="starmap_close" scope="public">
+    <tag>out.action=new Object();</tag>
+    <item>Swan</item>
+    <one-of>
+      <item>masque la carte</item>
+      <item>ferme la carte</item>
+      <item>ferme la starmap</item>
+      <item>masque la starmap</item>
+    </one-of>
+    <tag>out.action.action="starmap_close";</tag>
+  </rule>
+</grammar>

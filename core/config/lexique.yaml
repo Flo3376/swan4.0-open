@@ -457,3 +457,22 @@ system_restart:
         - Je redémarre, à tout de suite.
       interact:
         output: none
+starmap_close:
+  root: starmap_close
+  rules:
+    - action: starmap_close
+      description: 'ferme la starmap '
+      questions:
+        - masque la carte
+        - ferme la carte
+        - ferme la starmap
+        - masque la starmap
+      responses:
+        - Ok.
+        - d'accord.
+        - fermeture
+      interact:
+        output: keyboard
+        type: key
+        action_input: '{F2}'
+        duration: short
