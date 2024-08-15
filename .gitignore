@@ -18,6 +18,8 @@ node_modules/
 sound/input_sound/*
 !sound/input_sound/.gitkeep
 
+/core/config/lexique.yaml
+
 #sound/output_sound/*
 #!sound/output_sound/.gitkeep
 
