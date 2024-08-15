@@ -70,13 +70,15 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         .key_forbiden {
             padding: 10px;
             margin: 0 5px;
             width: 40px;
             text-align: center;
             cursor: pointer;
-            background-color: rgba(180, 20, 20, 0.5);;
+            background-color: rgba(180, 20, 20, 0.5);
+            ;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
@@ -243,6 +245,45 @@
             color: #4aa;
             /* Une couleur de lien claire pour un bon contraste */
         }
+
+        .btn-export {
+            background-color: #6f42c1;
+            /* Fond violet */
+            color: #ffffff;
+            /* Texte blanc */
+            border: none;
+            /* Pas de bordure */
+            transition: background-color 0.2s ease-in-out;
+            /* Transition douce pour le fond */
+        }
+
+        .btn-export:hover,
+        .btn-export:focus {
+            background-color: #4a148c;
+            /* Fond violet plus foncé au survol */
+            color: #ffffff;
+            /* Texte reste blanc */
+        }
+        /* Styles spécifiques pour les toasts Bootstrap en mode sombre */
+        .toast-dark {
+            background-color: #343a40; /* Gris foncé, courant dans les thèmes sombres */
+            color: #ffffff; /* Texte blanc pour le contraste */
+            border-color: #6c757d; /* Bordure un peu plus claire */
+        }
+
+        .toast-dark .toast-header {
+            background-color: #6c757d; /* Gris légèrement plus clair pour l'entête */
+            color: #ffffff; /* Texte blanc */
+            border-bottom-color: #343a40; /* Bordure plus foncée pour séparer de la partie body */
+        }
+
+        .toast-dark .btn-close {
+            color: #ffffff; /* Bouton de fermeture blanc pour le contraste */
+        }
+
+        .toast-dark .btn-close:hover {
+            color: #adb5bd; /* Couleur légèrement plus claire au survol */
+        }
     </style>
 </head>
 
@@ -260,7 +301,7 @@
                 <div class="modal-body">
                     <div class="keyboard-container">
                         <div class="keyboard">
-                            <div class="keyboard-row keyboard_select_display" >
+                            <div class="keyboard-row keyboard_select_display">
                                 <button class="key" key_code="27" key_translate="Escape">ESC</button>
                                 <div class="spacer spacer_40"></div> <!-- Espace de 50px -->
                                 <button class="key" key_code="112" key_translate="F1">F1</button>
@@ -437,21 +478,75 @@
         </div>
     </div>
 
+    <!-- Modal de Confirmation de Suppression -->
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirmer la Suppression</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Êtes-vous sûr de vouloir supprimer cette carte ? Cette action est irréversible.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour importer une commande -->
+    <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="importModalLabel">Importer une Commande</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <p>Collez ici le JSON de la commande que vous souhaitez importer.</p>
+            <textarea id="jsonInput" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+            <button type="button" class="btn btn-primary" onclick="importJson()">Importer</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
     <div class="container-fluid h-100">
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+            <div id="copyToast" class="toast hide toast-dark" role="alert" aria-live="assertive" aria-atomic="true">
+              <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+              </div>
+              <div class="toast-body" id="message_corps">
+                
+              </div>
+            </div>
+          </div>
         <div class="row h-100">
             <div class="col-md-4" id="leftPanel">
-                <div class="d-flex justify-content-between align-items-center p-3 mb-2 bg-dark">
-                    <button class="btn btn-primary" onclick="addCard()" data-bs-toggle="tooltip"
-                        data-bs-placement="bottom" title="Ajouter une action"><i class="bi bi-plus-circle"></i></button>
-                    <button class="btn btn-success" onclick="save_lexique()" data-bs-toggle="tooltip"
-                        data-bs-placement="bottom" title="Sauvegarder les changements"><i
-                            class="bi bi-save"></i></button>
-                            
+                <div class=" bg-dark">
+                    <button class="btn btn-primary" onclick="addCard()" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                        <i class="bi bi-plus-circle"></i> Ajouter une action
+                    </button>
+                    <button class="btn btn-success" onclick="save_lexique()" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                        <i class="bi bi-save"></i> Sauvegarder le fichier
+                    </button>
+                     <button class="btn btn-export"  data-bs-toggle="tooltip" data-bs-placement="bottom">
+                        <i class="bi bi-box-arrow-in-down"></i> Importer une commande
+                    </button>
+
                 </div>
                 <div id="card_list">
-                    
+
                 </div>
-                
+
             </div>
 
             <div class="col-md-8" id="rightPanel">
@@ -461,13 +556,13 @@
                     <form class="rule-form" style="display: none;">
                         <h5 class="card-title"><span id="title_card"></span>&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;<button
                                 class="btn btn-success" onclick="saveCard()" data-bs-toggle="tooltip"
-                                data-bs-placement="bottom" title="Sauvegarder la carte"><i
-                                    class="bi bi-save"></i></button>
-                            <button class="btn btn-sm btn-outline-danger" onclick="deleteCard()"
-                                title="Supprimer la carte"><i class="bi bi-trash"></i></button>
-                            <button class="btn btn-sm btn-outline-warning" onclick="duplicateCard()"
-                                title="Dupliquer la carte"><i class="bi bi-files"></i></button>
-                                <button onclick="exportToJsonAndCopy()">Exporter et Copier</button>
+                                data-bs-placement="bottom" ><i
+                                    class="bi bi-save"></i> Sauvegarder la carte</button>
+                            <button class="btn btn-danger" onclick="deleteCard()"
+                                title="Supprimer la carte"><i class="bi bi-trash"></i> Détruire la carte</button>
+                            <button class="btn btn-export" onclick="exportToJsonAndCopy()">
+                                <i class="bi bi-box-arrow-up"></i> Exporter
+                            </button>
                         </h5>
                         <hr>
                         <h6>Code:</h6>
@@ -567,6 +662,10 @@
                 key.addEventListener('click', handleKeyClick);
             });
 
+            document.querySelector('.btn-export').addEventListener('click', function() {
+            $('#importModal').modal('show');
+            });
+
 
         });
 
@@ -590,41 +689,87 @@
             document.querySelectorAll('.info_user').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.rule-form').forEach(el => el.style.display = '');
 
-            document.getElementById("code").value="";
-            document.getElementById("description").value="";
-            document.getElementById("questions").value="";
-            document.getElementById("responses").value="";
+            document.getElementById("code").value = "";
+            document.getElementById("description").value = "";
+            document.getElementById("questions").value = "";
+            document.getElementById("responses").value = "";
             document.getElementById('outputSelect').value = 'none';
             updateVisibility();
         }
 
-        function refresh_cards() {
-            actual_code_cards = "";
-            document.getElementById("card_list").value="";
-            let htmlCardList="<ul class='list-group'>";
-                for (const key in lexique){
-                    if (key !=="global" && lexique[key].rules){
-                        if (lexique[key].rules.length> 0){
-                            htmlCardList+=`<li class="list-group-item" onclick='showDetails("${key}")''>${lexique[key].rules[0].description}</li>`;
-                        }
-                    }
+        function importJson() {
+            const jsonInput = document.getElementById('jsonInput').value;
+            try {
+                const data = JSON.parse(jsonInput);
+                // Validation supplémentaire du JSON si nécessaire
+                if (validateJson(data)) {
+                // Fermer la modal d'importation
+                $('#importModal').modal('hide');
+
+                // Préparer l'interface pour une nouvelle saisie
+                addCard();
+
+                // Pré-remplir les champs avec les données importées
+                populateCardFields(data);
+                
+                console.log('Données importées et prêtes à être éditées:', data);
+                } else {
+                alert('Le JSON collé est invalide ou incomplet.');
                 }
-            
-            htmlCardList+="</ul>";
-            document.getElementById("card_list").innerHTML=htmlCardList;
+            } catch (e) {
+                alert('Erreur lors de l\'analyse du JSON: ' + e.message);
+            }
         }
 
-        function saveCard() {
+        function populateCardFields(data) {
+            if (data && data.rules && data.rules.length > 0) {
+                const rule = data.rules[0];
+                document.getElementById("code").value = data.root || '';
+                document.getElementById("description").value = rule.description || '';
+                document.getElementById("questions").value = rule.questions.join('\n') || '';
+                document.getElementById("responses").value = rule.responses.join('\n') || '';
+                document.getElementById("outputSelect").value = rule.interact.output || 'none';
+                document.getElementById("typeSelect").value = rule.interact.type || 'none';
+                document.getElementById("durationSelect").value = rule.interact.duration || 'none';
+                document.getElementById("actionInput").value = rule.interact.action_input || '';
+                updateVisibility(); // Mise à jour de l'affichage en fonction des sélections
+            }
+        }
+
+        function validateJson(data) {
+            // Vérifier que le JSON contient les champs nécessaires
+            return data && data.rules && data.rules.length > 0 &&
+                    data.rules[0].description && data.rules[0].questions &&
+                    data.rules[0].responses && data.rules[0].interact;
+        }
+
+        function refresh_cards() {
+            actual_code_cards = "";
+            document.getElementById("card_list").value = "";
+            let htmlCardList = "<ul class='list-group'>";
+            for (const key in lexique) {
+                if (key !== "global" && lexique[key].rules) {
+                    if (lexique[key].rules.length > 0) {
+                        htmlCardList += `<li class="list-group-item" onclick='showDetails("${key}")''>${lexique[key].rules[0].description}</li>`;
+                    }
+                }
+            }
+
+            htmlCardList += "</ul>";
+            document.getElementById("card_list").innerHTML = htmlCardList;
+        }
+
+        /*function saveCard() {
             console.log("Sauvegarder les changements pour la carte:", actual_code_cards);
 
-             // Création de l'objet interact basé sur la valeur de 'output'
+            // Création de l'objet interact basé sur la valeur de 'output'
             let outputValue = document.getElementById('outputSelect').value;
             let interact = {
                 output: outputValue
             };
 
             let isNewCard = !(actual_code_cards in lexique);
-            
+
             if (isNewCard) {
                 console.log("Création d'une nouvelle carte.");
             } else {
@@ -652,10 +797,65 @@
 
             lexique[actual_code_cards] = card;
             console.log("Carte sauvegardée :", card);
+            document.getElementById('message_corps').innerHTML = "Carte enregistrée. Pensez à sauvegarder sur l'onglet de gauche";
+                showCopyToast();  // Affiche un toast pour informer l'utilisateur que la copie a réussi
             refresh_cards();
 
             //save_lexique();
+        }*/
+       //actual_code_cards
+        function saveCard() {
+            let cardCode = document.getElementById('code').value.trim();
+
+            // Normalisation de la clé
+            cardCode = cardCode.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+
+            // Vérification que la clé n'est pas vide
+            if (!cardCode) {
+                alert("Le code de la carte ne peut pas être vide.");
+                console.error("Le code de la carte est vide.");
+                return; // Stoppe l'exécution de la fonction si la clé est vide
+            }
+
+            console.log("Sauvegarder les changements pour la carte:", cardCode);
+
+            let outputValue = document.getElementById('outputSelect').value;
+            let interact = { output: outputValue };
+
+            let isNewCard = !(cardCode in lexique);
+
+            if (isNewCard) {
+                console.log("Création d'une nouvelle carte.");
+            } else {
+                console.log("Mise à jour d'une carte existante.");
+            }
+
+            if (outputValue !== "none") {
+                interact.type = document.getElementById('typeSelect').value;
+                interact.action_input = document.getElementById('actionInput').value;
+                interact.duration = document.getElementById('durationSelect').value;
+            }
+
+            let card = {
+                root: cardCode,
+                rules: [{
+                    action: cardCode,
+                    description: document.getElementById('description').value,
+                    questions: document.getElementById('questions').value.split("\n"),
+                    responses: document.getElementById('responses').value.split("\n"),
+                    interact: interact
+                }]
+            };
+
+            lexique[cardCode] = card;
+            console.log("Carte sauvegardée :", card);
+            document.getElementById('message_corps').innerHTML = "Carte enregistrée. Pensez à sauvegarder sur l'onglet de gauche";
+            showCopyToast(); // Affiche un toast pour informer l'utilisateur de la sauvegarde
+            refresh_cards();
+
+            //save_lexique();  // Décommentez pour appeler la fonction qui sauvegarde les données sur le serveur
         }
+
 
         function save_lexique() {
             const url = '/update_lexique'; // Remplacez par l'URL du serveur qui gère la sauvegarde
@@ -667,22 +867,43 @@
                 },
                 body: JSON.stringify(lexique)
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Succès:', data);
-            })
-            .catch((error) => {
-                console.error('Erreur:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Succès:', data);
+                })
+                .catch((error) => {
+                    console.error('Erreur:', error);
+                });
         }
 
         function editCard(cardId) {
             console.log("Modifier l'action", cardId);
         }
 
-        function deleteCard(cardId) {
-            console.log("Supprimer l'action", cardId);
-        }
+        function deleteCard() {
+    // Ouvrir la modal de confirmation
+    $('#deleteConfirmationModal').modal('show');
+}
+
+function confirmDelete() {
+    if (actual_code_cards && lexique[actual_code_cards]) {
+        // Supprimer la carte du lexique
+        delete lexique[actual_code_cards];
+        console.log("Carte supprimée :", actual_code_cards);
+
+        // Mettre à jour l'affichage des cartes
+        refresh_cards();
+
+        // Fermer la modal
+        $('#deleteConfirmationModal').modal('hide');
+
+        // Afficher une notification de succès
+        document.getElementById('message_corps').innerHTML = "Carte supprimée avec succès.";
+        showCopyToast();
+    } else {
+        console.error("Erreur : La carte à supprimer n'existe pas.");
+    }
+}
 
         function duplicateCard(cardId) {
             console.log("Dupliquer l'action", cardId);
@@ -803,36 +1024,46 @@
             const keyInput = document.getElementById('keyInput');
             if (keyInput) {
                 keyInput.value = [...modifiers, ...nonModifiers]
-                .map(key => `{${key.getAttribute('key_translate')}}`) // Modification ici pour entourer chaque touche de accolades
-                .join('');
+                    .map(key => `{${key.getAttribute('key_translate')}}`) // Modification ici pour entourer chaque touche de accolades
+                    .join('');
             }
-            
+
         }
+        
+        function showCopyToast() {
+            var toastEl = document.getElementById('copyToast');
+            var toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+                
         function exportToJsonAndCopy() {
-    const currentCardDetails = lexique[actual_code_cards];
+            const currentCardDetails = lexique[actual_code_cards];
 
-    if (!currentCardDetails) {
-        console.error("Aucune carte sélectionnée ou détails manquants.");
-        return;
-    }
+            if (!currentCardDetails) {
+                console.error("Aucune carte sélectionnée ou détails manquants.");
+                return;
+            }
 
-    // Convertir les détails de la carte en chaîne JSON
-    const jsonStr = JSON.stringify(currentCardDetails, null, 2); // Formatage joli du JSON
+            // Convertir les détails de la carte en chaîne JSON
+            const jsonStr = JSON.stringify(currentCardDetails, null, 2); // Formatage joli du JSON
 
-    // Créer le message à copier
-    const message = `✨ **Commande à Partager** ✨\n\n` +
-                    `🔑 **Clé de Commande :** ${currentCardDetails.root || 'Non Spécifiée'}\n` +
-                    `📜 **Description :** ${currentCardDetails.rules[0].description || 'Aucune description disponible.'}\n\n` +
-                    `📝 **Détails de Configuration :**\n\`\`\`${jsonStr}\`\`\`\n` +
-                    `**N'hésitez pas à personnaliser selon vos besoins!**`;
+            // Créer le message à copier
+            const message = `✨ **Commande à Partager** ✨\n\n` +
+                `🔑 **Clé de Commande :** ${currentCardDetails.root || 'Non Spécifiée'}\n` +
+                `📜 **Description :** ${currentCardDetails.rules[0].description || 'Aucune description disponible.'}\n\n` +
+                `📝 **Détails de Configuration :**\n\`\`\`${jsonStr}\`\`\`\n` +
+                `**N'hésitez pas à personnaliser selon vos besoins!**`;
 
-    // Copier dans le presse-papiers
-    navigator.clipboard.writeText(message).then(() => {
-        console.log("Les détails de la carte ont été copiés dans le presse-papiers avec un message enrichi.");
-    }).catch(err => {
-        console.error("Erreur lors de la copie dans le presse-papiers:", err);
-    });
-}
+            // Copier dans le presse-papiers
+            navigator.clipboard.writeText(message).then(() => {
+                console.log("Les détails de la carte ont été copiés dans le presse-papiers avec un message enrichi.");
+                document.getElementById('message_corps').innerHTML = "Les détails de la carte ont été copiés dans le presse-papiers.";
+                showCopyToast();  // Affiche un toast pour informer l'utilisateur que la copie a réussi
+            }).catch(err => {
+                console.error("Erreur lors de la copie dans le presse-papiers:", err);
+            });
+        }
+
 
 
 
