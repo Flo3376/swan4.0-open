@@ -6,12 +6,12 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "keytape/1.0.0": {
+      "key_sender/1.0.0": {
         "dependencies": {
           "InputSimulatorPlus": "1.0.7"
         },
         "runtime": {
-          "keytape.dll": {}
+          "key_sender.dll": {}
         }
       },
       "InputSimulatorPlus/1.0.7": {
@@ -25,7 +25,7 @@
     }
   },
   "libraries": {
-    "keytape/1.0.0": {
+    "key_sender/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

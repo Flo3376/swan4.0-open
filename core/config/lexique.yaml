@@ -85,7 +85,8 @@ jump:
 gear_up:
   root: gear_up
   rules:
-    - description: l'utilisatateur souhaite faire fermer les trains
+    - action: gear_up
+      description: l'utilisatateur souhaite faire fermer les trains
       questions:
         - Peux-tu rentrer les trains
         - Prêt à rentrer les trains
@@ -108,11 +109,10 @@ gear_up:
         - Opération de rentrage des trains d'atterrissage en cours.
         - Je commence à rentrer les trains d'atterrissage.
         - Les trains d'atterrissage sont en cours de rétraction.
-      action: gear_up
       interact:
         output: keyboard
         type: key
-        action_input: 'N'
+        action_input: '{N}'
         duration: short
 gear_down:
   root: gear_down
@@ -288,11 +288,11 @@ spotify_play:
         - Lecture en cours.
       interact:
         output: none
-pause_music:
-  root: pause_music
+spotify_pause:
+  root: spotify_pause
   rules:
-    - action: pause_music
-      description: spotify_pause_music
+    - action: spotify_pause
+      description: spotify_pause
       questions:
         - Peux-tu mettre en pause
         - Mets la musique en pause
@@ -380,8 +380,8 @@ quantum_jump_start:
         - Saut quantique activé, accrochez-vous.
       interact:
         output: mouse
-        type: mouseclick
-        action_input: '{Left Clik}'
+        type: mouse_click
+        action_input: '{Left_click}'
         duration: long
 quantum_jump_stop:
   root: quantum_jump_stop
@@ -402,8 +402,8 @@ quantum_jump_stop:
         - On a oublie quelque chose?
       interact:
         output: mouse
-        type: mouseclick
-        action_input: '{Left Clik}'
+        type: mouse_click
+        action_input: '{Left_click}'
         duration: long
 nav_mod:
   root: nav_mod
@@ -440,7 +440,7 @@ combat_mod:
       interact:
         output: keyboard
         type: combo
-        action_input: '{Right_Shift}{8}'
+        action_input: '{Right_shift}{Asterisk}'
         duration: short
 system_restart:
   root: system_restart

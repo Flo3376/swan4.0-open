@@ -231,7 +231,7 @@ class SpotifyController {
     switch (action) {
       case 'spotify_play':
         return await this.play();
-      case 'spotify_pause_music':
+      case 'spotify_pause':
         return await this.pause();
       case 'spotify_next_track':
         return await this.nextTrack();

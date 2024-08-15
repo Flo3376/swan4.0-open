@@ -1,64 +1,88 @@
 const path = require('path');
-const { exec } = require('child_process');
-// Importe le module 'colors' pour permettre la coloration des textes dans la console, améliorant la lisibilité des logs.
+const { spawn } = require('child_process');
+const killPID = require('tree-kill');
+const axios = require('axios');
 const colors = require('colors');
-class InputController {
-    constructor() { }
 
-    // Dispatcher pour gérer les commandes entrantes
-    handleCommand(command) {
-        const { output, action, key, text, x, y, button, direction, amount, duration } = command;
+const KEY_SENDER = path.resolve(__dirname, '../exe/key_sender/key_sender.exe');
+let PIDS = {};
 
-        const exePath = './../exe/key_tape/keytape.exe';
-        // Résolvez le chemin absolu de l'exécutable
-        const resolvedExePath = path.resolve(__dirname, exePath);
-        let cmd_command = '';
+class OutputCommander {
+    constructor() {}
 
-        switch (output) {
-            case 'keyboard':
-                // Définissez le chemin relatif de l'exécutable
+    start(id) {
+        return new Promise((resolve, reject) => {
+            this.kill(id); // Assurez-vous qu'aucune instance précédente ne tourne
 
+            let child = spawn(KEY_SENDER, []);
 
-                // Utilisez des guillemets pour encapsuler le chemin du fichier en cas d'espaces
-                cmd_command = `"${resolvedExePath}" "action=${action}" input=${key} "delay=${duration}"`;
-                console.log(cmd_command);
+            child.stdout.on('data', data => {
+                console.log(colors.cyan(`       Output from ${id}: `));
+                console.log(colors.cyan(`       ${data.toString()}`));
+            });
 
-                exec(cmd_command, (error, stdout, stderr) => {
-                    if (error) {
-                        console.error(`Erreur lors de l'exécution de la commande: ${error.message}`);
-                        return;
+            child.stderr.on('data', data => {
+                console.error(`Error from ${id}: ${data.toString()}`);
+            });
+
+            child.on('close', code => {
+                console.log(`Process ${id} closed with code ${code}`);
+                delete PIDS[id]; // Supprime le PID de la liste une fois le processus terminé
+            });
+
+            child.on('error', err => {
+                console.error(`Error starting process ${id}: ${err}`);
+                reject(err);
+            });
+
+            PIDS[id] = child.pid;
+            console.log(`Started process ${id} with PID ${child.pid}`);
+            resolve(child.pid);
+        });
+    }
+
+    kill(id) {
+        let pid = PIDS[id];
+        if (pid) {
+            try {
+                killPID(pid, err => {
+                    if (err) {
+                        console.error(`Failed to kill process ${id}: ${err}`);
+                    } else {
+                        console.log(`Process ${id} killed successfully`);
+                        delete PIDS[id];
                     }
-                    if (stderr) {
-                        console.error(`Erreur de sortie: ${stderr}`);
-                        return;
-                    }
-                    console.log(`Sortie standard: ${stdout}`);
                 });
-                break;
-            case 'mouse':
-                // Utilisez des guillemets pour encapsuler le chemin du fichier en cas d'espaces
-                cmd_command = `"${resolvedExePath}" "action=${action}" input=${key} "delay=${duration}"`;
-                console.log(cmd_command);
-
-                exec(cmd_command, (error, stdout, stderr) => {
-                    if (error) {
-                        console.error(`Erreur lors de l'exécution de la commande: ${error.message}`);
-                        return;
-                    }
-                    if (stderr) {
-                        console.error(`Erreur de sortie: ${stderr}`);
-                        return;
-                    }
-                    console.log(`Sortie standard: ${stdout}`);
-                });
-                break;
-            default:
-                console.error("Invalid output type");
+            } catch (ex) {
+                console.error(`Error killing process ${id}: ${ex}`);
+            }
+        } else {
+            console.log(`No process found for ID ${id}`);
         }
     }
 
-
-
+    handleCommand(command) {
+        const { output, type, action_input, duration } = command;
+        const params = new URLSearchParams({ output, type, action_input, duration }).toString();
+        const url = `http://127.0.0.1:2953?${params}`;
+        
+        axios.get(url)
+            .then(response => {
+                console.log(`Received response: ${response.data}`.green);
+            })
+            .catch(error => {
+                console.error(`Error sending request: ${error.message}`.red);
+            });
+    }
 }
 
-module.exports = InputController;
+module.exports = OutputCommander;
+/*
+console.log(colors.red('Ce texte est en rouge'));
+console.log(colors.green('Ce texte est en vert'));
+console.log(colors.yellow('Ce texte est en jaune'));
+console.log(colors.blue('Ce texte est en bleu'));
+console.log(colors.magenta('Ce texte est en magenta'));
+console.log(colors.cyan('Ce texte est en cyan'));
+console.log(colors.white('Ce texte est en blanc'));
+console.log(colors.gray('Ce texte est en gris'));*/

@@ -305,8 +305,10 @@ if ((config.vocalisation == "revoicer" && revoicer_set) || (config.vocalisation 
 // -----------------------------
 
 // Créer une instance du contrôleur d'entrée
-const output_c = new outputCommander();
 
+
+const output_c = new outputCommander();
+output_c.start('unique_process_id');
 
 // -----------------------------
 // Section décryptage vocal autonome (listen de sarah par JP Encausse)

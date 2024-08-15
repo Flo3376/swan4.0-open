@@ -71,7 +71,7 @@
     "action": {
       "output": "keyboard",
       "type": "key",
-      "action_input": "ESPACE",
+      "action_input": "{Space}",
       "duration": "short"
     }
   },
@@ -104,7 +104,7 @@
     "action": {
       "output": "keyboard",
       "type": "key",
-      "action_input": "N",
+      "action_input": "{N}",
       "duration": "short"
     }
   },
@@ -135,7 +135,7 @@
     "action": {
       "output": "keyboard",
       "type": "key",
-      "action_input": "N",
+      "action_input": "{N}",
       "duration": "short"
     }
   },
@@ -154,7 +154,7 @@
     "action": {
       "output": "keyboard",
       "type": "key",
-      "action_input": "f3",
+      "action_input": "{F3}",
       "duration": "short"
     }
   },
@@ -174,7 +174,7 @@
     "action": {
       "output": "keyboard",
       "type": "key",
-      "action_input": "f3",
+      "action_input": "{F3}",
       "duration": "short"
     }
   },
@@ -194,7 +194,8 @@
     ],
     "action": {
       "output": "keyboard",
-      "action_input": "Y",
+      "type": "key",
+      "action_input": "{Y}",
       "duration": "long"
     }
   },
@@ -218,7 +219,7 @@
     "action": {
       "output": "keyboard",
       "type": "key",
-      "action_input": ")",
+      "action_input": "{Degree}",
       "duration": "short"
     }
   },
@@ -242,7 +243,7 @@
     "action": {
       "output": "keyboard",
       "type": "key",
-      "action_input": "\\=",
+      "action_input": "{Plus}",
       "duration": "short"
     }
   },
@@ -261,6 +262,8 @@
     ],
     "action": {
       "output": "keyboard",
+      "type": "combo",
+      "action_input": "{Right_Alt}{R}",
       "duration": "short"
     }
   },
@@ -289,7 +292,7 @@
       "Met en pause",
       "coupe la musique"
     ],
-    "code": "pause_music",
+    "code": "spotify_pause",
     "response": [
       "Musique mise en pause.",
       "Pause activée."
@@ -377,8 +380,8 @@
     ],
     "action": {
       "output": "mouse",
-      "type": "mouseclick",
-      "action_input": "Left Clik",
+      "type": "mouse_click",
+      "action_input": "{Left_click}",
       "duration": "long"
     }
   },
@@ -400,8 +403,8 @@
     ],
     "action": {
       "output": "mouse",
-      "type": "mouseclick",
-      "action_input": "Left Clik",
+      "type": "mouse_click",
+      "action_input": "{Left_click}",
       "duration": "long"
     }
   },
@@ -421,7 +424,7 @@
     "action": {
       "output": "keyboard",
       "type": "combo",
-      "action_input": "Right Shift + Ù",
+      "action_input": "{Right_Shift}{Ù}",
       "duration": "short"
     }
   },
@@ -440,7 +443,7 @@
     "action": {
       "output": "keyboard",
       "type": "combo",
-      "action_input": "Right Shift + 8",
+      "action_input": "{Right_shift}{Asterisk}",
       "duration": "short"
     }
   },

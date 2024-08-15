@@ -32,6 +32,9 @@ sound/input_listen_sound/*
 
 .env
 
+/4_installer
+/Output
+setup_ino.iss
 config.yaml
 config_sav.yaml
 config_test.yaml

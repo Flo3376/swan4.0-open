@@ -47,7 +47,7 @@ function getRandomItem(array) {
 async function vocalise(tts, config, openai, action = "other", effect) {
 
   let textToSpeak = Array.isArray(tts) ? getRandomItem(tts) : tts;
-  //console.log(textToSpeak)
+  console.log(textToSpeak)
 
   // Chemin du répertoire à vérifier
   let dirPath = path.join(`./${config[config.vocalisation].path_output}/${action}/`);

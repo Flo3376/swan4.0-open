@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="spotify_pause_music" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
-  <rule id="spotify_pause_music" scope="public">
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="spotify_pause" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="spotify_pause" scope="public">
     <tag>out.action=new Object();</tag>
     <item>Swan</item>
     <one-of>
@@ -10,6 +10,6 @@
       <item>Met en pause</item>
       <item>coupe la musique</item>
     </one-of>
-    <tag>out.action.action="spotify_pause_music";</tag>
+    <tag>out.action.action="spotify_pause";</tag>
   </rule>
 </grammar>
