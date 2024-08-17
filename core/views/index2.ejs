@@ -3,8 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Interactions YAML</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Configuration YAML</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <style>
         /* Style de base pour le thème sombre */
         body {
@@ -14,46 +15,6 @@
             /* Texte clair pour le contraste */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        a {
-            color: #bb86fc;
-            /* Couleur pour les liens */
-        }
-
-        .card {
-            background-color: #1e1e1e;
-            /* Arrière-plan des cartes */
-            border-color: #333;
-            /* Bordure légèrement plus claire que le fond de carte */
-        }
-
-        .card-header {
-            background-color: #333;
-            /* Arrière-plan plus sombre pour les en-têtes */
-            color: #ffffff;
-        }
-
-        .card-body {
-            background-color: #242424;
-            /* Arrière-plan des corps de carte */
-            color: #e0e0e0;
-        }
-
-        .form-control {
-            background-color: #333;
-            /* Arrière-plan pour les zones de texte et autres contrôles de formulaire */
-            color: #e0e0e0;
-            /* Texte clair */
-            border: 1px solid #444;
-            /* Bordure légèrement plus claire */
-        }
-
-        .form-control:focus {
-            border-color: #bb86fc;
-            /* Bordure de focus pour les éléments de formulaire */
-            outline: none;
-        }
-
         .btn-primary {
             background-color: #6200ee;
             /* Arrière-plan pour les boutons primaires */
@@ -106,213 +67,210 @@
             /* Changement de couleur quand actif */
             color: white;
         }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .form-label {
+            flex: 0 0 20%; /* Fixed width for label */
+            text-align: left;
+        }
+
+        .form-control {
+            flex: 0 0 70%; /* Adjusted width for input */
+            background-color: #333;
+            color: #e0e0e0;
+            border: 1px solid #444;
+        }
+
+        .form-control:focus {
+            border-color: #6200ee;
+            box-shadow: 0 0 0 0.25rem rgba(98, 0, 238, 0.25);
+        }
+
+        .custom-border {
+            padding: 15px;
+            border: 1px solid #444; /* Subtle border color */
+            background-color: #222; /* Slightly lighter than body background */
+        }
     </style>
 </head>
 
 <body>
-    <!-- Modal pour la détection de combinaison de touches -->
-    <div class="modal fade" id="keyBindingModal" tabindex="-1" aria-labelledby="keyBindingModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="keyBindingModalLabel">Détecter la combinaison de touches</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <button class="btn btn-secondary mod-key" data-mod="ShiftLeft">Shift</button>
-                            <button class="btn btn-secondary mod-key" data-mod="ControlLeft">Ctrl</button>
-                            <button class="btn btn-secondary mod-key" data-mod="AltLeft">Alt</button>
-                            <button class="btn btn-secondary mod-key" data-mod="MetaLeft">Windows</button>
-                        </div>
-                        <div class="col-6 text-right">
-                            <button class="btn btn-secondary mod-key" data-mod="ShiftRight">Shift</button>
-                            <button class="btn btn-secondary mod-key" data-mod="ControlRight">Ctrl</button>
-                            <button class="btn btn-secondary mod-key" data-mod="AltRight">AltGr</button>
-                            <button class="btn btn-secondary mod-key" data-mod="ContextMenu">Menu</button>
-                        </div>
+    <div class="container mt-3">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="listen-tab" data-bs-toggle="tab" data-bs-target="#listen" type="button" role="tab" aria-controls="listen" aria-selected="true">Listen</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="mic-tab" data-bs-toggle="tab" data-bs-target="#mic" type="button" role="tab" aria-controls="mic" aria-selected="false">Mic</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="openai-tab" data-bs-toggle="tab" data-bs-target="#openai" type="button" role="tab" aria-controls="openai" aria-selected="false">OpenAI</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="push_to_talk-tab" data-bs-toggle="tab" data-bs-target="#push_to_talk" type="button" role="tab" aria-controls="push_to_talk" aria-selected="false">Push to Talk</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="revoicer-tab" data-bs-toggle="tab" data-bs-target="#revoicer" type="button" role="tab" aria-controls="revoicer" aria-selected="false">Revoicer</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="spotify-tab" data-bs-toggle="tab" data-bs-target="#spotify" type="button" role="tab" aria-controls="spotify" aria-selected="false">Spotify</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="other-tab" data-bs-toggle="tab" data-bs-target="#other" type="button" role="tab" aria-controls="other" aria-selected="false">Other</button>
+            </li>
+            <!-- Reserved Tabs -->
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="reserved1-tab" data-bs-toggle="tab" data-bs-target="#reserved1" type="button" role="tab" aria-controls="reserved1" aria-selected="false">Reserved 1</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="reserved2-tab" data-bs-toggle="tab" data-bs-target="#reserved2" type="button" role="tab" aria-controls="reserved2" aria-selected="false">Reserved 2</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="reserved3-tab" data-bs-toggle="tab" data-bs-target="#reserved3" type="button" role="tab" aria-controls="reserved3" aria-selected="false">Reserved 3</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="listen" role="tabpanel" aria-labelledby="listen-tab">
+                <h2>Module Listen <i class="fa fa-question-circle" style="font-size: 24px; color: #007BFF;"title="Reconnaissance vocale autonome et gratuite. Se déclenche par prénom, traite localement sans internet, accès micro requis."></i></h2>
+                <label>Sauvegarde des demandes :</label>
+                <input type="text" name="listen[path_input]" value="<%= data.listen.path_input %>" disabled title="Chaque commande vocale déclenchée est sauvegardée en fichier MP3 pour diagnostic en cas de non-compréhension."><br>
+                <label>Grammar :</label>
+                <input type="text" name="listen[grammar]" value="<%= data.listen.grammar %>" disabled title="Contient les commandes et actions, réinitialisé à chaque démarrage. Pour modifications, voir le fichier lexique."><br>
+                
+                <label>Language :</label>
+                <input type="text" name="listen[language]" value="<%= data.listen.language %>" disabled><br>
+                <label>Hotword :</label>
+                <input type="text" name="listen[hotword]" value="<%= data.listen.hotword %>" title='Prénom de déclenchement : comme "Alexa", "Siri", ou "OK Google", mais choisissez le prénom que vous préférez!'><br>
+                <label for="confidenceRange">Niveau de confiance :</label>
+                <input type="range" id="confidenceRange" name="listen[confidence]" min="0.75" max="1.00" step="0.01"
+                    value="<%= data.listen.confidence %>" oninput="confidenceValue.value = this.value" title="Niveau de confiance : Ajustez pour influencer la précision des correspondances. Un niveau bas peut générer des erreurs; un niveau élevé exige une prononciation précise.">
+                <output id="confidenceValue">
+                    <%= data.listen.confidence %>
+                </output><br>
+                <label>Debug Listen :</label>
+                <input type="checkbox" name="listen[debug_listen]" <%=data.listen.debug_listen ? 'checked' : '' %>>
+            
+            </div>
+            <div class="tab-pane fade" id="mic" role="tabpanel" aria-labelledby="mic-tab">
+                <h2>Module Mic <i class="fa fa-question-circle" style="font-size: 24px; color: #007BFF;"title="Optionnel, gère la reconnaissance vocale via Internet avec OpenAI. Nécessite un compte OpenAI payant pour fonctionner."></i></h2>
+                <label>Sauvegarde des demandes :</label>
+                <input type="text" name="mic[path_input]" value="<%= data.mic.path_input %>" disabled title="Chaque demande vocale faite est sauvegardée en fichier MP3 pour diagnostic en cas de non-compréhension."><br>
+                <label>Debug Mic :</label>
+                <input type="checkbox" name="mic[debug_mic]" <%=data.mic.debug_mic ? 'checked' : '' %>><br>
+           
+            </div>
+            <div class="tab-pane fade" id="openai" role="tabpanel" aria-labelledby="openai-tab">
+                <h2 style="display: inline; margin-right: 10px;">Module OpenAI</h2>
+            <h6 style="display: inline; color: gray; font-size: 0.75em;">optionnel</h6>
+            <i class="fa fa-question-circle" style="font-size: 24px; color: #007BFF; vertical-align: middle;" title="La partie OpenAI comprend un des systèmes de reconnaissance vocale, l'intelligence qui répondra, et un des systèmes de création de voix. Nécessite un compte OpenAI payant pour fonctionner."></i><br>
+            <label>API Key :</label>
+            <input type="text" id="apiKey" name="openAI[apiKey]" value="<%= data.openAI.apiKey %>" onchange="checkAPIKey()" title="Votre clé API openAI"><br>
+            <label>Assistant Name :</label>
+            <input type="text" name="openAI[assistant_name]" value="<%= data.openAI.assistant_name %>" title="Nom de votre assitant sur votre dashboard openAI"><br>
+            <label>Assistant ID :</label>
+            <input type="text" name="openAI[assistant_id]" value="<%= data.openAI.assistant_id %>" title="Identifiant de votre assistant. Laisser vide pour un premier démarrage ou création d'un nouvelle assitant via votre dashboard"><br>
+            <label>Thread ID :</label>
+            <input type="text" id="thread_id" name="openAI[thread_id]" value="<%= data.openAI.thread_id %>" title="Identifiant unique pour suivre une conversation spécifique avec OpenAI. Laissez vide pour démarrer une nouvelle conversation."><br>
+            <label>Modèle d'assistant :</label>
+            <select id="modelSelect" name="openAI[model_assistant]" title="Choisissez le modèle OpenAI selon le coût et la puissance. Les modèles plus puissants comme 'gpt-4-turbo' offrent une meilleure performance mais sont plus coûteux, tandis que 'gpt-3.5-turbo-16k' est plus abordable mais moins puissant.">
+                <option value="gpt-3.5-turbo-16k">GPT-3.5 Turbo 16k</option>
+                <option value="gpt-4-turbo">GPT-4 Turbo</option>
+            </select><br>
+            <label>Voix de l'assistant :</label>
+            <select id="voiceSelect" name="openAI[assistant_voice]" title="Si plus bas, openAI a été sélectioner pour vocaliser les réponses, vous pouvez utiliser les voix suivantes">
+                <option value="alloy">alloy</option>
+                <option value="echo">echo</option>
+                <option value="fablek">fable</option>
+                <option value="onyx">onyxo</option>
+                <option value="nova">nova</option>
+                <option value="shimmer">shimmer</option>
+            </select><br>
+            <label>Sauvegarde des réponse openAI :</label>
+            <input type="text" name="openAI[path_output]" value="<%= data.openAI.path_output %>" disabled title="Chaque réponse vocal crée par openAI sera sauvegarder et trier par action."><br>
+            
+            </div>
+            <div class="tab-pane fade" id="push_to_talk" role="tabpanel" aria-labelledby="push_to_talk-tab">
+                <h2>Push to talk  <i class="fa fa-question-circle" style="font-size: 24px; color: #007BFF;"title="Afin d'éviter de requête inutile et couteuse à openAI, la détection vocal payante peut être gérer par 2 push to talk (clavier et manette de jeux)"></i></h2>
+                <label>Touche du clavier :</label>
+                <input type="text" id="keyboard_key" name="push_to_talk.keyboard[keyboard_key]" value="<%= data.push_to_talk.keyboard.keyboard_key %>" title="La touche qui provoquera l'écoute sur openAI"><br><br>
+                <label>Touche de la manette :</label><br>
+                <label>vendorId :</label>
+                <input type="text" id="apivendorIdKey" name="push_to_talk.joystick[vendorId]" value="<%= data.push_to_talk.joystick.vendorId %>" title="La touche qui provoquera l'écoute sur openAI"><br>
+                <label>productId :</label>
+                <input type="text" id="productId" name="push_to_talk.joystick[productId]" value="<%= data.push_to_talk.joystick.productId %>" title="La touche qui provoquera l'écoute sur openAI"><br>
+                <label>tramId :</label>
+                <input type="text" id="tramId" name="push_to_talk.joystick[tramId]" value="<%= data.push_to_talk.joystick.tramId %>" title="La touche qui provoquera l'écoute sur openAI"><br>
+                <label>bp_Id :</label>
+                <input type="text" id="apiKey" name="push_to_talk.joystick[bp_Id]" value="<%= data.push_to_talk.joystick.bp_Id %>" title="La touche qui provoquera l'écoute sur openAI"><br>
+        
+            </div>
+            <div class="tab-pane fade" id="revoicer" role="tabpanel" aria-labelledby="revoicer-tab">
+                <!-- Content for Revoicer -->
+            </div>
+            <div class="tab-pane fade" id="spotify" role="tabpanel" aria-labelledby="spotify-tab">
+                <!-- Content for Spotify -->
+            </div>
+            <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
+                <!-- Content for Other -->
+            </div>
+            <!-- Reserved Content Areas -->
+            <div class="tab-pane fade" id="reserved1" role="tabpanel" aria-labelledby="reserved1-tab">
+                <!-- Reserved Content 1 -->
+            </div>
+            <div class="tab-pane fade" id="reserved2" role="tabpanel" aria-labelledby="reserved2-tab">
+                <!-- Reserved Content 2 -->
+            </div>
+            <div class="tab-pane fade" id="reserved3" role="tabpanel" aria-labelledby="reserved3-tab">
+                <form>
+                    <div class="form-row">
+                        <label for="name" class="form-label">Nom:</label>
+                        <input type="text" class="form-control" id="name" placeholder="Entrez votre nom">
                     </div>
-                    <input type="text" class="form-control mt-3" id="keyCombinationInput" readonly>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-warning" id="resetButton">Reset</button>
-                </div>
+                    <div class="form-row">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" placeholder="Entrez votre email">
+                    </div>
+                    <div class="form-row">
+                        <label for="message" class="form-label">Message:</label>
+                        <textarea class="form-control" id="message" rows="4" placeholder="Votre message ici"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
+                </form>
             </div>
         </div>
     </div>
-
-
-
-    <div class="container mt-5">
-        <h1>Interactions disponibles</h1>
-        <button type="button" class="btn btn-primary open-modal" data-bs-toggle="modal"
-            data-bs-target="#keyBindingModal">Binder</button>
-
-        <% let count=0; %>
-            <% for (const key in data) { %>
-                <% if (key !=="global" && data[key].rules) { %>
-                    <div class="card mt-3">
-                        <div class="card-header toggle-header" data-target="#cardBody<%= count %>">
-                            <%= key %>
-                                <% if (data[key].rules.length> 0) { %>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;<%= data[key].rules[0].description %>
-                                        <% } %>
-                        </div>
-                        <div class="card-body collapse" id="cardBody<%= count %>">
-                            <% data[key].rules.forEach(function(rule, index) { %>
-                                <form class="rule-form">
-                                    <h5 class="card-title">Description: <%= rule.description %>
-                                    </h5>
-                                    <h6>Questions:</h6>
-                                    <textarea class="form-control mb-2 auto-height" name="questions<%= count %>"
-                                        rows="5"><%= rule.question.join('\n').trim() %></textarea>
-                                    <h6>Réponses:</h6>
-                                    <textarea class="form-control mb-2 auto-height" name="responses<%= count %>"
-                                        rows="5"><%= rule.responses.join('\n').trim() %></textarea>
-                                    <% if (rule.interact) { %>
-                                        <div>
-                                            <strong>Interact Details:</strong>
-                                        </div>
-                                        <div>
-                                            <strong>Output:</strong>
-                                            <select class="form-control mb-2 output-select" id="output<%= count %>"
-                                                name="output<%= count %>">
-                                                <option value="none" <%=rule.interact.output==="none" ? "selected" : ""
-                                                    %>>None</option>
-                                                <option value="keyboard" <%=rule.interact.output==="keyboard"
-                                                    ? "selected" : "" %>>Keyboard</option>
-                                                <option value="mouse" <%=rule.interact.output==="mouse" ? "selected"
-                                                    : "" %>>Mouse</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <strong>Action:</strong>
-                                            <select class="form-control mb-2 action-select" id="action<%= count %>"
-                                                name="action<%= count %>">
-                                                <option class="none" value="none" style="display: none;">Aucune/option>
-                                                    <!-- Keyboard options -->
-                                                <option class="keyboard" value="key" <%=rule.interact.action==="key"
-                                                    ? "selected" : "" %>>une touche</option>
-                                                <option class="keyboard" value="combo" <%=rule.interact.action==="combo"
-                                                    ? "selected" : "" %>>une combinaison de touche</option>
-                                                <option class="keyboard" value="sequence"
-                                                    <%=rule.interact.action==="sequence" ? "selected" : "" %>>une suite
-                                                    de touche</option>
-                                                <option class="keyboard" value="phrase"
-                                                    <%=rule.interact.action==="phrase" ? "selected" : "" %>>une phrase à
-                                                    taper</option>
-                                                <!-- Mouse options -->
-                                                <option class="mouse" value="mouseclick">Click souris</option>
-                                                <option class="mouse" value="mousemove">Déplacer la souris</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <strong>Type d'appuie:</strong>
-                                            <select class="form-control mb-2 duration-select"
-                                                id="duration<%= count %> name=" duration<%=count %>">
-                                                <option value="short" <%=rule.interact.duration==="short" ? "selected"
-                                                    : "" %>>appuie court</option>
-                                                <option value="long" <%=rule.interact.duration==="long" ? "selected"
-                                                    : "" %>>appuie long</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <strong>Interact Details:</strong>
-
-                                            <p>Key: <%= rule.interact.key %>
-                                            </p>
-
-                                        </div>
-                                        <% } else { %>
-                                            <p>Aucun détail d'interaction fourni.</p>
-                                            <% } %>
-                                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                                </form>
-                                <% }); %>
-                        </div>
-                    </div>
-                    <% count++; %>
-                        <% } %>
-                            <% } %>
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script>
-        
-        $(document).ready(function () {
-            // Attache un gestionnaire de clic pour chaque en-tête de carte qui peut être basculé.
-            $('.toggle-header').click(function () {
-                // Récupère l'identifiant de l'élément à basculer, stocké dans l'attribut 'data-target'.
-                const collapsibleTargetId = $(this).attr('data-target');
-                // Bascule la visibilité de l'élément cible en utilisant la fonction collapse de Bootstrap.
-                $(collapsibleTargetId).collapse('toggle');
-            });
+        var config = <%- JSON.stringify(data) %>;
 
+        function checkAPIKey() {
+        var apiKey = document.getElementById('apiKey').value.trim();
+        var inputsToDisable = [document.getElementById('assistantID'), document.getElementById('modelSelect')];
 
-            // Gestionnaire d'événement pour la soumission des formulaires dans les cartes.
-            $('.rule-form').on('submit', function (e) {
-                // Empêche la soumission classique du formulaire qui provoquerait le rechargement de la page.
-                e.preventDefault();
-                // Affiche une alerte indiquant où et comment les modifications seraient normalement enregistrées.
-                alert('Changes would be saved here.');
-            });
-
-
-
-            let modifiers = {};
-            let selected_key = {};
-
-            $('.mod-key').on('click', function () {
-                const mod = $(this).data('mod');
-                modifiers[mod] = !modifiers[mod]; // Toggle modifier state
-                $(this).toggleClass('active', modifiers[mod]); // Toggle button active state
-                updateSelectedKey();
-                //console.log(modifiers);
-            });
-
-            $(document).on('keydown', function (event) {
-                // Ignore if any modifier key is pressed
-                if (!event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey) {
-                    const key = event.key; // Capture the key pressed
-                    if (key.length === 1 || key.startsWith('Arrow')) { // Filter out non-character keys except arrows
-                        $('#keyCombinationInput').val(function (i, val) {
-                            return val + (val ? ' + ' : '') + key; // Append the key pressed
-                        });
-                        updateSelectedKey();  // Update the selected key combination
-                        //console.log(selected_key);  // Log the current state of selected keys
-                    }
-                    event.preventDefault(); // Prevent default to stop scrolling for arrow keys
+        if (!apiKey) {
+            // Disable inputs if API Key is empty
+            inputsToDisable.forEach(function(input) {
+                input.disabled = true;
+                if (input.tagName === 'SELECT') {
+                    input.value = 'gpt-3.5-turbo-16k'; // Forcing a specific selection
                 }
             });
-
-            $('#resetButton').on('click', function () {
-                $('#keyCombinationInput').val('');
-                updateSelectedKey();
+        } else {
+            // Enable inputs if API Key is not empty
+            inputsToDisable.forEach(function(input) {
+                input.disabled = false;
             });
+        }
+    }
 
-            $('#keyBindingModal').on('hidden.bs.modal', function () {
-                $(document).off('keydown');
-                $('.mod-key').removeClass('active'); // Reset modifiers on modal close
-                modifiers = {}; // Clear modifiers
-                updateSelectedKey();
-            });
-
-            function updateSelectedKey() {
-                console.log("combinaison : ");
-                selected_key.modifiers = Object.keys(modifiers).filter(m => modifiers[m]);  // Store active modifiers
-                selected_key.key = $('#keyCombinationInput').val();  // Store the key combination
-                console.log(selected_key);
-            }
-        });
-
-    </script>
-
+    </script>   
 </body>
-
 </html>

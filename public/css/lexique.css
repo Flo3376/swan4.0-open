@@ -1,0 +1,281 @@
+body {
+    background-color: #121212;
+    color: #ccc;
+    /* Amélioration de la lisibilité des textes */
+}
+
+#leftPanel {
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 2px solid #333;
+    background-color: #242424;
+}
+
+#rightPanel {
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #333;
+}
+
+.list-group-item {
+    background-color: #242424;
+    border-color: #444;
+    color: #ccc;
+    /* Assure que le texte est bien lisible */
+    cursor: pointer;
+    /* Indique que l'élément est cliquable */
+}
+
+.action-buttons button {
+    color: #ccc;
+    /* Couleur des icônes pour qu'elles soient visibles en mode sombre */
+}
+
+.tooltip-inner {
+    background-color: #333;
+    /* Couleur d'arrière-plan pour les infobulles */
+    color: #ccc;
+    /* Couleur du texte pour les infobulles */
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+}
+
+.keyboard-row {
+    display: flex;
+
+    margin: 5px 0;
+}
+
+.key {
+    padding: 10px;
+    margin: 0 5px;
+    width: 40px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.key_forbiden {
+    padding: 10px;
+    margin: 0 5px;
+    width: 40px;
+    text-align: center;
+    cursor: pointer;
+    background-color: rgba(180, 20, 20, 0.5);
+    ;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.key_t2 {
+    padding: 10px;
+    margin: 0 5px;
+    width: 55px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.key_t3 {
+    padding: 10px;
+    margin: 0 5px;
+    width: 60px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.key_t4 {
+    padding: 10px;
+    margin: 0 5px;
+    width: 80px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.key_t5 {
+    padding: 10px;
+    margin: 0 5px;
+    width: 100px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.key_t6 {
+    padding: 10px;
+    margin: 0 5px;
+    width: 130px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.key_t7 {
+    padding: 10px;
+    margin: 0 5px;
+    width: 318px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.key_t8 {
+    padding: 10px;
+    margin: 0 5px;
+    width: 95px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.spacer {
+    display: inline-block;
+    height: 10px;
+    /* Hauteur pour garder l'alignement avec les touches si nécessaire */
+}
+
+.spacer_100 {
+    width: 100px;
+}
+
+.spacer_90 {
+    width: 90px;
+}
+
+.spacer_295 {
+    width: 295px;
+}
+
+.spacer_50 {
+    width: 50px;
+}
+
+.spacer_40 {
+    width: 37px;
+}
+
+.spacer_30 {
+    width: 30px;
+}
+
+.spacer_30 {
+    width: 20px;
+}
+
+.spacer_10 {
+    width: 20px;
+}
+
+.key-active {
+    background-color: #4CAF50;
+    /* Vert, ou toute autre couleur qui indique "actif" */
+    color: white;
+}
+
+.modal-xl {
+    --bs-modal-width: 1225px;
+}
+
+.modal-content {
+    background-color: #333;
+    /* Gris foncé */
+    color: #fff;
+    /* Texte blanc pour contraster avec le fond sombre */
+}
+
+.modal-header,
+.modal-footer {
+    background-color: #222;
+    /* Un gris encore plus foncé pour les headers et footers */
+    border-color: #444;
+    /* Une bordure légèrement plus claire pour délimiter les sections */
+}
+
+.modal-body {
+    background-color: #333;
+}
+
+/* Boutons dans le modal footer pour un meilleur contraste */
+.modal-footer .btn {
+    background-color: #555;
+    /* Gris moyen pour les boutons */
+    color: #fff;
+    /* Texte blanc */
+}
+
+.modal-footer .btn:hover {
+    background-color: #666;
+    /* Un gris légèrement plus clair au survol */
+}
+
+/* Modifier les couleurs pour les liens si nécessaire */
+.modal-content a {
+    color: #4aa;
+    /* Une couleur de lien claire pour un bon contraste */
+}
+
+.btn-export {
+    background-color: #6f42c1;
+    /* Fond violet */
+    color: #ffffff;
+    /* Texte blanc */
+    border: none;
+    /* Pas de bordure */
+    transition: background-color 0.2s ease-in-out;
+    /* Transition douce pour le fond */
+}
+
+.btn-export:hover,
+.btn-export:focus {
+    background-color: #4a148c;
+    /* Fond violet plus foncé au survol */
+    color: #ffffff;
+    /* Texte reste blanc */
+}
+/* Styles spécifiques pour les toasts Bootstrap en mode sombre */
+.toast-dark {
+    background-color: #343a40; /* Gris foncé, courant dans les thèmes sombres */
+    color: #ffffff; /* Texte blanc pour le contraste */
+    border-color: #6c757d; /* Bordure un peu plus claire */
+}
+
+.toast-dark .toast-header {
+    background-color: #6c757d; /* Gris légèrement plus clair pour l'entête */
+    color: #ffffff; /* Texte blanc */
+    border-bottom-color: #343a40; /* Bordure plus foncée pour séparer de la partie body */
+}
+
+.toast-dark .btn-close {
+    color: #ffffff; /* Bouton de fermeture blanc pour le contraste */
+}
+
+.toast-dark .btn-close:hover {
+    color: #adb5bd; /* Couleur légèrement plus claire au survol */
+}
+
+.active-card {
+    background-color: #495057; /* Couleur de fond plus foncée pour la carte active */
+    color: white; /* Texte en blanc pour un meilleur contraste */
+    border-left: 4px solid #ffc107; /* Bordure gauche pour une indication claire */
+}

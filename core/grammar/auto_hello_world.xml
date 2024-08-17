@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="hello_world" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="hello_world" scope="public">
+    <tag>out.action=new Object();</tag>
+    <item>Swan</item>
+    <one-of>
+      <item>Dis bonjour à l'univers</item>
+    </one-of>
+    <tag>out.action.action="hello_world";</tag>
+  </rule>
+</grammar>

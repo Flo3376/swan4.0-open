@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="accept_invite_mission" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="accept_invite_mission" scope="public">
+    <tag>out.action=new Object();</tag>
+    <item>Swan</item>
+    <one-of>
+      <item>Accepte l'invitation</item>
+      <item>Accepte la Mission</item>
+    </one-of>
+    <tag>out.action.action="accept_invite_mission";</tag>
+  </rule>
+</grammar>

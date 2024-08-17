@@ -476,3 +476,58 @@ starmap_close:
         type: key
         action_input: '{F2}'
         duration: short
+accept_invite_mission:
+  root: accept_invite_mission
+  rules:
+    - action: accept_invite_mission
+      description: accepte mission / invitation
+      questions:
+        - Accepte l'invitation
+        - Accepte la Mission
+      responses:
+        - Accepter.
+        - d'accord.
+        - ok.
+        - c'est fait
+      interact:
+        output: keyboard
+        type: key
+        action_input: '{Caret}'
+        duration: short
+reject_invit_mission:
+  root: reject_invit_mission
+  rules:
+    - action: reject_invit_mission
+      description: refuser mission / invitation
+      questions:
+        - refuse la mission
+        - refuse l'invitation
+      responses:
+        - refuser.
+        - d'accord.
+        - ok.
+        - c'est fait
+      interact:
+        output: keyboard
+        type: key
+        action_input: '{Dollar}'
+        duration: short
+hello_world:
+  root: hello_world
+  rules:
+    - action: hello_world
+      description: dire bonjour sur le tchat
+      questions:
+        - Dis bonjour à l'univers
+      responses:
+        - ok
+        - 'd''accord, '
+        - j'envoie le message
+        - message envoyé
+      interact:
+        output: keyboard
+        type: phrase
+        action_input: >-
+          {Enter}Salut tous le monde, bob est de retour// Hello everyone, Bob is
+          back{Enter}
+        duration: short

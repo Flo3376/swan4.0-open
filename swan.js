@@ -40,6 +40,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
+// Servir des fichiers statiques depuis le dossier 'public'
+app.use(express.static(path.join(__dirname, 'public')));
+
 // -----------------------------
 // Section de configuration par le web
 // -----------------------------
@@ -49,13 +52,25 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Route pour afficher le formulaire
-app.get('/', (req, res) => {
+app.get('/lexique', (req, res) => {
     try {
       const filePath = path.join(__dirname, 'core', 'config', 'lexique.yaml');
       const fileContents = fs2.readFileSync(filePath, 'utf8');
       const data = yaml.load(fileContents);
       //console.log(JSON.stringify(data, null, 2)); // Ajoutez cette ligne pour inspecter les données
-      res.render('index', { data: data });
+      res.render('lexique', { data: data });
+    } catch (e) {
+      console.error(e);
+      res.status(500).send('Erreur lors de la lecture du fichier');
+    }
+  });
+  app.get('/config', (req, res) => {
+    try {
+      const filePath = path.join(__dirname, 'core', 'config', 'config.yaml');
+      const fileContents = fs2.readFileSync(filePath, 'utf8');
+      const data = yaml.load(fileContents);
+      //console.log(JSON.stringify(data, null, 2)); // Ajoutez cette ligne pour inspecter les données
+      res.render('index2', { data: data });
     } catch (e) {
       console.error(e);
       res.status(500).send('Erreur lors de la lecture du fichier');
@@ -306,8 +321,6 @@ if ((config.vocalisation == "revoicer" && revoicer_set) || (config.vocalisation 
 // -----------------------------
 
 // Créer une instance du contrôleur d'entrée
-
-
 const output_c = new outputCommander();
 output_c.start('unique_process_id');
 
@@ -424,7 +437,7 @@ async function initializeSystem() {
         console.log()
     }
     await voiceModule.start('unique-id', config.listen, callback_listen, logback_listen);
-    await vocalise("Création des pallettes de Commandes.", config, openai, "error_generic", config.effect,true);
+    
     await tokenize("ai-tus en line"); //plein de faute, c'est volontaire
     await tokenize("Es-tu en ligne");
     //vocalise("Bonjour! je m'appelle swan, votre intelligence artificielle. Que puis je faire pour vous?", config, openai, "", config.effect)
@@ -433,8 +446,10 @@ async function initializeSystem() {
 }
 
 async function restart() {
+    await vocalise("Redémarrage des systémes en cours.", config, openai, "error_generic", config.effect, true);
     config = load_config('./core/config/config.yaml');
     lexique = load_config('./core/config/lexique.yaml');
+    
     initializeSystem()
 }
 
