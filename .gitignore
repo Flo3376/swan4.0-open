@@ -7,7 +7,7 @@ setup_ino.iss
 
 # Répertoires d'installation et de sortie
 /4_installer
-/Output
+
 
 # Dossiers node_modules
 node_modules/

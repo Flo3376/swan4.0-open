@@ -528,6 +528,6 @@ hello_world:
         output: keyboard
         type: phrase
         action_input: >-
-          {Enter}Salut tous le monde, bob est de retour// Hello everyone, Bob is
+          {Enter}Salut tous le monde, Bob est de retour. Hello everyone, Bob is
           back{Enter}
-        duration: short
+        duration: long

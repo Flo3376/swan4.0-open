@@ -523,18 +523,20 @@
   },
   {
     "phrases": [
-      "envoie le texte"
+      "Dis bonjour à l'univers"
     ],
-    "code": "test_phrase",
+    "code": "hello_world",
     "response": [
       "ok",
-      "je m'en occupe"
+      "d'accord, ",
+      "j'envoie le message",
+      "message envoyé"
     ],
     "action": {
       "output": "keyboard",
       "type": "phrase",
-      "action_input": "{Enter}Salut tous le monde{Enter}",
-      "duration": "short"
+      "action_input": "{Enter}Salut tous le monde, Bob est de retour// Hello everyone, Bob is back{Enter}",
+      "duration": "long"
     }
   },
   {
@@ -1073,8 +1075,8 @@
     "action": {
       "output": "keyboard",
       "type": "phrase",
-      "action_input": "{Enter}Salut tous le monde, bob est de retour// Hello everyone, Bob is back{Enter}",
-      "duration": "short"
+      "action_input": "{Enter}Salut tous le monde, Bob est de retour. Hello everyone, Bob is back{Enter}",
+      "duration": "long"
     }
   }
 ]
