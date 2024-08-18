@@ -1,7 +1,7 @@
 # info pour le module listen
 listen: 
     # #répertoire de stockageg des sons de capturés
-    path_input: "/sound/input_listen_sound/"
+    #path_input: "/sound/input_listen_sound/"
     # répertoire ou se trouve le dictionnaire de compréhension
     grammar : "./core/grammar"
     # activation du débug
@@ -27,9 +27,9 @@ openAI:
     # thread_id - ID du thread utilisé pour conserver la conversation, peut être vidé pour lancer une conversation vierge
     thread_id : ""
     # Nom de l'assistant
-    assistant_name: "Swan_sc_0.6_b"
+    assistant_name: ""
     # Modèle du robot, son niveau d'intelligence, "gpt-3.5-turbo-16k" peu coûteux, mais peu puissant, "gpt-4-turbo" très coûteux mais très puissant
-    model_assistant: "gpt-3.5-turbo-16k"
+    model_assistant: "gpt-4-turbo"
     # Voix de l'assistant: alloy, echo, fable, onyx, nova, shimmer
     assistant_voice: "nova"
     #répertoire de stockageg des sons de revoicer
@@ -58,7 +58,7 @@ revoicer :
     # Mot de passe associé au compte Revoicer
     password: ''
     # Identifiant de la campagne utilisée pour la génération de voix
-    campaignId: "55351"
+    campaignId: ""
     # Ton par défaut utilisé pour la synthèse vocale "Cheerful" "sad" "normal" !!!attention seule "fr-FR-DeniseNeural" peut utiliser les 3 mods, les autres voix devront être réglé sur normal
     default_tone: 'normal'
     # Définit la langue dans laquelle les textes sont lus
@@ -81,18 +81,19 @@ spotify :
     client_pref_device : ""
     defaultVolume : 50
 
+sound_bank :
+    path_output :  "/sound/output_sound/sound_bank/"
 
-#module de vocalisation "revoicer" payant / "openAI" payant / "google" inconnu (prochainement)
-vocalisation : "revoicer"
+
+#module de vocalisation "revoicer" payant / "openAI" payant / "google" inconnu (prochainement) / "sound_bank" lecture des son dans les répertoires
+vocalisation : "sound_bank"
 #effet sur la voix "bocal"/"small_speaker"/"radio"/"telephone" /"none"
-effect : "bocal"
+effect : "small_speaker"
 # Info sur Sox
 
 #décrytagge info "local" (gratuit) / openAI (payant)
 tokenizer : "local"
 
 sox_path : ';C:\\Program Files (x86)\\sox-14-4-2'
-# Info sur la sortie audio
-player_path: "C:\\Program Files (x86)\\Winamp\\winamp.exe"
-# Info sur le debug global
+
 debug_sw: false

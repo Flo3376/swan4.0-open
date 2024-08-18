@@ -87,8 +87,44 @@ async function vocalise(tts, config, openai, action = "other", effect) {
     case "google":
       // Implémentez la logique pour Google TTS ici
       break;
+    case "sound_bank":
+      await sound_bank_play(config,action);
+      break;
   }
 }
+// -----------------------------
+// Section Sound_bank
+// -----------------------------
+function sound_bank_play(config, action) {
+  const speechFile = path.resolve(`./${config.sound_bank.path_output}/${action}/`);
+
+  // Lire le contenu du dossier
+  fs2.readdir(speechFile, (err, files) => {
+    if (err) {
+      console.error("Erreur lors de la lecture du dossier:", err);
+      return;
+    }
+
+    // Filtrer pour garder uniquement les fichiers .mp3
+    const mp3Files = files.filter(file => file.endsWith('.mp3'));
+
+    if (mp3Files.length > 0) {
+      // Choisir un fichier au hasard
+      const randomFile = mp3Files[Math.floor(Math.random() * mp3Files.length)];
+      const fullPath = path.join(speechFile, randomFile);
+
+      // Jouer le fichier audio sélectionné
+      playAudio(fullPath, "none");
+    } else {
+      // Aucun fichier mp3 trouvé, jouer le son par défaut
+      const defaultPath = path.resolve(`./${config.sound_bank.path_output}/default/bip.mp4`);
+      playAudio(defaultPath, config.effect);
+    }
+  });
+}
+
+
+
 
 // -----------------------------
 // Section openAI
@@ -117,6 +153,7 @@ async function sendTextToOpenAI(textToSpeak, speechFile, openai, config, effect)
 // -----------------------------
 // Section revoicer
 // -----------------------------
+
 
 // Fonction pour vérifier la validité des cookies
 function isCookieValid() {

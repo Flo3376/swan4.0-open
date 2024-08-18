@@ -309,8 +309,12 @@ const google_set = google_data.every(google_data => google_test[google_data] && 
 if ((config.vocalisation == "revoicer" && revoicer_set) || (config.vocalisation == "openAI" && openAI_set) || (config.vocalisation == "google" && google_set)) {
     console.log(colors.green(`Moteur de vocalisation sélectionné : `) + config.vocalisation);
 } else {
-    console.log(colors.red(`Le moteur de vocalisation "${config.vocalisation}" ne peut être utilisé, veuillez vérifier votre fichier de config, coupure du programme`));
-    console.log(colors.red(`Passage en mod lecture de sons internes`));
+    if(config.vocalisation!="sound_bank"){
+        console.log(colors.red(`Le moteur de vocalisation "${config.vocalisation}" ne peut être utilisé, veuillez vérifier votre fichier de config, coupure du programme`));
+    }
+    
+    console.log(colors.red(`Passage sur la banque de son interne`));
+    config.vocalisation="sound_bank";
     //process.exit(1); // Arrête l'exécution du programme avec un code d'erreur
 }
 
