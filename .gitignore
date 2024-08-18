@@ -14,7 +14,7 @@ node_modules_sav/
 
 # Configurations spécifiques au projet
 core/config/lexique.yaml
-#core/data/commands.json
+core/data/commands.json
 core/data/cookies.json
 core/config/config.yaml
 core/grammar
