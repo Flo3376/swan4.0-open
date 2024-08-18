@@ -311,7 +311,7 @@ if ((config.vocalisation == "revoicer" && revoicer_set) || (config.vocalisation 
 } else {
     console.log(colors.red(`Le moteur de vocalisation "${config.vocalisation}" ne peut être utilisé, veuillez vérifier votre fichier de config, coupure du programme`));
     console.log(colors.red(`Passage en mod lecture de sons internes`));
-    process.exit(1); // Arrête l'exécution du programme avec un code d'erreur
+    //process.exit(1); // Arrête l'exécution du programme avec un code d'erreur
 }
 
 
