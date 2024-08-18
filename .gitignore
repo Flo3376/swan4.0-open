@@ -3,7 +3,7 @@
 config_sav.yaml
 config_test.yaml
 setup_ino.iss
-package-lock.json
+#package-lock.json
 
 # Exclure tout dans 4_installer sauf ce qui est explicitement ré-inclus
 /4_installer/*
