@@ -33,16 +33,15 @@ sound/input_mic_sound/*
 sound/input_listen_sound/*
 !sound/input_listen_sound/.gitkeep
 
+# Ignorer tous les fichiers .mp3 et .mp4 dans sound/output_sound et ses sous-répertoires
+sound/output_sound/**/*.mp3
+sound/output_sound/**/*.mp4
 
+# Réinclure le dossier spécifique pour synchronisation
+!sound/output_sound/sound_bank/default/
 
-
-# Dossiers output
-# Ignorer tout sauf les fichiers .gitkeep dans les dossiers spécifiés
-/sound/output_sound/openAI/other
-/sound/output_sound/revoicer/other
-
-!sound/sound_output/openAI/other/.gitkeep
-!sound/sound_output/revoicer/other/.gitkeep
+# Garder les fichiers .gitkeep dans sound/output_sound et ses sous-répertoires
+!sound/output_sound/**/*.gitkeep
 
 
 
