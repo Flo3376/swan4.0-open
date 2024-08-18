@@ -1,6 +1,6 @@
 # Configuration générale
 .env
-config.yaml
+
 config_sav.yaml
 config_test.yaml
 setup_ino.iss
@@ -13,9 +13,15 @@ node_modules/
 node_modules_sav/
 
 # Configurations spécifiques au projet
-core/config/lexique.yaml
-core/data/commands.json
-core/data/cookies.json
+#core/config/lexique.yaml
+#core/data/commands.json
+#core/data/cookies.json
+#config.yaml
+
+
+
+
+
 core/exe/my_player*
 !core/exe/my_player.gitkeep
 
