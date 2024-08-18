@@ -17,7 +17,7 @@ core/config/lexique.yaml
 core/data/commands.json
 core/data/cookies.json
 core/config/config.yaml
-#core/grammar
+core/grammar
 
 
 
