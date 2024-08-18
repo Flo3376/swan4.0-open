@@ -6,3 +6,4 @@ echo Repertoire node_modules supprime.
 echo Installation des packages npm...
 npm install
 echo Installation terminee.
+pause
