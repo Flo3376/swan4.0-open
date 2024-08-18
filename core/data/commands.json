@@ -58,6 +58,485 @@
     "action": {
       "output": "none"
     }
+  },
+  {
+    "phrases": [
+      "saute",
+      "fais un saut"
+    ],
+    "code": "jump",
+    "response": [
+      "d'accord"
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "{Space}",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu rentrer les trains",
+      "Prêt à rentrer les trains",
+      "ferme le train d'attérissage",
+      "ferme les trains d'attérissage",
+      "ferme les trains",
+      "ferme le train",
+      "rentre le train d'attérissage",
+      "rentre les trains d'attérissage",
+      "rentre les trains",
+      "rentre le train"
+    ],
+    "code": "gear_up",
+    "response": [
+      "Les trains d'atterrissage sont en train de rentrer.",
+      "Je rentre les trains d'atterrissage maintenant.",
+      "Action en cours pour rentrer les trains.",
+      "Les trains seront rentrés dans un moment.",
+      "Je m'occupe de rentrer les trains d'atterrissage.",
+      "Rentrage des trains d'atterrissage initié.",
+      "Les trains d'atterrissage sont en position de rentrage.",
+      "Opération de rentrage des trains d'atterrissage en cours.",
+      "Je commence à rentrer les trains d'atterrissage.",
+      "Les trains d'atterrissage sont en cours de rétraction."
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "{N}",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu sortir les trains",
+      "Trains d'atterrissage à sortir",
+      "Prêt à sortir les trains",
+      "Activation du déploiement des trains",
+      "Commande pour sortir les trains",
+      "ouvre le train d'attérissage",
+      "ouvre les trains d'attérissage",
+      "ouvre les trains",
+      "ouvre le train",
+      "ouvre le train d'attérissage",
+      "ouvre les trains d'attérissage",
+      "ouvre les trains",
+      "ouvre le train"
+    ],
+    "code": "gear_down",
+    "response": [
+      "Trains d'atterrissage sortis.",
+      "Les trains sont maintenant sortis.",
+      "Opération terminée, trains déployés.",
+      "Trains sortis avec succès.",
+      "Les trains d'atterrissage sont en position de vol."
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "{N}",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu contacter la station pour atterrir",
+      "Demande l'autorisation d'atterrir",
+      "on arrive",
+      "Demande l'ouverture des portes"
+    ],
+    "code": "call_station_enter",
+    "response": [
+      "Contact avec la station en cours pour atterrissage.",
+      "Demande d'autorisation d'atterrir envoyée."
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "{F3}",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Contacte la station pour le décollage",
+      "Demande l'autorisation de décoller",
+      "Appelle la station",
+      "on y va",
+      "on décolle"
+    ],
+    "code": "call_station_exit",
+    "response": [
+      "Contact avec la station en cours pour décollage.",
+      "Demande d'autorisation de décoller envoyée."
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "{F3}",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Je te laisse les commandes",
+      "Je quitte la passerelle",
+      "Prends le contrôle, je sors",
+      "Gère tout, je quitte le poste"
+    ],
+    "code": "leave_post",
+    "response": [
+      "Commandes sécurisées, vous pouvez quitter en toute sécurité.",
+      "Poste en mode sécurisé, bon départ.",
+      "Je prends le relais, sortie autorisée.",
+      "Contrôle total activé, vous pouvez vous retirer."
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "{Y}",
+      "duration": "long"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu ouvrir les portes",
+      "Portes à ouvrir",
+      "Prêt à ouvrir les portes",
+      "Activation de l'ouverture des portes",
+      "Commande pour ouvrir les portes",
+      "Ouvre les portes"
+    ],
+    "code": "door_open",
+    "response": [
+      "Portes ouvertes.",
+      "Les portes sont maintenant ouvertes.",
+      "Opération terminée, portes débloquées.",
+      "Portes ouvertes avec succès.",
+      "Les portes sont déverrouillées et ouvertes."
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "{Degree}",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu fermer les portes",
+      "Portes à fermer",
+      "Prêt à fermer les portes",
+      "Activation de fermeture des portes",
+      "Commande pour fermer les portes",
+      "ferme les portes"
+    ],
+    "code": "door_close",
+    "response": [
+      "Portes fermées.",
+      "Les portes sont maintenant fermées.",
+      "Opération terminée, portes bloquées.",
+      "Portes fermées avec succès.",
+      "Les portes sont déverrouillées et fermées."
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "{Plus}",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Prépare le vol",
+      "Active tous les systèmes de vol",
+      "Mets en route les systèmes pour le décollage",
+      "Es-tu prêt à voler"
+    ],
+    "code": "ready_to_fly",
+    "response": [
+      "Tous les systèmes de vol sont en cours d'activation.",
+      "Préparation au vol complétée, prêt à décoller.",
+      "Systèmes vérifiés et opérationnels, prêt pour le vol."
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "combo",
+      "action_input": "{Right_Alt}{R}",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu démarrer la musique",
+      "Mets de la musique",
+      "Lance la lecture sur Spotify",
+      "relance la musique",
+      "Lance la musique"
+    ],
+    "code": "spotify_play",
+    "response": [
+      "Musique démarrée sur Spotify.",
+      "Lecture en cours."
+    ],
+    "action": {
+      "output": "none"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu mettre en pause",
+      "Mets la musique en pause",
+      "Pause la musique",
+      "Met en pause",
+      "coupe la musique"
+    ],
+    "code": "spotify_pause",
+    "response": [
+      "Musique mise en pause.",
+      "Pause activée."
+    ],
+    "action": {
+      "output": "none"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu passer à la suivante",
+      "Suivant sur Spotify",
+      "Change de piste",
+      "Musique suivante",
+      "Morceau suivant"
+    ],
+    "code": "next_track",
+    "response": [
+      "Piste suivante jouée.",
+      "Changement de piste effectué."
+    ],
+    "action": {
+      "output": "none"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu passer à la précédente",
+      "précédent sur Spotify",
+      "Musique précédente",
+      "morceaux précédent"
+    ],
+    "code": "previous_track",
+    "response": [
+      "Piste précédente jouée.",
+      "Changement de piste effectué."
+    ],
+    "action": {
+      "output": "none"
+    }
+  },
+  {
+    "phrases": [
+      "Augmente le volume",
+      "Augmente la musique",
+      "Augmente le son",
+      "Plus fort s'il te plaît"
+    ],
+    "code": "increase_volume",
+    "response": [
+      "Volume augmenté.",
+      "C'est maintenant plus fort."
+    ],
+    "action": {
+      "output": "none"
+    }
+  },
+  {
+    "phrases": [
+      "Baisse le volume",
+      "Baisse la musique",
+      "Baisse le son",
+      "Moins fort s'il te plaît"
+    ],
+    "code": "decrease_volume",
+    "response": [
+      "Volume diminué.",
+      "C'est maintenant plus doux."
+    ],
+    "action": {
+      "output": "none"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu initier le saut quantique",
+      "Lance le saut quantique",
+      "Lance le saut",
+      "Active le saut quantique"
+    ],
+    "code": "quantum_jump_start",
+    "response": [
+      "Initiation du saut quantique en cours.",
+      "Saut quantique activé, accrochez-vous."
+    ],
+    "action": {
+      "output": "mouse",
+      "type": "mouse_click",
+      "action_input": "{Left_click}",
+      "duration": "long"
+    }
+  },
+  {
+    "phrases": [
+      "Arrête le saut quantique",
+      "Arrête le saut",
+      "Coupe le saut",
+      "Coupe le saut quantique maintenant",
+      "Désactive le saut quantique",
+      "Stoppe le saut quantique immédiatement"
+    ],
+    "code": "quantum_jump_stop",
+    "response": [
+      "Saut quantique arrêté.",
+      "Le saut quantique est maintenant désactivé.",
+      "Arrêt du saut quantique confirmé.",
+      "On a oublie quelque chose?"
+    ],
+    "action": {
+      "output": "mouse",
+      "type": "mouse_click",
+      "action_input": "{Left_click}",
+      "duration": "long"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu passer en mode navigation",
+      "Active le mode navigation",
+      "Bascule en mode navigation",
+      "Passe en mode navigation"
+    ],
+    "code": "nav_mod",
+    "response": [
+      "Mode navigation activé.",
+      "Nous sommes maintenant en mode navigation.",
+      "ok je passe en mod navigation"
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "combo",
+      "action_input": "{Right_Shift}{Ù}",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu passer en mode combat",
+      "Active le mode combat",
+      "Bascule en mode combat",
+      "Passe en mode combat"
+    ],
+    "code": "combat_mod",
+    "response": [
+      "Mode combat activé.",
+      "Nous sommes maintenant en mode combat."
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "combo",
+      "action_input": "{Right_shift}{Asterisk}",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Peux-tu redémarrer",
+      "Redémarre l'assistant",
+      "Relance l'assistant",
+      "Est-il possible de redémarrer"
+    ],
+    "code": "system_restart",
+    "response": [
+      "Redémarrage de l'assistant en cours.",
+      "Je redémarre, à tout de suite."
+    ],
+    "action": {
+      "output": "none"
+    }
+  },
+  {
+    "phrases": [
+      "masque la carte",
+      "ferme la carte",
+      "ferme la starmap",
+      "masque la starmap"
+    ],
+    "code": "starmap_close",
+    "response": [
+      "Ok.",
+      "d'accord.",
+      "fermeture"
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "{F2}",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Accepte l'invitation",
+      "Accepte la Mission"
+    ],
+    "code": "accept_invite_mission",
+    "response": [
+      "Accepter.",
+      "d'accord.",
+      "ok.",
+      "c'est fait"
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "{Caret}",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "refuse la mission",
+      "refuse l'invitation"
+    ],
+    "code": "reject_invit_mission",
+    "response": [
+      "refuser.",
+      "d'accord.",
+      "ok.",
+      "c'est fait"
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "key",
+      "action_input": "{Dollar}",
+      "duration": "short"
+    }
+  },
+  {
+    "phrases": [
+      "Dis bonjour à l'univers"
+    ],
+    "code": "hello_world",
+    "response": [
+      "ok",
+      "d'accord, ",
+      "j'envoie le message",
+      "message envoyé"
+    ],
+    "action": {
+      "output": "keyboard",
+      "type": "phrase",
+      "action_input": "{Enter}Salut tous le monde, Bob est de retour. Hello everyone, Bob is back{Enter}",
+      "duration": "long"
+    }
   }
-  
 ]
