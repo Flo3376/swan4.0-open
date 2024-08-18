@@ -22,8 +22,10 @@
     "png-to-ico": "^2.1.8",
     "sox-audio": "^0.3.0",
     "spotify-web-api-node": "^5.0.2",
+    "superagent": "^10.0.2",
     "tough-cookie": "^4.1.4",
     "tree-kill": "^1.2.2",
+    "uuid": "^10.0.0",
     "webp-converter": "^2.3.3",
     "xmlbuilder": "^15.1.1"
   }
