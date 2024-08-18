@@ -8,9 +8,9 @@ setup_ino.iss
 # Répertoires d'installation et de sortie
 /4_installer
 
-
 # Dossiers node_modules
 node_modules/
+node_modules_sav/
 
 # Configurations spécifiques au projet
 core/config/lexique.yaml
