@@ -445,7 +445,6 @@ async function initializeSystem() {
     
     await tokenize("ai-tus en line"); //plein de faute, c'est volontaire
     await tokenize("Es-tu en ligne");
-    //vocalise("Bonjour! je m'appelle swan, votre intelligence artificielle. Que puis je faire pour vous?", config, openai, "", config.effect)
     //await spotify.playTrack("0C80GCp0mMuBzLf3EAXqxv");
 
 }
@@ -475,43 +474,7 @@ async function restart() {
 cleanDirectory('sound/input_listen_sound');
 cleanDirectory('core/exe/my_player/output');
 
-/*
-function deleteOldFiles() {
-    fs2.readdir("sound/input_listen_sound", (err, files) => {
-        if (err) {
-            console.error('Erreur lors de la lecture du répertoire:', err);
-            return;
-        }
 
-        files.forEach(file => {
-            if (file !== '.gitkeep') { // Ignorer le fichier .gitkeep
-                const filePath = path.join("sound/input_listen_sound", file);
-                fs2.stat(filePath, (err, stats) => {
-                    if (err) {
-                        console.error('Erreur lors de la récupération des informations du fichier:', err);
-                        return;
-                    }
-
-                    const now = new Date().getTime();
-                    const endTime = new Date(stats.mtime).getTime() + 5 * 60000; // 5 minutes en millisecondes
-
-                    if (now > endTime) {
-                        fs2.unlink(filePath, err => {
-                            if (err) {
-                                console.error('Erreur lors de la suppression du fichier:', err);
-                            } else {
-                                //console.log(`Fichier supprimé: ${filePath}`);
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    });
-}
-*/
-// Exécute la fonction deleteOldFiles toutes les minutes
-//setInterval(deleteOldFiles, 60000);
 /*
 console.log(colors.red('Ce texte est en rouge'));
 console.log(colors.green('Ce texte est en vert'));

@@ -1,6 +1,5 @@
 # Configuration générale
 .env
-
 config_sav.yaml
 config_test.yaml
 setup_ino.iss
