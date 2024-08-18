@@ -21,19 +21,20 @@ core/data/cookies.json
 core/config/config.yaml
 core/grammar
 
-
-
-
-# Dossiers de sons
-# Dossiers input
+# Ignorer tout dans sound/input_sound sauf .gitkeep
 sound/input_sound/*
 !sound/input_sound/.gitkeep
 
+# Ignorer tout dans sound/input_mic_sound sauf .gitkeep
 sound/input_mic_sound/*
 !sound/input_mic_sound/.gitkeep
 
+# Ignorer tout dans sound/input_listen_sound sauf .gitkeep
 sound/input_listen_sound/*
 !sound/input_listen_sound/.gitkeep
+
+
+
 
 # Dossiers output
 # Ignorer tout sauf les fichiers .gitkeep dans les dossiers spécifiés
@@ -43,18 +44,6 @@ sound/input_listen_sound/*
 !sound/sound_output/openAI/other/.gitkeep
 !sound/sound_output/revoicer/other/.gitkeep
 
-# Les entrées commentées ci-dessous sont supprimées car elles semblent être remplacées par de nouvelles règles plus spécifiques
-#sound/output_sound/*
-#!sound/output_sound/.gitkeep
 
-# Dossiers de son supplémentaires
-# Les entrées commentées ci-dessous ont été supprimées car elles semblaient être redondantes ou mal placées
-#sound/sound_input/*
-#!sound/sound_input/.gitkeep
-
-#sound/sound_output/*
-#!sound/sound_output/.gitkeep
-
-# Fichiers spécifiques
 
 
