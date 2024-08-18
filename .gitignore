@@ -5,12 +5,14 @@ config_sav.yaml
 config_test.yaml
 setup_ino.iss
 
-# Répertoires d'installation et de sortie
-/4_installer
+# Exclure tout dans 4_installer sauf ce qui est explicitement ré-inclus
+/4_installer/*
+!4_installer/setup_ino.iss
+!4_installer/setup_ino2.iss
+!4_installer/Output/
 
 # Dossiers node_modules
 node_modules/
-node_modules_sav/
 
 # Configurations spécifiques au projet
 core/config/lexique.yaml
@@ -20,11 +22,6 @@ core/config/config.yaml
 core/grammar
 
 
-
-
-
-core/exe/my_player*
-!core/exe/my_player.gitkeep
 
 
 # Dossiers de sons
