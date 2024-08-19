@@ -538,5 +538,29 @@
       "action_input": "{Enter}Salut tous le monde, Bob est de retour. Hello everyone, Bob is back{Enter}",
       "duration": "long"
     }
+  },
+  {
+    "phrases": [
+      "désactive toi"
+    ],
+    "code": "silent_mod",
+    "response": [
+      "Désactivation, a plus tard."
+    ],
+    "action": {
+      "output": "none"
+    }
+  },
+  {
+    "phrases": [
+      "Réactive toi"
+    ],
+    "code": "present_mod",
+    "response": [
+      "Redémarrage, je suis de retour"
+    ],
+    "action": {
+      "output": "none"
+    }
   }
 ]

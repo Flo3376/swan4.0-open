@@ -33,7 +33,7 @@ Filename: "{cmd}"; Parameters: "/C cd /d ""{app}"" && npm install"; WorkingDir: 
 Filename: "{cmd}"; Parameters: "/C copy /Y ""{app}\core\config\config-exemple.yaml"" ""{app}\core\config\config.yaml"""; WorkingDir: "{app}\core\config"; Flags: runhidden; Description: "Copie du fichier de configuration"; StatusMsg: "Configuration de l'application..."
 Filename: "{cmd}"; Parameters: "/C copy /Y ""{app}\core\data\cookies-exemple.json"" ""{app}\core\data\cookies.json"""; WorkingDir: "{app}\core\data"; Flags: runhidden; Description: "Copie du fichier de configuration"; StatusMsg: "Configuration de l'application..."
 Filename: "{cmd}"; Parameters: "/C copy /Y ""{app}\core\config\lexique-exemple.yaml"" ""{app}\core\config\lexique.yaml"""; WorkingDir: "{app}\core\data"; Flags: runhidden; Description: "Copie du fichier de configuration"; StatusMsg: "Configuration de l'application..."
-Filename: "{cmd}"; Parameters: "/C git config --global --add safe.directory ""{app}\Swan4.0"""; WorkingDir: "{app}\Swan4.0"; StatusMsg: "Configuration du répertoire sécurisé pour Git..."; Flags: runhidden
+Filename: "{cmd}"; Parameters: "/C git config --global --add safe.directory ""{app}"""; WorkingDir: "{app}"; StatusMsg: "Configuration du répertoire sécurisé pour Git..."; Flags: runhidden
 
 [Icons]
 Name: "{commondesktop}\Configurer Swan"; Filename: "{win}\explorer.exe"; Parameters: """http://127.0.0.1:2954/config"""; IconFilename: "{app}\icon_11.ico"; Comment: "Configurer Swan";

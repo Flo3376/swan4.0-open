@@ -67,3 +67,118 @@ test_swan_2:
         - Je vais bien, merci de t'en soucier.
       interact:
         output: none
+spotify_play:
+  root: spotify_play
+  rules:
+    - action: spotify_play
+      description: spotify_play
+      questions:
+        - Peux-tu démarrer la musique
+        - Mets de la musique
+        - Lance la lecture sur Spotify
+        - relance la musique
+        - Lance la musique
+      responses:
+        - Musique démarrée sur Spotify.
+        - Lecture en cours.
+      interact:
+        output: none
+spotify_pause:
+  root: spotify_pause
+  rules:
+    - action: spotify_pause
+      description: spotify_pause
+      questions:
+        - Peux-tu mettre en pause
+        - Mets la musique en pause
+        - Pause la musique
+        - Met en pause
+        - coupe la musique
+      responses:
+        - Musique mise en pause.
+        - Pause activée.
+      interact:
+        output: none
+next_track:
+  root: next_track
+  rules:
+    - action: next_track
+      description: spotify_next_track
+      questions:
+        - Peux-tu passer à la suivante
+        - Suivant sur Spotify
+        - Change de piste
+        - Musique suivante
+        - Morceau suivant
+      responses:
+        - Piste suivante jouée.
+        - Changement de piste effectué.
+      interact:
+        output: none
+previous_track:
+  root: previous_track
+  rules:
+    - action: previous_track
+      description: spotify_previous_track
+      questions:
+        - Peux-tu passer à la précédente
+        - précédent sur Spotify
+        - Musique précédente
+        - morceaux précédent
+      responses:
+        - Piste précédente jouée.
+        - Changement de piste effectué.
+      interact:
+        output: none
+increase_volume:
+  root: increase_volume
+  rules:
+    - action: increase_volume
+      description: spotify_increase_volume
+      questions:
+        - Augmente le volume
+        - Augmente la musique
+        - Augmente le son
+        - Plus fort s'il te plaît
+      responses:
+        - Volume augmenté.
+        - C'est maintenant plus fort.
+      interact:
+        output: none
+decrease_volume:
+  root: decrease_volume
+  rules:
+    - action: decrease_volume
+      description: spotify_decrease_volume
+      questions:
+        - Baisse le volume
+        - Baisse la musique
+        - Baisse le son
+        - Moins fort s'il te plaît
+      responses:
+        - Volume diminué.
+        - C'est maintenant plus doux.
+      interact:
+        output: none
+silent_mod:
+  root: silent_mod
+  rules:
+    - action: silent_mod
+      description: Désactivation de Swan
+      questions:
+        - désactive toi
+      responses:
+        - Désactivation, a plus tard.
+      interact:
+        output: none
+present_mod:
+  root: present_mod
+  rules:
+    - action: present_mod
+      description: Réactivation de Swan
+      questions:
+        - Réactive toi
+      responses:
+        - Redémarrage, je suis de retour
+      interact:
+        output: none

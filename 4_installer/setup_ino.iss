@@ -34,4 +34,4 @@ Filename: "{tmp}\Git-2.46.0-64-bit.exe"; Parameters: "/SILENT"; StatusMsg: "Inst
 Filename: "{tmp}\dotnet-sdk-8.0.303-win-x64.exe"; Parameters: "/SILENT"; StatusMsg: "Installation du SDK .NET...";
 Filename: "{tmp}\sox-14.4.2-win32.exe"; Parameters: "/SILENT"; StatusMsg: "Installation de Sound Exchange...";
 Filename: "{cmd}"; Parameters: "/C winget install ffmpeg"; WorkingDir: "{app}";  StatusMsg: "Installation de FFmpeg...";
-
+Filename: "{cmd}"; Parameters: "/C setx Path ""%Path%;%USERPROFILE%\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-7.0.2-full_build\bin"""; WorkingDir: "{app}"; Flags: runhidden; StatusMsg: "Installation de FFmpeg...";
