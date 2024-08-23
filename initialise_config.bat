@@ -11,9 +11,9 @@ pause > nul
 
 :: Copier les fichiers de configuration dans leurs emplacements appropriés avec demande de confirmation pour chaque fichier
 echo Copying configuration files...
-copy "%APP_DIR%\core\config\config-example.yaml" "%APP_DIR%\core\config\config.yaml"
-copy "%APP_DIR%\core\data\cookies-example.json" "%APP_DIR%\core\data\cookies.json"
-copy "%APP_DIR%\core\config\lexicon-example.yaml" "%APP_DIR%\core\config\lexicon.yaml"
+copy ".\core\config\config-example.yaml" ".\core\config\config.yaml"
+copy ".\core\data\cookies-example.json" ".\core\data\cookies.json"
+copy ".\core\config\lexicon-example.yaml" ".\core\config\lexicon.yaml"
 
 echo Process completed.
 pause
