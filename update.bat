@@ -1,8 +1,8 @@
 @echo off
-echo Exécution de swan.js en tant qu'administrateur...
+echo Lancement de la M.A.J...
 pushd %~dp0
 git pull
 echo.
-echo Script terminé, appuyez sur une touche pour fermer.
+echo Maj Finie, appuyez sur une touche pour fermer.
 popd
 pause > nul

@@ -1,8 +1,7 @@
 @echo off
 setlocal
-
-:: Définir le chemin d'accès de l'application
-set "APP_DIR=%~dp0"
+:: Définir les chemins d'accès nécessaires
+set APP_DIR=%CD%
 
 :: Message d'avertissement sur les opérations destructives
 echo ATTENTION: This operation is destructive. If the files are already in place, any modifications will be lost and Swan will return to its initial state.
