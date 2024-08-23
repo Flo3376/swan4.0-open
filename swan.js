@@ -355,57 +355,7 @@ function findResponsesByAction(lexique, action) {
     }
     return null; // Retourner null si aucune action correspondante n'est trouvée
 }
-/*
-//si le module reconnait une commande
-const callback_listen = (data) => {
-    // Vérifie si 'options' et 'action' sont définis dans 'data'
-    if (data && data.options && data.options.action) {
-        console.log("silence_mod : " +silent_mod);
-        if (data.options.action.includes("spotify") && !silent_mod) {
-            spotify_go(data.options.action);
-        } else if (data.options.action.includes("system_restart") && !silent_mod) {
-            restart();
-        } 
-        else if (data.options.action.includes("silent_mod") && !silent_mod){
-            silent_mod=true;
-            console.log("silence_mod : " +silent_mod);
-            const responses = findResponsesByAction(lexique, data.options.action);
-            vocalise(responses, config, openai, data.options.action, config.effect);
-          }
-        else if (data.options.action.includes("present_mod") && silent_mod){
-            silent_mod=false;
-            console.log("silence_mod : " +silent_mod);
-            const responses = findResponsesByAction(lexique, data.options.action);
-            vocalise(responses, config, openai, data.options.action, config.effect);
-        }
-        else {
-            if (!silent_mod){
-                const responses = findResponsesByAction(lexique, data.options.action);
-                const ruleInteract = lexique[data.options.action]?.rules[0]?.interact;
-    
-                if (ruleInteract) {
-                    if(lexique[data.options.action].rules[0].interact !="none")
-                    {
-                        output_c.handleCommand(lexique[data.options.action].rules[0].interact);
-                    }
-                    
-                    vocalise(responses, config, openai, data.options.action, config.effect);
-                } else {
-                    vocalise("Alerte, corruption des lexiques détectée. Veuillez vider le répertoire grammar des fichiers auto.", config, openai, "", "none");
-                    console.error(`La propriété 'rules' est manquante ou 'interact' n'est pas défini pour la commande ${data.options.action}`);
-                    console.log(data.options.action);
-                    console.log(lexique);
-                }
-            }
-           
-        }
-    } else {
-        // Message personnalisé pour indiquer que la reconnaissance a échoué et inviter à consulter le fichier audio
-        console.error("Erreur: 'data.options' ou 'data.options.action' est undefined. Le programme a détecté un son mais ne l'a pas reconnu.");
-        console.log("Veuillez consulter le fichier audio pour plus de détails:", data.filename);
-    }
-};
-*/
+
 // Si le module reconnaît une commande
 const callback_listen = (data) => {
     // Vérifie si 'options' et 'action' sont définis dans 'data'
@@ -521,7 +471,6 @@ async function initializeSystem() {
 }
 
 async function restart() {
-    vocalise("Redémarrage des systémes en cours.", config, openai, "error_generic", config.effect, true);
     config = load_config('./core/config/config.yaml');
     lexique = load_config('./core/config/lexique.yaml');
     
