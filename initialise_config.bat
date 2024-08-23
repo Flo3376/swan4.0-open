@@ -11,9 +11,9 @@ pause > nul
 
 :: Copier les fichiers de configuration dans leurs emplacements appropriés avec demande de confirmation pour chaque fichier
 echo Copying configuration files...
-copy ".\core\config\config-example.yaml" ".\core\config\config.yaml"
-copy ".\core\data\cookies-example.json" ".\core\data\cookies.json"
-copy ".\core\config\lexicon-example.yaml" ".\core\config\lexicon.yaml"
+copy "\core\config\config-example.yaml" "\core\config\config.yaml"
+copy "\core\data\cookies-example.json" "\core\data\cookies.json"
+copy "\core\config\lexicon-example.yaml" "\core\config\lexicon.yaml"
 
 echo Process completed.
 pause
