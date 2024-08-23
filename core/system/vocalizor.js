@@ -160,7 +160,7 @@ function isCookieValid() {
   const cookies = cookieJar.getCookiesSync('https://revoicer.app');
   const sessionCookie = cookies.find(cookie => cookie.key === 'ci_session');
   if (!sessionCookie) {
-    //console.log('Aucun cookie de session trouvé.');
+    console.log('Aucun cookie de session trouvé.');
     return false;
   }
 
@@ -196,24 +196,30 @@ async function loadCookies() {
   try {
     // Assurez-vous que le chemin du fichier est correct et accessible
     const cookiesText = await fs.readFile('./core/data/cookies.json', 'utf8');
-    const cookies = JSON.parse(cookiesText);
-    cookies.forEach(cookieData => {
-      const cookie = new Cookie({
-        key: cookieData.key,
-        value: cookieData.value,
-        domain: cookieData.domain,
-        path: cookieData.path,
-        expires: new Date(cookieData.expires),
-        secure: cookieData.secure,
-        httpOnly: cookieData.httpOnly,
-        sameSite: cookieData.sameSite
-      });
-      cookieJar.setCookieSync(cookie, 'https://revoicer.app/');
+    try{
+      const cookies = JSON.parse(cookiesText);
+      cookies.forEach(cookieData => {
+        const cookie = new Cookie({
+          key: cookieData.key,
+          value: cookieData.value,
+          domain: cookieData.domain,
+          path: cookieData.path,
+          expires: new Date(cookieData.expires),
+          secure: cookieData.secure,
+          httpOnly: cookieData.httpOnly,
+          sameSite: cookieData.sameSite
+        });
+        cookieJar.setCookieSync(cookie, 'https://revoicer.app/');
     });
-    ///console.log("Cookies chargés avec succès");
+    }
+    catch{
+      console.error('Cookies inexploitable');
+    }
+    
+    //console.log("Cookies chargés avec succès");
   } catch (error) {
     console.error('Échec du chargement des cookies:', error);
-    throw error;  // Renvoyer l'erreur pour une meilleure visibilité de la chaîne d'appel
+    //throw error;  // Renvoyer l'erreur pour une meilleure visibilité de la chaîne d'appel
   }
 }
 
@@ -276,11 +282,17 @@ async function handleVoiceDownloadAndPlay(downloadLink, player_path, speechFile,
 }
 
 async function mainRevoicer(text, config, path, effect) {
-
-  await loadCookies();
+  try{
+    await loadCookies();
+  }
+  catch{
+    await login(config.revoicer.email, config.revoicer.password);
+  }
+  
 
   if (!isCookieValid()) {
     await login(config.revoicer.email, config.revoicer.password);
+    console.log("Le cookies n'est plus valide")
   }
   await sendTextToRevoicer(text, config.revoicer.default_langage, config.revoicer.default_voice, config.revoicer.default_tone, config.revoicer.campaignId, config.player_path, path, effect);
   await saveCookies();
