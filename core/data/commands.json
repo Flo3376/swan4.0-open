@@ -1,32 +1,19 @@
 [
   {
     "phrases": [
-      "tu es là",
-      "Es-tu disponible",
-      "Es-tu connecté",
-      "Peux-tu me répondre",
-      "Es-tu prêt à aider",
-      "Es-tu en ligne",
-      "Peux-tu interagir",
-      "Es-tu actif maintenant",
-      "Es-tu accessible",
-      "Es-tu prêt à communiquer",
-      "Peux-tu assister maintenant"
+      "Es-tu là ",
+      "Peux-tu m'aider ",
+      "Es-tu disponible ",
+      "Tu es prêt ",
+      "Est-ce que tu fonctionnes "
     ],
     "code": "test_swan",
     "response": [
-      "Non, je dort encore papa",
-      "Bonjour ! Heureux de vous voir, prêt à aider.",
-      "Salut ! Je suis là, à votre service.",
-      "Bonjour ! Comment puis-je vous assister aujourd'hui ?",
-      "Salutations ! Toujours à votre écoute.",
-      "Bonjour ! Prêt à répondre à toutes vos questions.",
-      "Je suis à votre disposition, comment puis-je vous aider ?",
-      "Bonjour ! Je suis prêt à vous aider, n'hésitez pas à demander.",
-      "Salut ! Comment puis-je vous être utile aujourd'hui ?",
-      "Bonjour ! Toujours prête à vous assister avec enthousiasme.",
-      "Salutations ! Toujours à votre écoute.",
-      "Hello ! Je suis ici, prêt à vous aider à tout moment."
+      "Oui, je suis là.",
+      "Je suis prêt à aider.",
+      "À votre service.",
+      "Tout fonctionne, je suis prêt.",
+      "Toujours là pour vous."
     ],
     "action": {
       "output": "none"
@@ -34,13 +21,11 @@
   },
   {
     "phrases": [
+      "Comment vas-tu ",
       "Tu te portes bien ",
-      "Ça va",
-      "Tout va bien chez toi",
-      "Comment vas-tu",
-      "Comment tu vas",
-      "Ça se passe bien",
-      "Es-tu en bonne santé"
+      "Ça va ",
+      "Tout va bien pour toi ",
+      "Es-tu en forme "
     ],
     "code": "test_swan_2",
     "response": [
@@ -61,12 +46,19 @@
   },
   {
     "phrases": [
-      "saute",
-      "fais un saut"
+      "debout on se lève",
+      "allez on se met en route",
+      "c'est parti on se réveille",
+      "prépare-toi on y va",
+      "on se bouge"
     ],
     "code": "jump",
     "response": [
-      "d'accord"
+      "Je suis debout, prêt à partir",
+      "En route, c'est parti",
+      "Réveil activé, on y va",
+      "Prêt et réveillé",
+      "Debout et opérationnel"
     ],
     "action": {
       "output": "keyboard",
@@ -77,29 +69,19 @@
   },
   {
     "phrases": [
-      "Peux-tu rentrer les trains",
-      "Prêt à rentrer les trains",
-      "ferme le train d'attérissage",
-      "ferme les trains d'attérissage",
-      "ferme les trains",
-      "ferme le train",
-      "rentre le train d'attérissage",
-      "rentre les trains d'attérissage",
       "rentre les trains",
+      "rétracte le train d'atterrissage",
+      "on rentre les trains",
+      "lève les trains",
       "rentre le train"
     ],
     "code": "gear_up",
     "response": [
-      "Les trains d'atterrissage sont en train de rentrer.",
-      "Je rentre les trains d'atterrissage maintenant.",
-      "Action en cours pour rentrer les trains.",
-      "Les trains seront rentrés dans un moment.",
-      "Je m'occupe de rentrer les trains d'atterrissage.",
-      "Rentrage des trains d'atterrissage initié.",
-      "Les trains d'atterrissage sont en position de rentrage.",
-      "Opération de rentrage des trains d'atterrissage en cours.",
-      "Je commence à rentrer les trains d'atterrissage.",
-      "Les trains d'atterrissage sont en cours de rétraction."
+      "Trains en rétraction",
+      "Je rétracte les trains",
+      "Rentrée des trains en cours",
+      "Les trains sont en train de rentrer",
+      "Trains rétractés"
     ],
     "action": {
       "output": "keyboard",
@@ -110,27 +92,20 @@
   },
   {
     "phrases": [
-      "Peux-tu sortir les trains",
-      "Trains d'atterrissage à sortir",
-      "Prêt à sortir les trains",
-      "Activation du déploiement des trains",
-      "Commande pour sortir les trains",
-      "ouvre le train d'attérissage",
-      "ouvre les trains d'attérissage",
+      "sors les trains",
       "ouvre les trains",
-      "ouvre le train",
-      "ouvre le train d'attérissage",
-      "ouvre les trains d'attérissage",
-      "ouvre les trains",
-      "ouvre le train"
+      "déploie les trains d'atterrissage",
+      "on sort les trains",
+      "abaisse les trains",
+      "déploie le train"
     ],
     "code": "gear_down",
     "response": [
-      "Trains d'atterrissage sortis.",
-      "Les trains sont maintenant sortis.",
-      "Opération terminée, trains déployés.",
-      "Trains sortis avec succès.",
-      "Les trains d'atterrissage sont en position de vol."
+      "Trains en déploiement",
+      "Je déploie les trains",
+      "Sortie des trains en cours",
+      "Les trains sont en train de se déployer",
+      "Trains sortis"
     ],
     "action": {
       "output": "keyboard",
@@ -141,15 +116,19 @@
   },
   {
     "phrases": [
-      "Peux-tu contacter la station pour atterrir",
-      "Demande l'autorisation d'atterrir",
-      "on arrive",
-      "Demande l'ouverture des portes"
+      "contacte la station pour atterrir",
+      "demande l'autorisation d'atterrir",
+      "on arrive contacte la station",
+      "appelle la station pour atterrissage",
+      "demande à la station qu'on puisse atterrir"
     ],
     "code": "call_station_enter",
     "response": [
-      "Contact avec la station en cours pour atterrissage.",
-      "Demande d'autorisation d'atterrir envoyée."
+      "Contact avec la station en cours",
+      "Demande d'atterrissage envoyée",
+      "J'appelle la station pour atterrir",
+      "Autorisation d'atterrissage demandée",
+      "Station contactée pour atterrissage"
     ],
     "action": {
       "output": "keyboard",
@@ -160,16 +139,19 @@
   },
   {
     "phrases": [
-      "Contacte la station pour le décollage",
-      "Demande l'autorisation de décoller",
-      "Appelle la station",
-      "on y va",
-      "on décolle"
+      "contacte la station pour décoller",
+      "demande l'autorisation de décoller",
+      "on y va appelle la station",
+      "appelle la station pour décollage",
+      "demande à la station qu'on puisse partir"
     ],
     "code": "call_station_exit",
     "response": [
-      "Contact avec la station en cours pour décollage.",
-      "Demande d'autorisation de décoller envoyée."
+      "Contact avec la station en cours",
+      "Demande de décollage envoyée",
+      "J'appelle la station pour décoller",
+      "Autorisation de décollage demandée",
+      "Station contactée pour départ"
     ],
     "action": {
       "output": "keyboard",
@@ -180,17 +162,19 @@
   },
   {
     "phrases": [
-      "Je te laisse les commandes",
-      "Je quitte la passerelle",
-      "Prends le contrôle, je sors",
-      "Gère tout, je quitte le poste"
+      "je te laisse les commandes",
+      "je quitte la passerelle",
+      "prends le contrôle je sors",
+      "gère tout je quitte le poste",
+      "je te confie les commandes"
     ],
     "code": "leave_post",
     "response": [
-      "Commandes sécurisées, vous pouvez quitter en toute sécurité.",
-      "Poste en mode sécurisé, bon départ.",
-      "Je prends le relais, sortie autorisée.",
-      "Contrôle total activé, vous pouvez vous retirer."
+      "Commandes sécurisées, vous pouvez partir",
+      "Poste sécurisé, bon départ",
+      "Contrôle pris, vous pouvez sortir",
+      "Je prends le relais, sortie autorisée",
+      "Commandes sous contrôle, départ en sécurité"
     ],
     "action": {
       "output": "keyboard",
@@ -201,20 +185,19 @@
   },
   {
     "phrases": [
-      "Peux-tu ouvrir les portes",
-      "Portes à ouvrir",
-      "Prêt à ouvrir les portes",
-      "Activation de l'ouverture des portes",
-      "Commande pour ouvrir les portes",
-      "Ouvre les portes"
+      "ouvre les portes",
+      "active l'ouverture des portes",
+      "on ouvre les portes",
+      "lance l'ouverture des portes",
+      "prépare les portes à s'ouvrir"
     ],
     "code": "door_open",
     "response": [
-      "Portes ouvertes.",
-      "Les portes sont maintenant ouvertes.",
-      "Opération terminée, portes débloquées.",
-      "Portes ouvertes avec succès.",
-      "Les portes sont déverrouillées et ouvertes."
+      "Portes en ouverture",
+      "J'ouvre les portes",
+      "Ouverture des portes en cours",
+      "Les portes s'ouvrent",
+      "Portes ouvertes"
     ],
     "action": {
       "output": "keyboard",
@@ -225,20 +208,19 @@
   },
   {
     "phrases": [
-      "Peux-tu fermer les portes",
-      "Portes à fermer",
-      "Prêt à fermer les portes",
-      "Activation de fermeture des portes",
-      "Commande pour fermer les portes",
-      "ferme les portes"
+      "ferme les portes",
+      "active la fermeture des portes",
+      "on ferme les portes",
+      "lance la fermeture des portes",
+      "prépare les portes à se fermer"
     ],
     "code": "door_close",
     "response": [
-      "Portes fermées.",
-      "Les portes sont maintenant fermées.",
-      "Opération terminée, portes bloquées.",
-      "Portes fermées avec succès.",
-      "Les portes sont déverrouillées et fermées."
+      "Portes en fermeture",
+      "Je ferme les portes",
+      "Fermeture des portes en cours",
+      "Les portes se ferment",
+      "Portes fermées"
     ],
     "action": {
       "output": "keyboard",
@@ -249,16 +231,22 @@
   },
   {
     "phrases": [
-      "Prépare le vol",
-      "Active tous les systèmes de vol",
-      "Mets en route les systèmes pour le décollage",
-      "Es-tu prêt à voler"
+      "prépare le vol",
+      "active tous les systèmes de vol",
+      "on se prépare à voler",
+      "prépare le vaisseau pour le décollage",
+      "lance la préparation au vol"
     ],
     "code": "ready_to_fly",
     "response": [
       "Tous les systèmes de vol sont en cours d'activation.",
       "Préparation au vol complétée, prêt à décoller.",
-      "Systèmes vérifiés et opérationnels, prêt pour le vol."
+      "Systèmes vérifiés et opérationnels, prêt pour le vol.",
+      "Systèmes de vol activés",
+      "Préparation au vol en cours",
+      "Tous les systèmes sont prêts",
+      "Prêt à décoller",
+      "Vaisseau prêt pour le vol"
     ],
     "action": {
       "output": "keyboard",
@@ -309,7 +297,7 @@
       "Musique suivante",
       "Morceau suivant"
     ],
-    "code": "next_track",
+    "code": "spotify_next_track",
     "response": [
       "Piste suivante jouée.",
       "Changement de piste effectué."
@@ -325,7 +313,7 @@
       "Musique précédente",
       "morceaux précédent"
     ],
-    "code": "previous_track",
+    "code": "spotify_previous_track",
     "response": [
       "Piste précédente jouée.",
       "Changement de piste effectué."
@@ -341,7 +329,7 @@
       "Augmente le son",
       "Plus fort s'il te plaît"
     ],
-    "code": "increase_volume",
+    "code": "spotify_increase_volume",
     "response": [
       "Volume augmenté.",
       "C'est maintenant plus fort."
@@ -357,7 +345,7 @@
       "Baisse le son",
       "Moins fort s'il te plaît"
     ],
-    "code": "decrease_volume",
+    "code": "spotify_decrease_volume",
     "response": [
       "Volume diminué.",
       "C'est maintenant plus doux."
@@ -541,11 +529,19 @@
   },
   {
     "phrases": [
-      "désactive toi"
+      "désactive-toi",
+      "passe en mode silencieux",
+      "mets-toi en veille",
+      "éteins-toi",
+      "repose-toi"
     ],
     "code": "silent_mod",
     "response": [
-      "Désactivation, a plus tard."
+      "Désactivation en cours",
+      "Mode silencieux activé",
+      "Je me mets en veille",
+      "Je m'éteins, à plus tard",
+      "Repos activé"
     ],
     "action": {
       "output": "none"
@@ -553,11 +549,19 @@
   },
   {
     "phrases": [
-      "Réactive toi"
+      "réactive-toi",
+      "sors du mode silencieux",
+      "réveille-toi",
+      "rallume-toi",
+      "active-toi"
     ],
     "code": "present_mod",
     "response": [
-      "Redémarrage, je suis de retour"
+      "Réactivation en cours",
+      "Me voilà de retour",
+      "Je suis à nouveau actif",
+      "Je me rallume, prêt à aider",
+      "Activation terminée, je suis prêt"
     ],
     "action": {
       "output": "none"

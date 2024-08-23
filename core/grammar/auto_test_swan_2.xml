@@ -4,13 +4,11 @@
     <tag>out.action=new Object();</tag>
     <item>Swan</item>
     <one-of>
+      <item>Comment vas-tu </item>
       <item>Tu te portes bien </item>
-      <item>Ça va</item>
-      <item>Tout va bien chez toi</item>
-      <item>Comment vas-tu</item>
-      <item>Comment tu vas</item>
-      <item>Ça se passe bien</item>
-      <item>Es-tu en bonne santé</item>
+      <item>Ça va </item>
+      <item>Tout va bien pour toi </item>
+      <item>Es-tu en forme </item>
     </one-of>
     <tag>out.action.action="test_swan_2";</tag>
   </rule>

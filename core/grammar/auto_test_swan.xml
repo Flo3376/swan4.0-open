@@ -4,17 +4,11 @@
     <tag>out.action=new Object();</tag>
     <item>Swan</item>
     <one-of>
-      <item>tu es là</item>
-      <item>Es-tu disponible</item>
-      <item>Es-tu connecté</item>
-      <item>Peux-tu me répondre</item>
-      <item>Es-tu prêt à aider</item>
-      <item>Es-tu en ligne</item>
-      <item>Peux-tu interagir</item>
-      <item>Es-tu actif maintenant</item>
-      <item>Es-tu accessible</item>
-      <item>Es-tu prêt à communiquer</item>
-      <item>Peux-tu assister maintenant</item>
+      <item>Es-tu là </item>
+      <item>Peux-tu m'aider </item>
+      <item>Es-tu disponible </item>
+      <item>Tu es prêt </item>
+      <item>Est-ce que tu fonctionnes </item>
     </one-of>
     <tag>out.action.action="test_swan";</tag>
   </rule>

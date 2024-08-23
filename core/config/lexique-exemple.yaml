@@ -99,10 +99,10 @@ spotify_pause:
         - Pause activée.
       interact:
         output: none
-next_track:
-  root: next_track
+spotify_next_track:
+  root: spotify_next_track
   rules:
-    - action: next_track
+    - action: spotify_next_track
       description: spotify_next_track
       questions:
         - Peux-tu passer à la suivante
@@ -115,10 +115,10 @@ next_track:
         - Changement de piste effectué.
       interact:
         output: none
-previous_track:
-  root: previous_track
+spotify_previous_track:
+  root: spotify_previous_track
   rules:
-    - action: previous_track
+    - action: spotify_previous_track
       description: spotify_previous_track
       questions:
         - Peux-tu passer à la précédente
@@ -130,10 +130,10 @@ previous_track:
         - Changement de piste effectué.
       interact:
         output: none
-increase_volume:
-  root: increase_volume
+spotify_increase_volume:
+  root: spotify_increase_volume
   rules:
-    - action: increase_volume
+    - action: spotify_increase_volume
       description: spotify_increase_volume
       questions:
         - Augmente le volume
@@ -145,10 +145,10 @@ increase_volume:
         - C'est maintenant plus fort.
       interact:
         output: none
-decrease_volume:
-  root: decrease_volume
+spotify_decrease_volume:
+  root: spotify_decrease_volume
   rules:
-    - action: decrease_volume
+    - action: spotify_decrease_volume
       description: spotify_decrease_volume
       questions:
         - Baisse le volume
