@@ -1,1 +1,34 @@
-<p>lexique works!</p>
+<section id="main">
+    <h2> Lexique </h2>
+
+    <button class="btn btn-outline-primary" (click)="open(content)">Catégories</button>
+    <div id="actionList">
+
+        <div class="actions" *ngFor="let command of dataServ.commands">
+            {{ command.code }}
+        </div>
+    </div>
+
+</section>
+<section id="actionDetail">
+
+</section>
+
+
+<ng-template #content let-offcanvas>
+	<div class="offcanvas-header">
+		<h4 class="offcanvas-title" id="offcanvas-basic-title">Profile update</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+	</div>
+	<div class="offcanvas-body">
+
+        <!-- Contenu ici ! -->
+
+		Salut 
+		<div class="text-end">
+			<button type="button" class="btn btn-outline-secondary" (click)="offcanvas.close('Save click')">Save</button>
+		</div>
+
+        
+	</div>
+</ng-template>

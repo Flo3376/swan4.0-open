@@ -4,7 +4,10 @@
 @import 'bootstrap/scss/bootstrap';
 
 :root {
-    --page-width: 1300px;
+    --page-width: 1350px;
+    --color-fond: #1b1d1e;
+    --color-1: #27292B;
+    --color-acc: #ffc107;
 }
 
 html {
@@ -13,10 +16,8 @@ html {
 }
 
 body {
-    background-color: #242424;
+    background-color: var(--color-fond);
     color: white;
-    // margin-left: 3rem;
-    // margin-right: 3rem;
     width: 100%;
     height: 100%;
     display: flex;
