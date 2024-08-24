@@ -45,6 +45,7 @@ const app = express();
 // Servir des fichiers statiques depuis le dossier 'public'
 app.use(express.static(path.join(__dirname, 'core', 'web')));
 
+
 // -----------------------------
 // Section de configuration par le web
 // -----------------------------
