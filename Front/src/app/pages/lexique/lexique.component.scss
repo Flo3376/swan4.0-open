@@ -1,0 +1,11 @@
+:host {
+    display: flex;
+    height: 100%;
+    width: 100%;
+
+    #actionList {
+        display: flex;
+        flex: 1;
+        width: 33%;
+    }
+}
