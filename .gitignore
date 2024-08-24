@@ -16,10 +16,10 @@ node_modules/
 
 # Configurations spécifiques au projet
 core/config/lexique.yaml
-#core/data/commands.json
+core/data/commands.json
 core/data/cookies.json
 core/config/config.yaml
-core/grammar
+core/grammar/*
 
 # Ignorer tout dans sound/input_sound sauf .gitkeep
 sound/input_sound/*
@@ -46,8 +46,6 @@ sound/output_sound/**/*.mp4
 core/exe/my_player*
 !core/exe/my_player.gitkeep
 
-.ico
-.exe
-
-
-
+*.ico
+*.exe
+*.dat
