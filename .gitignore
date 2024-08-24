@@ -16,7 +16,7 @@ node_modules/
 
 # Configurations spécifiques au projet
 core/config/lexique.yaml
-core/data/commands.json
+#core/data/commands.json
 core/data/cookies.json
 core/config/config.yaml
 core/grammar
@@ -46,6 +46,8 @@ sound/output_sound/**/*.mp4
 core/exe/my_player*
 !core/exe/my_player.gitkeep
 
+.ico
+.exe
 
 
 
