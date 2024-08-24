@@ -67,6 +67,19 @@ app.get('/lexique', (req, res) => {
       res.status(500).send('Erreur lors de la lecture du fichier');
     }
   });
+// Route pour afficher le formulaire
+app.get('/lexique2', (req, res) => {
+    try {
+      const filePath = path.join(__dirname, 'core', 'config', 'lexique.yaml');
+      const fileContents = fs2.readFileSync(filePath, 'utf8');
+      const data = yaml.load(fileContents);
+      //console.log(JSON.stringify(data, null, 2)); // Ajoutez cette ligne pour inspecter les données
+      res.render('lexique2', { data: data });
+    } catch (e) {
+      console.error(e);
+      res.status(500).send('Erreur lors de la lecture du fichier');
+    }
+  });
   app.get('/config', (req, res) => {
     try {
       const filePath = path.join(__dirname, 'core', 'config', 'config.yaml');
