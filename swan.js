@@ -43,13 +43,13 @@ const bodyParser = require('body-parser');
 const app = express();
 
 // Servir des fichiers statiques depuis le dossier 'public'
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'core', 'web')));
 
 // -----------------------------
 // Section de configuration par le web
 // -----------------------------
 app.set('view engine', 'ejs'); // Utiliser EJS comme moteur de template
-app.set('views', path.join(__dirname, 'core', 'views'));
+app.set('views', path.join(__dirname, 'core', 'web'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
