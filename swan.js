@@ -490,8 +490,6 @@ async function spotify_go(action,info) {
         const responses = findResponsesByAction(lexique, action);
         
         if(responses!=null){
-            console.log("*action* "+action)
-            console.log(responses)
             vocalise(responses, config, openai, action, config.effect)
         }
         else{
