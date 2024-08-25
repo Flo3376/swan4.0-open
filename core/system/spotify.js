@@ -95,8 +95,6 @@ class SpotifyController {
 
   // Méthode pour jouer une piste spécifique
   async playTrack(trackId) {
-    await this.refreshAccessToken();
-    await this.setActiveDevice(this.client_pref_device);
     try {
       await this.spotifyApi.play({
         uris: [`spotify:track:${trackId}`]
@@ -111,8 +109,6 @@ class SpotifyController {
 
   // Méthode pour jouer un album spécifique
   async playAlbum(albumId) {
-    await this.refreshAccessToken();
-    await this.setActiveDevice(this.client_pref_device);
     try {
       await this.spotifyApi.play({
         context_uri: `spotify:album:${albumId}`  // Utiliser context_uri pour un album
@@ -121,6 +117,20 @@ class SpotifyController {
       return true;
     } catch (error) {
       console.error("Erreur lors de la lecture de l'album:", error);
+      return false;
+    }
+  }
+
+   // Méthode pour jouer une playlist spécifique
+   async playPlaylist(playlistId) {
+    try {
+      await this.spotifyApi.play({
+        context_uri: `spotify:playlist:${playlistId}`  // Utiliser context_uri pour un album
+      });
+      console.log(`Lecture de la playlist avec ID: ${playlistId}`);
+      return true;
+    } catch (error) {
+      console.error("Erreur lors de la lecture de playlist:", error);
       return false;
     }
   }
@@ -202,7 +212,7 @@ class SpotifyController {
   }
 
   // Méthode principale pour exécuter des actions
-  async spotify_action(action) {
+  async spotify_action(action,info) {
 
     await this.refreshAccessToken(); // Rafraîchir le token
 
@@ -241,6 +251,12 @@ class SpotifyController {
         return await this.increaseVolume();
       case 'spotify_decrease_volume':
         return await this.decreaseVolume();
+      case 'spotify_lauch_playlist':
+        return await this.playPlaylist(info);
+      case 'spotify_lauch_album':
+        return await this.playAlbum(info);
+      case 'playTrack':
+        return await this.playTrack(info);
       case 'volume50':
         return await this.setVolume(50);
       default:

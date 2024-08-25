@@ -11,7 +11,7 @@ const colors = require('colors');
 const { load_config, display_config, update_config } = require("./../core/config/configurator")
 
 //tentative de chargement du la configuration
-const config = load_config('./core/config/config.yaml');
+const config = load_config('./../core/config/config.yaml');
 if (config) {
     console.log(colors.green('Config chargée.'));
     console.log();
@@ -58,7 +58,7 @@ app.get('/callback', function (req, res) {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     }).then(response => {
-        //console.log("Réponse de l'API:", response.data);  // Afficher les données de réponse
+        console.log("Réponse de l'API:", response.data);  // Afficher les données de réponse
 
         config.spotify.accessToken = response.data.access_token;
         config.spotify.refreshToken = response.data.refresh_token;

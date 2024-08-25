@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="dark">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title id="title_windows">Éditeur du lexique</title>
+	<!-- Lien vers le CSS de Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/lexique2.css">
+
+</head>
+
+<body>
+
+	<!-- Modal pour la configuration de Keyboard Key -->
+	<%- include('lexique2_parts/keyboard_modal') %>
+
+	<!--  Modal pour importer une commande  -->
+	<%- include('lexique2_parts/import_action') %>
+
+	<!--Barre de navigation fixe en haut-->
+	<%- include('lexique2_parts/menu') %>
+
+	<!-- Modal de Confirmation de Suppression -->
+    <%- include('lexique2_parts/delete_modal') %>
+
+
+	<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+		<div class="offcanvas-header">
+			<h5 class="offcanvas-title" id="offcanvasExampleLabel">Catégories des actions</h5>
+			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+			<div id="cat_list">
+			</div>
+		</div>
+	</div>
+
+	<div class="position-fixed top-75 end-0 p-3" style="z-index: 11">
+		<div id="copyToast" class="toast hide toast-dark" role="alert" aria-live="assertive" aria-atomic="true">
+			<div class="toast-header">
+				<strong class="me-auto">Notification</strong>
+				<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+			</div>
+			<div class="toast-body" id="message_corps">
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Section principale -->
+	<section class="container">
+		<div class="row">
+			<div class="col-lg-3 col_class">
+				<!-- Contenu pour la section 1/3 -->
+				<div id="card_list">
+					<ul class="list-group">
+						Veuillez cliquer sur "Voir une catégorie pour commencer"
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-8 col_class">
+				<!-- Contenu pour la section 2/3 -->
+				<div id="detailsContent">
+					<div class="info_user">Cliquez sur une action pour voir les détails</div>
+					<%- include('lexique2_parts/form') %>
+
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+
+	<!-- Scripts JavaScript de Bootstrap -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script>
+		let lexique;
+		var typeValue = "";
+		var actual_code_cards = "";
+
+		const modifierPriority = {
+			'Left Control': 1,
+			'Left Alt': 2,
+			'Left Shift': 3,
+			'Right  Control': 4,
+			'Right  Alt': 5,
+			'Right Shift': 6
+		};
+
+		document.addEventListener('DOMContentLoaded', function () {
+			// Ajout des écouteurs pour les sélections des options
+			document.getElementById('outputSelect').addEventListener('change', updateVisibility);
+			document.getElementById('typeSelect').addEventListener('change', updateVisibility);
+
+			// Ajout des écouteurs pour les actions du formulaire
+			document.querySelector('.rule-form').addEventListener('submit', function (event) {
+				event.preventDefault(); // Empêche la soumission du formulaire
+				// Implémentez ici des logiques supplémentaires si nécessaire
+			});
+
+			// Initialisation des tooltips
+			var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+			var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+				return new bootstrap.Tooltip(tooltipTriggerEl);
+			});
+
+			const keys = document.querySelectorAll('.key');
+			keys.forEach(key => {
+				key.removeEventListener('click', handleKeyClick);
+				key.addEventListener('click', handleKeyClick);
+			});
+
+			document.querySelector('.btn-export').addEventListener('click', function () {
+				$('#importModal').modal('show');
+			});
+
+
+		});
+
+		document.getElementById('modal_activator').addEventListener('click', function () {
+			console.log("modal")
+			var modalType = this.getAttribute('data-modal-type');
+
+			//remise à zero du clavier
+			document.querySelectorAll('.key').forEach(k => k.classList.remove('key-active'));
+			document.getElementById('keyInput').value = "";
+
+			var modalElement = document.getElementById('keyboard_Modal');
+			var myModal = new bootstrap.Modal(modalElement);
+			myModal.show();
+		});
+		// Fonction pour récupérer le lexique
+		async function getLexique() {
+			try {
+				const response = await fetch('/get_lexique');
+				if (!response.ok) {
+					throw new Error('Erreur lors de la récupération des données');
+				}
+				lexique = await response.json();
+				//document.getElementById('lexique').textContent = JSON.stringify(lexique, null, 2);
+				populateWithJson();
+			} catch (error) {
+				console.error('Erreur:', error);
+				document.getElementById('lexique').textContent = "Erreur lors de la récupération ou l'utilisation des données.";
+			}
+		}
+
+		//création des catégorie
+		function populateWithJson() {
+			let switchTab = "";
+			let categories = new Set(); // Utiliser un Set pour éviter les doublons
+
+			// Parcourir le lexique et extraire les catégories uniques
+			for (const key in lexique) {
+				if (lexique[key].rules && lexique[key].rules.length > 0) {
+					if (lexique[key].cat) {
+						categories.add(lexique[key].cat); // Ajouter la catégorie au Set
+					}
+				}
+			}
+
+			// Convertir le Set en tableau et trier les catégories par ordre alphabétique
+			const sortedCategories = Array.from(categories).sort();
+
+			// Créer les éléments <li> pour chaque catégorie triée
+			sortedCategories.forEach(cat => {
+				switchTab += `<span class="nav-link inactive-cat" data-bs-dismiss="offcanvas" onclick="load_cat('${cat}')">${cat}</span>`;
+			});
+
+			// Ajouter l'onglet "Autre" en dernier
+			switchTab += `<span class="nav-link inactive-cat" data-bs-dismiss="offcanvas" onclick="load_cat('other')">Autre</span>`;
+
+			// Injecter les onglets dans le DOM
+			document.getElementById('cat_list').innerHTML = switchTab;
+
+			// Ajouter l'événement de clic pour chaque onglet
+			document.getElementById('cat_list').addEventListener('click', function (event) {
+				if (event.target.classList.contains('nav-link')) {
+					// Sélectionner l'élément actif précédent
+					const activeItem = document.querySelector('#cat_list .active-cat');
+
+					// Si un élément est actif, lui enlever la classe active-cat et ajouter inactive-cat
+					if (activeItem) {
+						activeItem.classList.remove('active-cat');
+						activeItem.classList.add('inactive-cat');
+					}
+
+					// Ajouter la classe active-cat à l'élément cliqué et enlever inactive-cat
+					event.target.classList.add('active-cat');
+					event.target.classList.remove('inactive-cat');
+				}
+			});
+		}
+
+		//remplissage de la colone de droite avec les élément de fiche sélectionné
+		function load_cat(cat) {
+			let action = new Set(); // Utiliser un Set pour éviter les doublons
+			document.getElementById("card_list").value = "";
+			document.getElementById('rule-form').style.display = 'none';
+			let htmlCardList = "<ul class='list-group'>";
+
+			// Parcourir le lexique et extraire les catégories uniques
+			for (const key in lexique) {
+				if (lexique[key].rules && lexique[key].rules.length > 0) {
+					if (cat != "other") {
+						if (lexique[key].cat == cat) {
+							htmlCardList += `<li class="list-group-item" data-card-id="${key}" onclick='showDetails("${key}")''>${lexique[key].rules[0].description}</li>`;
+						}
+					}
+					else {
+						if (lexique[key].cat == undefined) {
+							htmlCardList += `<li class="list-group-item" data-card-id="${key}" onclick='showDetails("${key}")''>${lexique[key].rules[0].description}</li>`;
+						}
+					}
+
+				}
+			}
+
+			htmlCardList += "</ul>";
+			document.getElementById("card_list").innerHTML = htmlCardList;
+			document.getElementById("menu_cat").innerHTML = cat;
+
+		}
+
+		//ouverture d'une carte
+		function showDetails(actionId, data = null) {
+			actual_code_cards = actionId;
+			const details = data || lexique[actionId];
+
+			if(data==null){
+				document.getElementById('code').disabled = true;
+				console.log("disabled : " + true);
+			}
+			else{
+				document.getElementById('code').disabled = false;
+				console.log("disabled : " + false);
+			}
+			if (details) {
+
+				// Mise en évidence de la carte active dans la liste de gauche
+				document.querySelectorAll('.list-group-item').forEach(item => {
+					if (item.getAttribute('data-card-id') === actionId) {
+						item.classList.add('active-card');
+					} else {
+						item.classList.remove('active-card');
+					}
+				});
+				var rules = details.rules[0];
+
+				// Gérer l'affichage des éléments UI
+				document.querySelectorAll('.info_user').forEach(el => el.style.display = 'none');
+				document.querySelectorAll('.rule-form').forEach(el => el.style.display = '');
+
+				// Mettre à jour les champs du formulaire
+				document.getElementById('code').value = actionId;
+				//document.getElementById('code').disabled = true;
+				['description', 'questions', 'responses'].forEach(field => {
+					//console.log(field, rules[field]);  // Affiche la structure des données dans la console
+					if (rules[field]) {
+						if (Array.isArray(rules[field])) {
+							document.getElementById(field).value = rules[field].join('\n').trim();
+						} else {
+							document.getElementById(field).value = rules[field].trim();
+						}
+					}
+				});
+
+				// Mettre à jour les sélections des listes déroulantes
+				['a_type',].forEach(attr => {
+					let selectValue = details.cat || "other";
+					let selectElement = document.getElementById(attr + 'Select');
+					Array.from(selectElement.options).forEach(option => {
+						option.selected = (option.value === selectValue);
+					});
+				});
+
+				// Mettre à jour les sélections des listes déroulantes
+				['output', 'type'].forEach(attr => {
+					let selectValue = rules.interact[attr] || "none";
+					let selectElement = document.getElementById(attr + 'Select');
+					Array.from(selectElement.options).forEach(option => {
+						option.selected = (option.value === selectValue);
+					});
+				});
+
+				document.getElementById('actionInput').value = rules.interact && rules.interact.action_input ? rules.interact.action_input : '';
+
+				// Récupère la valeur de duration depuis rules
+				var durationValue = rules.interact.duration;
+
+				// Parcourt tous les checkboxes dans le groupe de sélection de la durée
+				document.querySelectorAll('.durationSelect .form-check-input').forEach(function (checkbox) {
+					// Si la valeur du checkbox correspond à la valeur de duration, on le coche
+					if (checkbox.value === durationValue) {
+						checkbox.checked = true;
+					} else {
+						checkbox.checked = false; // Sinon, on s'assure qu'il est décoché
+					}
+				});
+
+				// Récupère la valeur de player depuis ambiance
+				var playerValue = details.ambiance?.player ? details.ambiance.player : "none";
+
+				document.getElementById('link_ambiance').value = details.ambiance?.track ? details.ambiance.track : "";
+				// Parcourt tous les checkboxes dans le groupe de sélection de la durée
+				document.querySelectorAll('.playerSelect .form-check-input').forEach(function (checkbox) {
+					// Si la valeur du checkbox correspond à la valeur de duration, on le coche
+					if (checkbox.value === playerValue) {
+						checkbox.checked = true;
+					} else {
+						checkbox.checked = false; // Sinon, on s'assure qu'il est décoché
+					}
+				});
+
+				var effectValue = details.effect;
+				// Parcourt tous les checkboxes dans le groupe de sélection de la durée
+				document.querySelectorAll('.effectSelect .form-check-input').forEach(function (checkbox) {
+					// Si la valeur du checkbox correspond à la valeur de duration, on le coche
+					if (effectValue == undefined) {
+						effectValue = "none";
+					}
+					if (checkbox.value === effectValue) {
+						checkbox.checked = true;
+					} else {
+						checkbox.checked = false; // Sinon, on s'assure qu'il est décoché
+					}
+				});
+				updateVisibility();
+			}
+		}
+
+		function importJson() {
+			const jsonInput = document.getElementById('jsonInput').value;
+			try {
+				const data = JSON.parse(jsonInput);
+				// Validation supplémentaire du JSON si nécessaire
+				if (validateJson(data)) {
+					// Fermer la modal d'importation
+					$('#importModal').modal('hide');
+
+					// Préparer l'interface pour une nouvelle saisie
+					addCard();
+
+					// Pré-remplir les champs avec les données importées
+					populateCardFields(data);
+
+					console.log('Données importées et prêtes à être éditées:', data);
+				} else {
+					alert('Le JSON collé est invalide ou incomplet.');
+				}
+			} catch (e) {
+				alert('Erreur lors de l\'analyse du JSON: ' + e.message);
+				console.log(e)
+			}
+		}
+		/*
+		function populateCardFields(data) {
+			if (data && data.rules && data.rules.length > 0) {
+				const rule = data.rules[0];
+				document.getElementById("code").value = data.root || '';
+				document.getElementById("description").value = rule.description || '';
+				document.getElementById("questions").value = rule.questions.join('\n') || '';
+				document.getElementById("responses").value = rule.responses.join('\n') || '';
+				document.getElementById("outputSelect").value = rule.interact.output || 'none';
+				document.getElementById("typeSelect").value = rule.interact.type || 'none';
+				
+				document.getElementById("actionInput").value = rule.interact.action_input || '';
+				updateVisibility(); // Mise à jour de l'affichage en fonction des sélections
+			}
+		}*/
+
+		function populateCardFields(data) {
+			if (data && data.rules && data.rules.length > 0) {
+				const actionId = data.root || ''; // ou une autre clé pour identifier l'action
+				showDetails(actionId, data);
+			}
+		}
+
+		function validateJson(data) {
+			// Vérifier que le JSON contient les champs nécessaires
+			return data && data.rules && data.rules.length > 0 &&
+				data.rules[0].description && data.rules[0].questions &&
+				data.rules[0].responses && data.rules[0].interact;
+		}
+
+		function refresh_cards() {
+			actual_code_cards = "";
+			document.getElementById("card_list").value = "";
+			let htmlCardList = "<ul class='list-group'>";
+			for (const key in lexique) {
+				if (key !== "global" && lexique[key].rules) {
+					if (lexique[key].rules.length > 0) {
+						htmlCardList += `<li class="list-group-item" data-card-id="${key}" onclick='showDetails("${key}")''>${lexique[key].rules[0].description}</li>`;
+					}
+				}
+			}
+
+			htmlCardList += "</ul>";
+			document.getElementById("card_list").innerHTML = htmlCardList;
+		}
+
+		function updateVisibility() {
+			const outputValue = document.getElementById('outputSelect').value;
+			typeValue = document.getElementById('typeSelect').value;
+
+			// Afficher ou masquer les sections appropriées en fonction de l'output
+			if (outputValue === 'none') {
+				document.querySelectorAll('.type-select, .durationSelect, .action-Input').forEach(el => {
+					el.style.display = 'none';
+				});
+				document.querySelectorAll('.keyboard_select_display, .mouse_select_display').forEach(el => el.style.display = 'none');
+			} else {
+				document.querySelectorAll('.type-select, .durationSelect, .action-Input').forEach(el => {
+					el.style.display = '';
+				});
+
+				if (outputValue === 'keyboard') {
+					document.querySelectorAll('.mouse_select_display').forEach(el => el.style.display = 'none');
+					document.querySelectorAll('.keyboard_select_display').forEach(el => el.style.display = '');
+				} else if (outputValue === 'mouse') {
+					document.querySelectorAll('.keyboard_select_display').forEach(el => el.style.display = 'none');
+					document.querySelectorAll('.mouse_select_display').forEach(el => el.style.display = '');
+				}
+			}
+
+			// Verrouillage/Déverrouillage du champ keyInput basé sur le type
+			const keyInput = document.getElementById('keyInput');
+			keyInput.disabled = (typeValue !== 'phrase');  // Déverrouille si 'phrase', sinon verrouille
+
+			// Filtrer les options disponibles dans le select de type
+			filterTypeOptions(outputValue);
+
+			// Déterminer le type de modal à afficher basé sur l'output et le type sélectionné
+			let modalType = 'none';  // valeur par défaut pour 'none'
+			if (outputValue === 'keyboard') {
+				modalType = 'keyboard_' + typeValue;  // modal spécifique pour les types de clavier
+			} else if (outputValue === 'mouse') {
+				modalType = 'mouse_' + typeValue;  // modal spécifique pour les types de souris
+			}
+
+			// Mettre à jour l'attribut de la modal pour refléter le type actuel
+			document.getElementById('modal_activator').setAttribute('data-modal-type', modalType);
+		}
+
+		function filterTypeOptions(output) {
+			const typeSelect = document.getElementById('typeSelect');
+			Array.from(typeSelect.options).forEach(option => {
+				if (output === 'keyboard') {
+					option.hidden = option.classList.contains('mouse-option');
+				} else if (output === 'mouse') {
+					option.hidden = option.classList.contains('keyboard-option');
+				} else {
+					option.hidden = false;
+				}
+			});
+		}
+
+		function updateKeyInput() {
+			document.getElementById('actionInput').value = document.getElementById('keyInput').value;
+		}
+
+		function handleKeyClick() {
+			const keyInput = document.getElementById('keyInput');
+			const keyTranslate = this.getAttribute('key_translate');
+			if (typeValue === "phrase") {
+				let inputElement = document.getElementById('keyInput');
+				let currentText = inputElement.value;
+				// Étape 1: Supprimer les anciennes balises
+				let cleanedText = currentText.replace(/\{[^}]*\}/g, '').trim();
+				// Étape 2: Ajouter la nouvelle balise pour la touche cliquée
+				let keyTranslate = this.getAttribute('key_translate');
+				let formattedKey = `{${keyTranslate}}`;
+
+				keyInput.value = `{${keyTranslate}}${cleanedText}{${keyTranslate}}`
+			}
+			else {
+				// Gestion du mode "key" pour une touche unique
+				if (typeValue === "key") {
+					document.querySelectorAll('.key').forEach(k => k.classList.remove('key-active'));
+					this.classList.add('key-active');
+					document.getElementById('keyInput').value = `{${this.getAttribute('key_translate')}}`;
+					//updateKeyInput();
+				}
+				// Gestion du mode "combo" pour des combinaisons de touches
+				else if (typeValue === "combo") {
+					this.classList.toggle('key-active');
+					updateComboInput();
+				}
+				else if (typeValue === "mouse_click") {
+					document.querySelectorAll('.key').forEach(k => k.classList.remove('key-active'));
+					this.classList.add('key-active');
+					document.getElementById('keyInput').value = `{${this.getAttribute('key_translate')}}`;
+					//updateKeyInput();
+				}
+			}
+
+
+		}
+
+		function updateComboInput() {
+			const activeKeys = Array.from(document.querySelectorAll('.key.key-active'));
+			const modifiers = activeKeys.filter(key => key.hasAttribute('data-modifier'));
+
+			// Trier les modificateurs selon la carte de priorité
+			modifiers.sort((a, b) => {
+				const aPriority = modifierPriority[a.getAttribute('key_translate')] || 999;
+				const bPriority = modifierPriority[b.getAttribute('key_translate')] || 999;
+				return aPriority - bPriority;
+			});
+
+			const nonModifiers = activeKeys.filter(key => !key.hasAttribute('data-modifier'));
+
+			// Combinez d'abord les modificateurs triés, puis les non-modificateurs
+			const keyInput = document.getElementById('keyInput');
+			if (keyInput) {
+				keyInput.value = [...modifiers, ...nonModifiers]
+					.map(key => `{${key.getAttribute('key_translate')}}`) // Modification ici pour entourer chaque touche de accolades
+					.join('');
+			}
+
+		}
+
+		function showCopyToast() {
+			var toastEl = document.getElementById('copyToast');
+			var toast = new bootstrap.Toast(toastEl);
+			toast.show();
+		}
+
+		function exportToJsonAndCopy() {
+			const currentCardDetails = lexique[actual_code_cards];
+
+			if (!currentCardDetails) {
+				console.error("Aucune carte sélectionnée ou détails manquants.");
+				return;
+			}
+
+			// Convertir les détails de la carte en chaîne JSON
+			const jsonStr = JSON.stringify(currentCardDetails, null, 2); // Formatage joli du JSON
+
+			// Créer le message à copier
+			const message = `✨ **Commande à Partager** ✨\n\n` +
+				`🔑 **Clé de Commande :** ${currentCardDetails.root || 'Non Spécifiée'}\n` +
+				`📜 **Description :** ${currentCardDetails.rules[0].description || 'Aucune description disponible.'}\n\n` +
+				`📝 **Détails de Configuration :**\n\`\`\`${jsonStr}\`\`\`\n` +
+				`**N'hésitez pas à personnaliser selon vos besoins!**`;
+
+			// Copier dans le presse-papiers
+			navigator.clipboard.writeText(message).then(() => {
+				console.log("Les détails de la carte ont été copiés dans le presse-papiers avec un message enrichi.");
+				document.getElementById('message_corps').innerHTML = "Les détails de la carte ont été copiés dans le presse-papiers.";
+				showCopyToast();  // Affiche un toast pour informer l'utilisateur que la copie a réussi
+			}).catch(err => {
+				console.error("Erreur lors de la copie dans le presse-papiers:", err);
+			});
+		}
+
+		function addCard() {
+			actual_code_cards = "";
+			document.getElementById('code').disabled = false;
+			// Gérer l'affichage des éléments UI
+			document.querySelectorAll('.info_user').forEach(el => el.style.display = 'none');
+			document.querySelectorAll('.rule-form').forEach(el => el.style.display = '');
+
+			document.getElementById("code").value = "";
+			document.getElementById("description").value = "";
+			document.getElementById("questions").value = "";
+			document.getElementById("responses").value = "";
+			document.getElementById('outputSelect').value = 'none';
+			updateVisibility();
+		}
+
+		function saveCard() {
+			let cardCode = document.getElementById('code').value.trim();
+
+			// Normalisation de la clé
+			cardCode = cardCode.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+
+			// Vérification que la clé n'est pas vide
+			if (!cardCode) {
+				alert("Le code de la carte ne peut pas être vide.");
+				console.error("Le code de la carte est vide.");
+				return; // Stoppe l'exécution de la fonction si la clé est vide
+			}
+
+			console.log("Sauvegarder les changements pour la carte:", cardCode);
+
+			let outputValue = document.getElementById('outputSelect').value;
+			let interact = { output: outputValue };
+
+			let isNewCard = !(cardCode in lexique);
+
+			if (isNewCard) {
+				console.log("Création d'une nouvelle carte.");
+			} else {
+				console.log("Mise à jour d'une carte existante.");
+			}
+
+			if (outputValue !== "none") {
+				interact.type = document.getElementById('typeSelect').value;
+				interact.action_input = document.getElementById('actionInput').value;
+				let selectedDuration = null;
+				document.querySelectorAll('.durationSelect .form-check-input').forEach(function (checkbox) {
+					if (checkbox.checked) {
+						selectedDuration = checkbox.value;
+					}
+				});
+				interact.duration = selectedDuration ? selectedDuration : "short";
+			}
+			let selectedEffect = null;
+			document.querySelectorAll('.effectSelect .form-check-input').forEach(function (checkbox) {
+				if (checkbox.checked) {
+					selectedEffect = checkbox.value;
+				}
+			});
+
+			let playerSelect = null;
+			document.querySelectorAll('.playerSelect  .form-check-input').forEach(function (checkbox) {
+				if (checkbox.checked) {
+					playerSelect = checkbox.value;
+				}
+			});
+			let ambiance = {
+				player: playerSelect,
+				track: document.getElementById('link_ambiance').value,
+			}
+
+
+			let card = {
+				root: cardCode,
+				cat: document.getElementById('a_typeSelect').value,
+				ambiance: ambiance,
+				effect: selectedEffect,
+				rules: [{
+					action: cardCode,
+					description: document.getElementById('description').value,
+					questions: document.getElementById('questions').value.split("\n"),
+					responses: document.getElementById('responses').value.split("\n"),
+					interact: interact
+				}]
+			};
+
+			lexique[cardCode] = card;
+			console.log("Carte sauvegardée :", card);
+			document.getElementById('message_corps').innerHTML = "Carte enregistrée. Pensez à sauvegarder sur l'onglet de gauche";
+			showCopyToast(); // Affiche un toast pour informer l'utilisateur de la sauvegarde
+			refresh_cards();
+			load_cat()
+
+			//save_lexique();  // Décommentez pour appeler la fonction qui sauvegarde les données sur le serveur
+		}
+
+		function save_lexique() {
+			const url = '/update_lexique'; // Remplacez par l'URL du serveur qui gère la sauvegarde
+
+			fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(lexique)
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log('Succès:', data);
+				})
+				.catch((error) => {
+					console.error('Erreur:', error);
+				});
+		}
+
+		function deleteCard() {
+			// Ouvrir la modal de confirmation
+			$('#deleteConfirmationModal').modal('show');
+		}
+
+		function confirmDelete() {
+			if (actual_code_cards && lexique[actual_code_cards]) {
+				// Supprimer la carte du lexique
+				delete lexique[actual_code_cards];
+				console.log("Carte supprimée :", actual_code_cards);
+
+				// Mettre à jour l'affichage des cartes
+				refresh_cards();
+
+				// Fermer la modal
+				$('#deleteConfirmationModal').modal('hide');
+
+				// Afficher une notification de succès
+				document.getElementById('message_corps').innerHTML = "Carte supprimée avec succès.";
+				showCopyToast();
+			} else {
+				console.error("Erreur : La carte à supprimer n'existe pas.");
+			}
+		}
+
+		// Appel de la fonction au chargement de la page
+		window.onload = getLexique;
+	</script>
+
+</body>
+
+</html>

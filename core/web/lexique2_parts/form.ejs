@@ -1,0 +1,112 @@
+<form class="rule-form" id="rule-form" style="display: none;">
+	<span style="display: flex; align-items: center;">Code :<input type="text" id="code" name="code"
+			class="my_input_form" style="margin-left: 5px; flex: 1;" disabled></span>
+	<br>
+
+	<span style="display: flex; align-items: center;">Description :<input type="text" id="description"name="description" class="my_input_form" style="margin-left: 5px; flex: 1;">
+	</span>
+	<br>
+	<span style="display: flex; align-items: center;">Type d'action :
+		<select class="form-control my_input_form_2 a_type-select" id="a_typeSelect" name="a_type">
+			<option value="ship">Commande Vaisseau Générale</option>
+			<option value="sm">salvage/minage</option>
+			<option value="music">Musique</option>
+			<option value="swan">Swan</option>
+			<option value="interact">Interaction joueurs / environnement</option>
+			<option value="other" selected>Autre</option>
+		</select>
+	</span>
+	<hr>
+	<h6>Environnements:</h6>
+	<div class="effectSelect radio_groupe">
+		<label class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="effect" id="effect1" value="Mobyglass">
+			<label class="form-check-label" for="effect1">Mobyglass</label>
+		</label>
+		<label class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="effect" id="effect2" value="Vaisseaux">
+			<label class="form-check-label" for="effect2">Vaisseaux</label>
+		</label>
+		<label class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="effect" id="effect3" value="Casque">
+			<label class="form-check-label" for="effect3">Casque</label>
+		</label>
+		<label class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="effect" id="effect4" value="none" checked>
+			<label class="form-check-label" for="effect4" >Aucun effet</label>
+		</label>
+	</div>
+	<hr>
+	<h6>Questions:</h6>
+	<textarea class="form-control my_input_form_2 mb-2 auto-height" name="questions" id="questions" rows="5"></textarea>
+	<br>
+	<h6>Réponses:</h6>
+	<textarea class="form-control my_input_form_2 mb-2 auto-height" name="responses" id="responses" rows="5"></textarea>
+	<hr>
+	<div>
+		<strong>Détails de l'interaction:</strong>
+	</div>
+	<h6>Abmiance:</h6>
+	<div class="playerSelect radio_groupe">
+		<label class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="player" id="player1" value="Spotify">
+			<label class="form-check-label" for="player1">Spotify</label>
+		</label>
+		<label class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="player" id="player2" value="Youtube"disabled>
+			<label class="form-check-label" for="player2">Youtube</label>
+		</label>
+		<label class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="player" id="player3" value="Local" disabled>
+			<label class="form-check-label" for="player">Local</label>
+		</label>
+		<label class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="player" id="player4" value="none" checked>
+			<label class="form-check-label" for="player4" >Aucun </label>
+		</label>
+	</div>
+	<br>
+	<span style="display: flex; align-items: center;">Lien :<input type="text" id="link_ambiance" name="link_ambiance" class="my_input_form" style="margin-left: 5px; flex: 1;">
+	</span>
+	<hr>
+	<div>
+		<strong>Output:</strong>
+		<select class="form-control mb-2 output-select" id="outputSelect" name="output">
+			<option value="none">None</option>
+			<option value="keyboard" selected="">Keyboard</option>
+			<option value="mouse">Mouse</option>
+		</select>
+	</div>
+	<div class="type-select">
+		<strong>Type:</strong>
+		<select class="form-control mb-2 type-select" id="typeSelect" name="Type">
+			<option value="none">None</option>
+			<option value="key">Key</option>
+			<option value="combo">Combo</option>
+			<option value="sequence">Sequence</option>
+			<option value="phrase">Phrase</option>
+			<option value="mouse_click" hidden="">Mouse_click</option>
+			<option value="mouse_move" hidden="">Mouse_move</option>
+		</select>
+	</div>
+	<h6>Durée:</h6>
+	<div class="durationSelect radio_groupe">
+		<div class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="duration" id="duration1" value="short">
+			<label class="form-check-label" for="duration1">Appui court</label>
+		</div>
+		<div class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="duration" id="duration2" value="long">
+			<label class="form-check-label" for="duration2">Appui long</label>
+		</div>
+		<div class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="duration" id="duration3" value="cycle" disabled>
+			<label class="form-check-label" for="duration3">Appui répétitif</label>
+		</div>
+	</div>
+	<div class="action-Input">
+		<strong>Action: <button class="btn btn-primary" id="modal_activator" data-modal-type="none"><i
+					class="bi bi-pencil-fill"></i></button></strong>
+		<input type="text" class="form-control action-Input" id="actionInput" name="actionInput" disabled="">
+	</div>
+</form>

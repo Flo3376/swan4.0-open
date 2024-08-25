@@ -1,0 +1,210 @@
+/* Styles généraux pour le corps et les textes */
+body {
+    padding-top: 60px; /* Hauteur approximative de la navbar */
+}
+
+.nav-link:hover {
+    color: #ffc107; /* Texte survolé */
+}
+
+/* Styles pour les panneaux gauche et droit */
+#leftPanel {
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 2px solid #333;
+    background-color: #242424;
+}
+
+#rightPanel {
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #333;
+}
+
+/* Styles pour les colonnes */
+.col_class {
+    
+    border-radius: 10px;
+    /*border: 1px solid #444;*/
+    
+    cursor: pointer;
+    margin: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.col-lg-3, .col-lg-8 {
+    margin-left: 5px;
+    margin-right: 5px;
+    height: fit-content;
+}
+
+/* Styles pour les boutons d'action */
+.action-buttons button {
+    color: #ccc; /* Couleur des icônes pour qu'elles soient visibles en mode sombre */
+}
+
+
+
+/* Styles pour le clavier virtuel */
+.keyboard {
+    display: flex;
+    flex-direction: column;
+}
+
+.keyboard-row {
+    display: flex;
+    margin: 5px 0;
+}
+
+.key, .key_forbiden, .key_t2, .key_t3, .key_t4, .key_t5, .key_t6, .key_t7, .key_t8 {
+    padding: 10px;
+    margin: 0 5px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #adb5bd;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.key {
+    width: 40px;
+}
+
+.key_forbiden {
+    background-color: rgba(180, 20, 20, 0.5);
+    width: 40px;
+}
+
+.key_t2 {
+    width: 55px;
+}
+
+.key_t3 {
+    width: 60px;
+}
+
+.key_t4 {
+    width: 80px;
+}
+
+.key_t5 {
+    width: 100px;
+}
+
+.key_t6 {
+    width: 130px;
+}
+
+.key_t7 {
+    width: 318px;
+}
+
+.key_t8 {
+    width: 95px;
+}
+
+.key-active {
+    background-color: #4CAF50; /* Vert, ou toute autre couleur qui indique "actif" */
+    color: white;
+}
+
+/* Styles pour les espaces entre les touches */
+.spacer {
+    display: inline-block;
+    height: 10px; /* Hauteur pour garder l'alignement avec les touches si nécessaire */
+}
+
+.spacer_100 {
+    width: 100px;
+}
+
+.spacer_90 {
+    width: 90px;
+}
+
+.spacer_295 {
+    width: 295px;
+}
+
+.spacer_50 {
+    width: 50px;
+}
+
+.spacer_40, .spacer_30, .spacer_10 {
+    width: 40px;
+}
+
+/* Styles pour les modals */
+.modal-xl {
+    --bs-modal-width: 1225px;
+}
+
+.my_input_form{
+    border: none;
+    border-radius: 0px;
+    border-bottom: solid 1px #ffc107;
+}
+
+.my_input_form_2{
+    border-radius: 5px;
+    border : solid 1px #ffc107;
+}
+
+.navbar{
+    background-color: #333;
+}
+
+input[type="radio"] {
+    accent-color: green;
+}
+
+
+
+/* Styles pour les cartes actives et inactives */
+.active-cat, .inactive-cat {
+    background-color: #495057; /* Couleur de fond plus foncée pour la carte active */
+    color: white; /* Texte en blanc pour un meilleur contraste */
+    margin: 15px 0;
+}
+
+.active-cat {
+    border-left: 4px solid #ffc107; /* Bordure gauche pour une indication claire */
+}
+
+.active-card {
+    border-left: 4px solid #ffc107; /* Bordure gauche pour une indication claire */
+}
+
+/* Styles pour le header offcanvas */
+.offcanvas-header {
+    background-color: #ffc107;
+}
+.offcanvas-title {
+    color: #242424;
+}
+
+.radio_groupe {
+    border: solid 1px #ffc107;
+    border-radius: 5px;
+    padding-left: 10px;
+}
+.menu_cat_title{
+    color: #ffc107;
+}
+.btn-outline-default {
+    --bs-btn-color: #ffc107;
+    --bs-btn-border-color: #ffc107;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #ffc107;
+    --bs-btn-hover-border-color: #ffc107;
+    --bs-btn-focus-shadow-rgb: 25, 135, 84;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #ffc107;
+    --bs-btn-active-border-color: #ffc107;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #ffc107;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #ffc107;
+    --bs-gradient: none;
+}

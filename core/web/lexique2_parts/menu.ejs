@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container-fluid">
+        <h4 class="navbar-brand">LEXIQUE : <span id="menu_cat" class="menu_cat_title"></span></h4>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Fiche
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" onclick="addCard()">Créer une fiche</a></li>
+                        <li><a class="dropdown-item" href="#">Duppliquer la fiche</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item btn-export" >Importer une fiche</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" onclick="saveCard()">Sauvegarder la fiche</a></li>
+                        <li><a class="dropdown-item" onclick="exportToJsonAndCopy()">Partager la fiche</a></li>
+                        <li><a class="dropdown-item disabled" >Exporter les sons de la fiche</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" onclick="deleteCard()" style="color:red">Supprimer la fiche</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <button  class="btn btn-outline-default" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                        aria-controls="offcanvasExample">
+                        Voir les catégories
+                    </button >
+					<button class="btn btn-outline-default" onclick="saveCard()">Sauvegarder la fiche</button>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <button  class="btn btn-outline-default" onclick="save_lexique()" aria-controls="offcanvasExample">
+                        Sauvegarder tout le lexique
+                    </button >
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Bouton 3</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Bouton 4</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

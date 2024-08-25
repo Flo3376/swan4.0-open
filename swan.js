@@ -55,7 +55,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Route pour afficher le formulaire
-app.get('/lexique', (req, res) => {
+app.get('/lexique2', (req, res) => {
     try {
       const filePath = path.join(__dirname, 'core', 'config', 'lexique.yaml');
       const fileContents = fs2.readFileSync(filePath, 'utf8');
@@ -67,14 +67,25 @@ app.get('/lexique', (req, res) => {
       res.status(500).send('Erreur lors de la lecture du fichier');
     }
   });
+
 // Route pour afficher le formulaire
-app.get('/lexique2', (req, res) => {
+app.get('/get_lexique', (req, res) => {
     try {
       const filePath = path.join(__dirname, 'core', 'config', 'lexique.yaml');
       const fileContents = fs2.readFileSync(filePath, 'utf8');
       const data = yaml.load(fileContents);
-      //console.log(JSON.stringify(data, null, 2)); // Ajoutez cette ligne pour inspecter les données
-      res.render('lexique2', { data: data });
+      const json=JSON.stringify(data, null, 2);
+      res.json(data); // Renvoie le JSON comme réponse
+    } catch (e) {
+      console.error(e);
+      res.status(500).send('Erreur lors de la lecture du fichier');
+    }
+  });
+
+// Route pour afficher le formulaire
+app.get('/lexique', (req, res) => {
+    try {
+      res.render('lexique2');
     } catch (e) {
       console.error(e);
       res.status(500).send('Erreur lors de la lecture du fichier');
@@ -398,7 +409,34 @@ const callback_listen = (data) => {
                     if (ruleInteract.output !== "none") {
                         output_c.handleCommand(ruleInteract);
                     }
-                    vocalise(responses, config, openai, data.options.action, config.effect);
+                    let effect=config.effect;
+                    if (lexique[data.options.action].effect){
+                        effect=lexique[data.options.action].effect
+                    }
+                    vocalise(responses, config, openai, data.options.action, effect);
+                    if(lexique[data.options.action]?.ambiance?.track){
+                        if(lexique[data.options.action].ambiance.player=="Spotify"){
+                            let music=lexique[data.options.action].ambiance.track
+                            if(music.includes("playlist")){
+                                console.log(music)
+                                let playlistId = music.split("/playlist/")[1].split("?")[0];
+                                console.log("playlist id : "+playlistId)
+                                spotify_go("spotify_lauch_playlist",playlistId);
+                            }
+                            if(music.includes("track")){
+                                console.log(music)
+                                let playlistId = music.split("/track/")[1].split("?")[0];
+                                console.log("playlist id : "+playlistId)
+                                spotify_go("playTrack",playlistId);
+                            }
+                            if(music.includes("album")){
+                                console.log(music)
+                                let albumtId = music.split("/album/")[1].split("?")[0];
+                                console.log("album id : "+albumtId)
+                                spotify_go("spotify_lauch_album",albumtId);
+                            }
+                        }
+                    }
                 } else {
                     vocalise("Alerte, corruption des lexiques détectée. Veuillez vider le répertoire grammar des fichiers auto.", config, openai, "", "none");
                     console.error(`La propriété 'rules' est manquante ou 'interact' n'est pas défini pour la commande ${data.options.action}`);
@@ -443,14 +481,25 @@ chat.on('error', (error) => {
 
 const spotify = new SpotifyController(config.spotify)
 
-async function spotify_go(action) {
-    const success = await spotify.spotify_action(action);
+async function spotify_go(action,info) {
+    const success = await spotify.spotify_action(action,info);
     if (!success) {
-        vocalise("Désolé mais je n'y arrive pas.", config, openai, "error_generic", config.effect);
+        vocalise("Désolé mais je n'y arrive pas.", config, openai, "error_generic", "none");
     }
     else {
         const responses = findResponsesByAction(lexique, action);
-        vocalise(responses, config, openai, action, config.effect)
+        
+        if(responses!=null){
+            console.log("*action* "+action)
+            console.log(responses)
+            vocalise(responses, config, openai, action, config.effect)
+        }
+        else{
+            console.log(responses)
+            console.log(lexique)
+            console.log(action)
+        }
+        
     }
 }
 
@@ -463,7 +512,7 @@ async function spotify_go(action) {
 async function initializeSystem() {
     //playAudio("F:\\Documents\\GitHub\\swan4.0\\sound\\output_sound\\revoicer\\other\\voice_2_second_dem.mp3",config.player_path)
     await initializeHardware();
-    await vocalise("Démarrage des systémes en cours.", config, openai, "error_generic", config.effect, true);
+    await vocalise("Démarrage des systémes en cours.", config, openai, "error_generic", "none", true);
     
     await make_grammar();
     

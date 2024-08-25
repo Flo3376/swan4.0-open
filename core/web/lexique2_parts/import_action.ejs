@@ -1,0 +1,18 @@
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="importModalLabel">Importer une Commande</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <p>Collez ici le JSON de la commande que vous souhaitez importer.</p>
+        <textarea id="jsonInput" class="form-control" rows="5"></textarea>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" onclick="importJson()">Importer</button>
+        </div>
+    </div>
+    </div>
+</div>
