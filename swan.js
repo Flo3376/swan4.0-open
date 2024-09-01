@@ -410,8 +410,10 @@ const callback_listen = (data) => {
                         output_c.handleCommand(ruleInteract);
                     }
                     let effect=config.effect;
+                    console.log("effet définie : "+lexique[data.options.action].effect);
                     if (lexique[data.options.action].effect){
-                        effect=lexique[data.options.action].effect
+                        console.log("effet répercuté : "+lexique[data.options.action].effect);
+                        effect=lexique[data.options.action].effect;
                     }
                     vocalise(responses, config, openai, data.options.action, effect);
                     if(lexique[data.options.action]?.ambiance?.track){

@@ -355,22 +355,7 @@
 				console.log(e)
 			}
 		}
-		/*
-		function populateCardFields(data) {
-			if (data && data.rules && data.rules.length > 0) {
-				const rule = data.rules[0];
-				document.getElementById("code").value = data.root || '';
-				document.getElementById("description").value = rule.description || '';
-				document.getElementById("questions").value = rule.questions.join('\n') || '';
-				document.getElementById("responses").value = rule.responses.join('\n') || '';
-				document.getElementById("outputSelect").value = rule.interact.output || 'none';
-				document.getElementById("typeSelect").value = rule.interact.type || 'none';
-				
-				document.getElementById("actionInput").value = rule.interact.action_input || '';
-				updateVisibility(); // Mise à jour de l'affichage en fonction des sélections
-			}
-		}*/
-
+		
 		function populateCardFields(data) {
 			if (data && data.rules && data.rules.length > 0) {
 				const actionId = data.root || ''; // ou une autre clé pour identifier l'action
