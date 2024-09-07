@@ -43,8 +43,8 @@ sound/output_sound/**/*.mp4
 # Garder les fichiers .gitkeep dans sound/output_sound et ses sous-répertoires
 !sound/output_sound/**/*.gitkeep
 
-core/exe/my_player*
-!core/exe/my_player.gitkeep
+core/exe/megatron*
+!core/exe/megatron.gitkeep
 
 *.ico
 *.exe
