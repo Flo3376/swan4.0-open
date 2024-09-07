@@ -4,7 +4,7 @@ const killPID = require('tree-kill');
 const axios = require('axios');
 const colors = require('colors');
 
-const KEY_SENDER = path.resolve(__dirname, '../exe/key_sender/key_sender.exe');
+const KEY_SENDER = path.resolve(__dirname, '../exe/megatron/megatron.exe');
 let PIDS = {};
 
 class OutputCommander {
@@ -63,7 +63,8 @@ class OutputCommander {
 
     handleCommand(command) {
         const { output, type, action_input, duration } = command;
-        const params = new URLSearchParams({ output, type, action_input, duration }).toString();
+        const class_action="keysender";
+        const params = new URLSearchParams({ output, type, action_input, duration,class_action }).toString();
         const url = `http://127.0.0.1:2953?${params}`;
         
         axios.get(url)

@@ -50,7 +50,7 @@ async function vocalise(tts, config, openai, action = "other", effect) {
   console.log(textToSpeak)
 
   // Chemin du répertoire à vérifier
-  let dirPath = path.join(`./${config[config.vocalisation].path_output}/${action}/`);
+  let dirPath = path.join(`./${config[config.vocalisation.engine].path_output}/${action}/`);
 
   // Vérifie si le répertoire existe
   if (!fs2.existsSync(dirPath)) {
@@ -60,7 +60,7 @@ async function vocalise(tts, config, openai, action = "other", effect) {
   }
 
   let speechFile = "";
-  switch (config.vocalisation) {
+  switch (config.vocalisation.engine) {
     case "openAI":
 
       speechFile = path.resolve(`./${config.openAI.path_output}/${action}/openAI_${config.openAI.assistant_voice}_${cleanAndExtractText(textToSpeak)}.mp3`);
@@ -68,7 +68,7 @@ async function vocalise(tts, config, openai, action = "other", effect) {
       // Vérifier si le fichier existe
       if (fs2.existsSync(speechFile)) {
         //console.log('Le fichier existe déjà.');
-        playAudio(speechFile, effect);
+        playAudio(config,speechFile, effect);
       } else {
         sendTextToOpenAI(textToSpeak, speechFile, openai, config, effect);
       }
@@ -78,7 +78,7 @@ async function vocalise(tts, config, openai, action = "other", effect) {
       speechFile = path.resolve(`./${config.revoicer.path_output}/${action}/revoicer_${config.revoicer.default_langage}_${config.revoicer.default_voice}_${config.revoicer.default_tone}_${cleanAndExtractText(textToSpeak)}.mp3`);
       if (fs2.existsSync(speechFile)) {
         //console.log('Le fichier existe déjà.');
-        playAudio(speechFile, effect);
+        playAudio(config,speechFile, effect);
       }
       else {
         await mainRevoicer(textToSpeak, config, speechFile, effect);
@@ -114,11 +114,11 @@ function sound_bank_play(config, action) {
       const fullPath = path.join(speechFile, randomFile);
 
       // Jouer le fichier audio sélectionné
-      playAudio(fullPath, "none");
+      playAudio(config,fullPath, "none");
     } else {
       // Aucun fichier mp3 trouvé, jouer le son par défaut
       const defaultPath = path.resolve(`./${config.sound_bank.path_output}/default/bip.mp4`);
-      playAudio(defaultPath, config.effect);
+      playAudio(config,defaultPath, config.effect);
     }
   });
 }
@@ -140,7 +140,7 @@ async function sendTextToOpenAI(textToSpeak, speechFile, openai, config, effect)
     const buffer = Buffer.from(arrayBuffer);
     await fs.writeFile(speechFile, buffer);
     //console.log(`Fichier de discours enregistré à ${speechFile}`);
-    playAudio(speechFile, effect);
+    playAudio(config,speechFile, effect);
   } catch (error) {
     console.error("Erreur lors de la génération ou de la lecture du fichier audio:", error);
   }
@@ -230,7 +230,7 @@ async function saveCookies() {
 }
 
 // Fonction pour envoyer du texte à Revoicer et recevoir un fichier audio
-async function sendTextToRevoicer(text, languageSelected, voiceSelected, toneSelected, campaignId, player_path, fullFilename, effect) {
+async function sendTextToRevoicer(text, languageSelected, voiceSelected, toneSelected, campaignId, player_path, fullFilename, effect,config) {
   const url = 'https://revoicer.app/speak/generate_voice';
   const data = JSON.stringify({ languageSelected, voiceSelected, toneSelected, text: `<p>${text}</p>**********${toneSelected}||||||||||`, simpletext: text, charCount: text.length, wordsCount: text.split(/\s+/).length, campaignId });
   const formData = new URLSearchParams({ data });
@@ -242,7 +242,7 @@ async function sendTextToRevoicer(text, languageSelected, voiceSelected, toneSel
       console.log('Texte envoyé avec succès à Revoicer');
       //console.log(response.data);
       const downloadLink = response.data.data.voice.download_link;
-      await handleVoiceDownloadAndPlay(downloadLink, player_path, fullFilename, effect);
+      await handleVoiceDownloadAndPlay(downloadLink, player_path, fullFilename, effect,config);
     } else {
       console.log("Échec de l'envoi du texte avec le statut:", response.status);
     }
@@ -272,10 +272,10 @@ function downloadVoiceFile(url, speechFile, effect) {
 }
 
 // Fonction pour gérer le téléchargement et la lecture du fichier audio.
-async function handleVoiceDownloadAndPlay(downloadLink, player_path, speechFile, effect) {
+async function handleVoiceDownloadAndPlay(downloadLink, player_path, speechFile, effect,config) {
   try {
     const filePath = await downloadVoiceFile(downloadLink, speechFile);
-    playAudio(filePath, effect);
+    playAudio(config,filePath, effect);
   } catch (error) {
     console.error('Erreur lors de la gestion du fichier vocal:', error);
   }
@@ -302,30 +302,29 @@ async function mainRevoicer(text, config, path, effect) {
 // Section commune, lecteur audio
 // -----------------------------
 // Fonction pour jouer un fichier audio localement
-function playAudio(speechFile, effect = "none") {
+function playAudio(config,speechFile, effects = "none") {
+  let command={
+    class_action :"sound",
+    action : "playoradd",
+    volume : config.vocalisation.volume,
+    effect : effects,
+    path: speechFile,
+    type : "infoprio",
 
-  // Définissez le chemin relatif de l'exécutable
-  const exePath = './../exe/my_player/my_player.exe';
+  };
 
-  // Résolvez le chemin absolu de l'exécutable
-  const resolvedExePath = path.resolve(__dirname, exePath);
-
-  // Utilisez des guillemets pour encapsuler le chemin du fichier en cas d'espaces
-  const command = `${resolvedExePath} "${speechFile}" "${effect}"`;
-
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Erreur lors de l'exécution de la commande: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`Erreur de sortie: ${stderr}`);
-      return;
-    }
-    console.log(`Sortie standard: ${stdout}`);
-  });
-
-
+  
+    const { class_action, type,path, action, volume,effect } = command;
+    const params = new URLSearchParams({ class_action,path,action, type, volume, effect }).toString();
+    const url = `http://127.0.0.1:2953?${params}`;
+    
+    axios.get(url)
+        .then(response => {
+            console.log(`Received response: ${response.data}`.green);
+        })
+        .catch(error => {
+            console.error(`Error sending request: ${error.message}`.red);
+        });
 }
 
 module.exports = {

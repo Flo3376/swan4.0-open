@@ -333,7 +333,7 @@ const google_data = ['apiKey'];
 const google_set = google_data.every(google_data => google_test[google_data] && google_test[google_data] !== '');
 
 //vérification qu'un vocaliser est utilisable
-if ((config.vocalisation == "revoicer" && revoicer_set) || (config.vocalisation == "openAI" && openAI_set) || (config.vocalisation == "google" && google_set)) {
+if ((config.vocalisation.engine == "revoicer" && revoicer_set) || (config.vocalisation.engine == "openAI" && openAI_set) || (config.vocalisation.engine == "google" && google_set)) {
     console.log(colors.green(`Moteur de vocalisation sélectionné : `) + config.vocalisation);
 } else {
     if(config.vocalisation!="sound_bank"){
@@ -400,7 +400,34 @@ const callback_listen = (data) => {
             console.log("silent_mod : " + silent_mod);
             const responses = findResponsesByAction(lexique, data.options.action);
             vocalise(responses, config, openai, data.options.action, config.effect);
-        } else {
+        }
+        
+        ////
+        else if (data.options.action.includes("swan_minus") && !silent_mod) {
+            if(config.vocalisation.volume>=10){
+                config.vocalisation.volume=config.vocalisation.volume-10;
+                const updates = {
+                    'volume': `"${config.vocalisation.volume}"`
+                };
+                update_config('./core/config/config.yaml', updates);
+            }
+            const responses = findResponsesByAction(lexique, data.options.action);
+            vocalise(responses, config, openai, data.options.action, config.effect);
+        }
+        else if (data.options.action.includes("swan_plus") && !silent_mod) {
+            if(config.vocalisation.volume<=90){
+                config.vocalisation.volume=config.vocalisation.volume+10;
+                const updates = {
+                    'volume': `"${config.vocalisation.volume}"`
+                };
+                update_config('./core/config/config.yaml', updates);
+            }
+            const responses = findResponsesByAction(lexique, data.options.action);
+            vocalise(responses, config, openai, data.options.action, config.effect);
+        }
+
+        ///
+        else {
             if (!silent_mod) {
                 const responses = findResponsesByAction(lexique, data.options.action);
                 const ruleInteract = lexique[data.options.action]?.rules[0]?.interact;
@@ -512,7 +539,7 @@ async function spotify_go(action,info) {
 async function initializeSystem() {
     //playAudio("F:\\Documents\\GitHub\\swan4.0\\sound\\output_sound\\revoicer\\other\\voice_2_second_dem.mp3",config.player_path)
     await initializeHardware();
-    await vocalise("Démarrage des systémes en cours.", config, openai, "error_generic", "none", true);
+    await vocalise("Démarrage des systémes en cours.", config, openai, "error_generic", "none");
     
     await make_grammar();
     
