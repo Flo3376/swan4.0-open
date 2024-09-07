@@ -583,6 +583,7 @@ async function restart() {
 // -----------------------------
 cleanDirectory('sound/input_listen_sound');
 cleanDirectory('core/exe/my_player/output');
+cleanDirectory('core/exe/megatron/output');
 
 
 /*
