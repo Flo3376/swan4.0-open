@@ -230,7 +230,13 @@ async function saveCookies() {
 }
 
 // Fonction pour envoyer du texte à Revoicer et recevoir un fichier audio
-async function sendTextToRevoicer(text, languageSelected, voiceSelected, toneSelected, campaignId, player_path, fullFilename, effect,config) {
+async function sendTextToRevoicer(text, fullFilename, effect,config) {
+  let languageSelected=config.revoicer.default_langage;
+  let voiceSelected=config.revoicer.default_voice;
+  let toneSelected=config.revoicer.default_tone;
+  let campaignId=config.revoicer.campaignId;
+
+
   const url = 'https://revoicer.app/speak/generate_voice';
   const data = JSON.stringify({ languageSelected, voiceSelected, toneSelected, text: `<p>${text}</p>**********${toneSelected}||||||||||`, simpletext: text, charCount: text.length, wordsCount: text.split(/\s+/).length, campaignId });
   const formData = new URLSearchParams({ data });
@@ -242,7 +248,7 @@ async function sendTextToRevoicer(text, languageSelected, voiceSelected, toneSel
       console.log('Texte envoyé avec succès à Revoicer');
       //console.log(response.data);
       const downloadLink = response.data.data.voice.download_link;
-      await handleVoiceDownloadAndPlay(downloadLink, player_path, fullFilename, effect,config);
+      await handleVoiceDownloadAndPlay(downloadLink, fullFilename, effect,config);
     } else {
       console.log("Échec de l'envoi du texte avec le statut:", response.status);
     }
@@ -253,7 +259,7 @@ async function sendTextToRevoicer(text, languageSelected, voiceSelected, toneSel
 }
 
 // Fonction pour télécharger le fichier audio généré.
-function downloadVoiceFile(url, speechFile, effect) {
+function downloadVoiceFile(url, speechFile) {
   return new Promise((resolve, reject) => {
     const file = fs2.createWriteStream(speechFile);
     https.get(url, response => {
@@ -272,7 +278,7 @@ function downloadVoiceFile(url, speechFile, effect) {
 }
 
 // Fonction pour gérer le téléchargement et la lecture du fichier audio.
-async function handleVoiceDownloadAndPlay(downloadLink, player_path, speechFile, effect,config) {
+async function handleVoiceDownloadAndPlay(downloadLink, speechFile, effect,config) {
   try {
     const filePath = await downloadVoiceFile(downloadLink, speechFile);
     playAudio(config,filePath, effect);
@@ -294,7 +300,7 @@ async function mainRevoicer(text, config, path, effect) {
     await login(config.revoicer.email, config.revoicer.password);
     console.log("Le cookies n'est plus valide")
   }
-  await sendTextToRevoicer(text, config.revoicer.default_langage, config.revoicer.default_voice, config.revoicer.default_tone, config.revoicer.campaignId, config.player_path, path, effect);
+  await sendTextToRevoicer(text,path, effect,config);
   await saveCookies();
 }
 
