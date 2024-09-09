@@ -3,20 +3,38 @@ const SpotifyWebApi = require('spotify-web-api-node');
 // Classe pour contrôler l'API Spotify
 class SpotifyController {
   constructor(config) {
-    // Initialisation de l'API Spotify avec les paramètres de configuration
-    this.spotifyApi = new SpotifyWebApi({
-      clientId: config.clientId, // Identifiant du client
-      clientSecret: config.clientSecret, // Secret du client (remplacer par votre propre secret)
-      redirectUri: config.redirectUri, // URI de redirection (remplacer par votre propre URI)
-      accessToken: config.client_acces_token, // Jeton d'accès
-      refreshToken: config.client_refresh_token // Jeton de rafraîchissement
-    });
-    this.client_pref_device = config.client_pref_device; // Stockage de l'appareil préféré
-    this.volume = config.defaultVolume; // Stockage du volume par défaut
-  }
+    // Vérification de la config Spotify
+    if (!config.clientId || !config.clientSecret || !config.redirectUri || !config.client_acces_token || !config.client_refresh_token) {
+        console.error("La configuration Spotify est incorrecte ou incomplète.");
+        this.isAvailable = false;  // Marquer Spotify comme non disponible
+    } else {
+      console.error("La configuration Spotify est potentiellement correcte.");
+        // Initialisation de l'API Spotify avec les paramètres de configuration valides
+        this.spotifyApi = new SpotifyWebApi({
+            clientId: config.clientId,
+            clientSecret: config.clientSecret,
+            redirectUri: config.redirectUri,
+            accessToken: config.client_acces_token,
+            refreshToken: config.client_refresh_token,
+        });
+        this.client_pref_device = config.client_pref_device;
+        this.volume = config.defaultVolume;
+        this.isAvailable = true;  // Marquer Spotify comme disponible
+    }
+}
+
+// Méthode pour vérifier la disponibilité
+_checkAvailability() {
+    if (!this.isAvailable) {
+        console.error("Spotify est hors service en raison d'une configuration incorrecte.");
+        return false;
+    }
+    return true;
+}
 
   // Méthode pour démarrer la lecture
   async play() {
+    if (!this._checkAvailability()) return;
     try {
       await this.spotifyApi.play();
       console.log('Lecture commencée');
@@ -29,6 +47,7 @@ class SpotifyController {
 
   // Méthode pour mettre la lecture en pause
   async pause() {
+    if (!this._checkAvailability()) return;
     try {
       await this.spotifyApi.pause();
       console.log('Lecture mise en pause');
@@ -41,6 +60,7 @@ class SpotifyController {
 
   // Méthode pour passer à la piste suivante
   async nextTrack() {
+    if (!this._checkAvailability()) return;
     try {
       await this.spotifyApi.skipToNext();
       console.log('Passé au morceau suivant');
@@ -53,6 +73,7 @@ class SpotifyController {
 
   // Méthode pour revenir à la piste précédente
   async previousTrack() {
+    if (!this._checkAvailability()) return;
     try {
       await this.spotifyApi.skipToPrevious();
       console.log('Revenu au morceau précédent');
@@ -65,11 +86,13 @@ class SpotifyController {
 
   // Vérifie si le token est expiré
   isTokenExpired() {
+    if (!this._checkAvailability()) return;
     return !this.tokenExpiryTime || this.tokenExpiryTime <= Date.now();
   }
 
   // Méthode pour définir le volume
   async setVolume(volumePercent) {
+    if (!this._checkAvailability()) return;
     try {
       await this.spotifyApi.setVolume(volumePercent);
       console.log(`Volume fixé à ${volumePercent}%`);
@@ -83,6 +106,7 @@ class SpotifyController {
 
   // Méthode pour rechercher des pistes
   async searchTracks(trackName) {
+    if (!this._checkAvailability()) return;
     try {
       const data = await this.spotifyApi.searchTracks(trackName);
       //console.log(`Résultats de la recherche pour '${trackName}':`, data.body.tracks.items);
@@ -95,6 +119,7 @@ class SpotifyController {
 
   // Méthode pour jouer une piste spécifique
   async playTrack(trackId) {
+    if (!this._checkAvailability()) return;
     try {
       await this.spotifyApi.play({
         uris: [`spotify:track:${trackId}`]
@@ -109,6 +134,7 @@ class SpotifyController {
 
   // Méthode pour jouer un album spécifique
   async playAlbum(albumId) {
+    if (!this._checkAvailability()) return;
     try {
       await this.spotifyApi.play({
         context_uri: `spotify:album:${albumId}`  // Utiliser context_uri pour un album
@@ -123,6 +149,7 @@ class SpotifyController {
 
    // Méthode pour jouer une playlist spécifique
    async playPlaylist(playlistId) {
+    if (!this._checkAvailability()) return;
     try {
       await this.spotifyApi.play({
         context_uri: `spotify:playlist:${playlistId}`  // Utiliser context_uri pour un album
@@ -138,6 +165,7 @@ class SpotifyController {
 
   // Méthode pour obtenir les appareils disponibles
   async getDevices() {
+    if (!this._checkAvailability()) return;
     try {
       const data = await this.spotifyApi.getMyDevices();
       //console.log('Appareils disponibles:', data.body.devices);
@@ -150,6 +178,7 @@ class SpotifyController {
 
   // Méthode pour activer un appareil spécifique
   async setActiveDevice(deviceId) {
+    if (!this._checkAvailability()) return;
     try {
       await this.spotifyApi.transferMyPlayback([deviceId]);
       return true;
@@ -161,18 +190,21 @@ class SpotifyController {
 
   // Méthode pour augmenter le volume
   async increaseVolume() {
+    if (!this._checkAvailability()) return;
     const newVolume = Math.min(this.volume + 10, 100);
     return await this.setVolume(newVolume);
   }
 
   // Méthode pour diminuer le volume
   async decreaseVolume() {
+    if (!this._checkAvailability()) return;
     const newVolume = Math.max(this.volume - 10, 0);
     return await this.setVolume(newVolume);
   }
 
   // Méthode pour rafraîchir le jeton d'accès
   async refreshAccessToken() {
+    if (!this._checkAvailability()) return;
     if (this.isTokenExpired()) {
       try {
         const data = await this.spotifyApi.refreshAccessToken();
@@ -193,6 +225,7 @@ class SpotifyController {
     }
   }
   async spotify_search(search_item) {
+    if (!this._checkAvailability()) return;
     await this.refreshAccessToken(); // Rafraîchir le token
 
     try {
@@ -213,7 +246,7 @@ class SpotifyController {
 
   // Méthode principale pour exécuter des actions
   async spotify_action(action,info) {
-
+    if (!this._checkAvailability()) return;
     await this.refreshAccessToken(); // Rafraîchir le token
 
     const devices = await this.getDevices(); // Obtenir la liste des appareils

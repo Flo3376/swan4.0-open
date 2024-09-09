@@ -29,9 +29,14 @@ const { tokenize } = require('./core/system/tokenizer');
 const ChatModule = require('./core/system/chat');
 // Importe un contrôleur pour interagir avec l'API de Spotify, permettant de contrôler la musique.
 const SpotifyController = require('./core/system/spotify');
+// Importe un module de pour gérer la musique en local
+const localPlayer = require('./core/system/localPlayer.js');
+;
+
 const yaml = require('js-yaml');
 
 var silent_mod=false;
+var player_type="none";
 
 const path = require('path');
 
@@ -41,6 +46,7 @@ const { cleanDirectory } = require('./core/system/fileCleaner');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+
 
 // Servir des fichiers statiques depuis le dossier 'public'
 app.use(express.static(path.join(__dirname, 'core', 'web')));
@@ -381,101 +387,141 @@ function findResponsesByAction(lexique, action) {
     return null; // Retourner null si aucune action correspondante n'est trouvée
 }
 
+const MusicManager = require('./core/system/musicManager');
+// Initialiser le gestionnaire de lecteurs
+const musicManager = new MusicManager(config)
+
 // Si le module reconnaît une commande
 const callback_listen = (data) => {
     // Vérifie si 'options' et 'action' sont définis dans 'data'
     if (data && data.options && data.options.action) {
-        console.log("silent_mod : " + silent_mod);
-        if (data.options.action.includes("spotify") && !silent_mod) {
-            spotify_go(data.options.action);
-        } else if (data.options.action.includes("system_restart") && !silent_mod) {
-            restart();
-        } else if (data.options.action.includes("silent_mod") && !silent_mod) {
-            silent_mod = true;
-            console.log("silent_mod : " + silent_mod);
-            const responses = findResponsesByAction(lexique, data.options.action);
-            vocalise(responses, config, openai, data.options.action, config.effect);
-        } else if (data.options.action.includes("present_mod") && silent_mod) {
-            silent_mod = false;
-            console.log("silent_mod : " + silent_mod);
-            const responses = findResponsesByAction(lexique, data.options.action);
-            vocalise(responses, config, openai, data.options.action, config.effect);
-        }
-        
-        ////
-        else if (data.options.action.includes("swan_minus") && !silent_mod) {
-            if(config.vocalisation.volume>=10){
-                config.vocalisation.volume=config.vocalisation.volume-10;
-                const updates = {
-                    'volume': `"${config.vocalisation.volume}"`
-                };
-                update_config('./core/config/config.yaml', updates);
-            }
-            const responses = findResponsesByAction(lexique, data.options.action);
-            vocalise(responses, config, openai, data.options.action, config.effect);
-        }
-        else if (data.options.action.includes("swan_plus") && !silent_mod) {
-            if(config.vocalisation.volume<=90){
-                config.vocalisation.volume=config.vocalisation.volume+10;
-                const updates = {
-                    'volume': `"${config.vocalisation.volume}"`
-                };
-                update_config('./core/config/config.yaml', updates);
-            }
-            const responses = findResponsesByAction(lexique, data.options.action);
-            vocalise(responses, config, openai, data.options.action, config.effect);
-        }
 
-        ///
+        //console.log(data)
+        
+        console.log("silent_mod : " + silent_mod);
+        
+        // Si l'action contient "spotify" et que le mode silencieux (silent_mod) n'est pas activé
+        if (data.options.action.includes("spotify") && !silent_mod) {
+            spotify_go(data.options.action);  // Lance la commande pour Spotify
+        } 
+        
+        // Si l'action contient "system_restart" et que le mode silencieux n'est pas activé
+        else if (data.options.action.includes("system_restart") && !silent_mod) {
+            restart();  // Redémarre le système
+        } 
+        
+        // Active le mode silencieux (silent_mod) si l'action contient "silent_mod" et que ce mode n'est pas déjà activé
+        else if (data.options.action.includes("silent_mod") && !silent_mod) {
+            silent_mod = true;  // Passe en mode silencieux
+            console.log("silent_mod : " + silent_mod);
+            const responses = findResponsesByAction(lexique, data.options.action);
+            vocalise(responses, config, openai, data.options.action, config.effect);  // Vocalise la réponse liée à l'action
+        } 
+        
+        // Désactive le mode silencieux si l'action contient "present_mod" et que le mode silencieux est activé
+        else if (data.options.action.includes("present_mod") && silent_mod) {
+            silent_mod = false;  // Désactive le mode silencieux
+            console.log("silent_mod : " + silent_mod);
+            const responses = findResponsesByAction(lexique, data.options.action);
+            vocalise(responses, config, openai, data.options.action, config.effect);  // Vocalise la réponse
+        } 
+        
+        // Réduit le volume si l'action contient "swan_minus" et que le mode silencieux n'est pas activé
+        else if (data.options.action.includes("swan_minus") && !silent_mod) {
+            if (config.vocalisation.volume >= 10) {  // Vérifie si le volume est supérieur ou égal à 10
+                config.vocalisation.volume = config.vocalisation.volume - 10;  // Réduit le volume de 10
+                const updates = {
+                    'volume': config.vocalisation.volume  // Met à jour la configuration avec la nouvelle valeur de volume
+                };
+                update_config('./core/config/config.yaml', updates);  // Sauvegarde la nouvelle configuration
+            }
+            const responses = findResponsesByAction(lexique, data.options.action);
+            vocalise(responses, config, openai, data.options.action, config.effect);  // Vocalise la réponse
+        } 
+        
+        // Augmente le volume si l'action contient "swan_plus" et que le mode silencieux n'est pas activé
+        else if (data.options.action.includes("swan_plus") && !silent_mod) {
+            if (config.vocalisation.volume <= 90) {  // Vérifie si le volume est inférieur ou égal à 90
+                config.vocalisation.volume = config.vocalisation.volume + 10;  // Augmente le volume de 10
+                const updates = {
+                    'volume': config.vocalisation.volume  // Met à jour la configuration avec la nouvelle valeur de volume
+                };
+                update_config('./core/config/config.yaml', updates);  // Sauvegarde la nouvelle configuration
+            }
+            const responses = findResponsesByAction(lexique, data.options.action);
+            vocalise(responses, config, openai, data.options.action, config.effect);  // Vocalise la réponse
+        } 
+        
+        // Si aucune des actions précédentes n'est correspondante, traite la commande via les règles du lexique
         else {
-            if (!silent_mod) {
-                const responses = findResponsesByAction(lexique, data.options.action);
-                const ruleInteract = lexique[data.options.action]?.rules[0]?.interact;
+            if (!silent_mod) {  // Continue uniquement si le mode silencieux n'est pas activé
+                const responses = findResponsesByAction(lexique, data.options.action);  // Trouve les réponses liées à l'action
+                const ruleInteract = lexique[data.options.action]?.rules[0]?.interact;  // Récupère la règle 'interact' associée à l'action
 
                 if (ruleInteract) {
                     if (ruleInteract.output !== "none") {
-                        output_c.handleCommand(ruleInteract);
+                        output_c.handleCommand(ruleInteract);  // Exécute la commande associée à l'interaction
                     }
-                    let effect=config.effect;
-                    console.log("effet définie : "+lexique[data.options.action].effect);
-                    if (lexique[data.options.action].effect){
-                        console.log("effet répercuté : "+lexique[data.options.action].effect);
-                        effect=lexique[data.options.action].effect;
+                    
+                    // Gère l'effet à appliquer lors de la vocalisation
+                    let effect = config.effect;
+                    console.log("effet définie : " + lexique[data.options.action].effect);
+                    if (lexique[data.options.action].effect) {
+                        console.log("effet répercuté : " + lexique[data.options.action].effect);
+                        effect = lexique[data.options.action].effect;  // Met à jour l'effet si défini dans le lexique
                     }
-                    vocalise(responses, config, openai, data.options.action, effect);
-                    if(lexique[data.options.action]?.ambiance?.track){
-                        if(lexique[data.options.action].ambiance.player=="Spotify"){
-                            let music=lexique[data.options.action].ambiance.track
-                            if(music.includes("playlist")){
-                                console.log(music)
+                    vocalise(responses, config, openai, data.options.action, effect);  // Vocalise la réponse avec l'effet défini
+
+                    // Gère l'ambiance musicale si elle est définie dans le lexique
+                    if (lexique[data.options.action]?.ambiance?.track) {
+                        if (lexique[data.options.action].ambiance.player == "Spotify") {
+                            player_type="spotify";
+                            let music = lexique[data.options.action].ambiance.track;
+
+                            // Gestion des différentes pistes selon leur type (playlist, track, album)
+                            if (music.includes("playlist")) {
+                                console.log(music);
                                 let playlistId = music.split("/playlist/")[1].split("?")[0];
-                                console.log("playlist id : "+playlistId)
-                                spotify_go("spotify_lauch_playlist",playlistId);
+                                console.log("playlist id : " + playlistId);
+                                spotify_go("spotify_lauch_playlist", playlistId);  // Lance une playlist sur Spotify
                             }
-                            if(music.includes("track")){
-                                console.log(music)
-                                let playlistId = music.split("/track/")[1].split("?")[0];
-                                console.log("playlist id : "+playlistId)
-                                spotify_go("playTrack",playlistId);
+                            if (music.includes("track")) {
+                                console.log(music);
+                                let trackId = music.split("/track/")[1].split("?")[0];
+                                console.log("track id : " + trackId);
+                                spotify_go("playTrack", trackId);  // Lance une piste spécifique sur Spotify
                             }
-                            if(music.includes("album")){
-                                console.log(music)
-                                let albumtId = music.split("/album/")[1].split("?")[0];
-                                console.log("album id : "+albumtId)
-                                spotify_go("spotify_lauch_album",albumtId);
+                            if (music.includes("album")) {
+                                console.log(music);
+                                let albumId = music.split("/album/")[1].split("?")[0];
+                                console.log("album id : " + albumId);
+                                spotify_go("spotify_lauch_album", albumId);  // Lance un album sur Spotify
                             }
+                        }
+                        if(lexique[data.options.action].ambiance.player == "Local")
+                        {
+                            player_type="local";
+                            let music = lexique[data.options.action].ambiance.track;
+
+                            // Ajouter plusieurs musiques avec 25% de volume et 250ms de délai entre chaque ajout
+                            localPlayer.addMultipleMusics(music, 25, 250)
+                            .then(() => console.log('Toutes les musiques ont été ajoutées avec succès'))
+                            .catch((err) => console.error('Erreur:', err));
+
+
                         }
                     }
                 } else {
+                    // Si la propriété 'rules' ou 'interact' n'est pas définie dans le lexique
                     vocalise("Alerte, corruption des lexiques détectée. Veuillez vider le répertoire grammar des fichiers auto.", config, openai, "", "none");
-                    console.error(`La propriété 'rules' est manquante ou 'interact' n'est pas défini pour la commande ${data.options.action}`);
+                    console.error(`La propriété 'rules' est manquante ou 'interact' n'est pas définie pour la commande ${data.options.action}`);
                     console.log(data.options.action);
                     console.log(lexique);
                 }
             }
         }
     } else {
-        // Message personnalisé pour indiquer que la reconnaissance a échoué et inviter à consulter le fichier audio
+        // Message d'erreur si 'data.options' ou 'data.options.action' est indéfini
         console.error("Erreur: 'data.options' ou 'data.options.action' est undefined. Le programme a détecté un son mais ne l'a pas reconnu.");
         console.log("Veuillez consulter le fichier audio pour plus de détails:", data.filename);
     }
@@ -522,9 +568,9 @@ async function spotify_go(action,info) {
             vocalise(responses, config, openai, action, config.effect)
         }
         else{
-            console.log(responses)
-            console.log(lexique)
-            console.log(action)
+            //console.log(responses)
+            //console.log(lexique)
+            //console.log(action)
         }
         
     }
@@ -554,7 +600,7 @@ async function initializeSystem() {
     }
     await voiceModule.start('unique-id', config.listen, callback_listen, logback_listen);
     
-    await tokenize("ai-tus en line"); //plein de faute, c'est volontaire
+    await tokenize("ai-tus en ligne"); //plein de faute, c'est volontaire
     await tokenize("Es-tu en ligne");
     //await spotify.playTrack("0C80GCp0mMuBzLf3EAXqxv");
 
