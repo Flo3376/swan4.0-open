@@ -504,7 +504,7 @@ const callback_listen = (data) => {
                             let music = lexique[data.options.action].ambiance.track;
 
                             // Ajouter plusieurs musiques avec 25% de volume et 250ms de délai entre chaque ajout
-                            localPlayer.addMultipleMusics(music, 25, 250)
+                            localPlayer.addMultipleMusics(music, 5, 250)
                             .then(() => console.log('Toutes les musiques ont été ajoutées avec succès'))
                             .catch((err) => console.error('Erreur:', err));
 

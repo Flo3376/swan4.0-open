@@ -1,7 +1,7 @@
 const http = require('http');
 
 // Fonction pour envoyer une requête GET pour ajouter un fichier audio
-function addMusic(path, volume = 25) {
+function addMusic(path, volume = 10) {
     const encodedPath = encodeURIComponent(path);
     const urlPath = `class_action=sound&action=playoradd&type=music&path=${encodedPath}&volume=${volume}`;
 
@@ -38,7 +38,7 @@ function addMusic(path, volume = 25) {
 }
 
 // Fonction pour ajouter plusieurs musiques avec délai entre chaque
-async function addMultipleMusics(paths, volume = 25, delay = 250) {
+async function addMultipleMusics(paths, volume = 10, delay = 250) {
     // 1. Diviser le string en lignes
     const lines = paths.trim().split("\n").map(line => line.trim());    
     console.log(lines);
