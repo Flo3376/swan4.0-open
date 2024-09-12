@@ -1,7 +1,10 @@
-﻿using System;
+﻿using NAudio.Midi;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -9,6 +12,8 @@ using WindowsInput;
 using WindowsInput.Native;
 using static System.Collections.Specialized.BitVector32;
 using static System.Net.Mime.MediaTypeNames;
+//using System.Windows.Forms;  // Nécessaire pour utiliser le presse-papier
+using TextCopy;  // Utiliser la bibliothèque TextCopy
 
 namespace megatron
 {
@@ -16,10 +21,27 @@ namespace megatron
     {
         private readonly InputSimulator simulator;
 
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetKeyboardLayout(uint idThread);
+
+        public static string GetCurrentKeyboardLayout()
+        {
+            IntPtr layout = GetKeyboardLayout(0); // On passe 0 pour obtenir le layout du thread courant
+            int keyboardLayoutId = layout.ToInt32() & 0xFFFF; // On masque pour obtenir les 16 bits inférieurs (le layout ID)
+
+            // Obtenir la culture correspondant à l'identifiant du layout
+            var culture = new CultureInfo(keyboardLayoutId);
+            return culture.Name; // Par exemple "fr-FR" ou "en-US"
+        }
+
         public CommandKeyManager()
         {
             simulator = new InputSimulator();  // Initialisation du simulateur dans le constructeur
+            var layout = GetCurrentKeyboardLayout();
+            Console.WriteLine($"Layout clavier actuel : {layout}");
         }
+
+
 
         public void key_command(string command)
         {
@@ -85,38 +107,18 @@ namespace megatron
                 // Sélectionner le type d'action à exécuter
                 switch (commandDict["type"].ToLower())
                 {
-                    case "key":
-                        Console.WriteLine("Tentative d'appuyer sur : " + inputs[0]);
-                        simulator.Keyboard.KeyDown(ParseKeyCode(inputs[0]));
-                        Thread.Sleep(delayMs);
-                        simulator.Keyboard.KeyUp(ParseKeyCode(inputs[0]));
-                        break;
-
                     case "combo":
-                        foreach (var input in inputs)
-                        {
-                            ParseKeyCode(input); // Valide les touches
-                        }
-
-                        foreach (var input in inputs)
-                        {
-                            simulator.Keyboard.KeyDown(ParseKeyCode(input));
-                        }
-
-                        Thread.Sleep(delayMs);
-
-                        foreach (var input in inputs.Reverse())
-                        {
-                            simulator.Keyboard.KeyUp(ParseKeyCode(input));
-                        }
+                        SendCombo(actionInput, delayMs);
                         break;
 
                     case "phrase":
                         SendPhrase(actionInput);
                         break;
-
-                    case "mouse_click":
-                        HandleMouseClick(inputs[0], delayMs);
+                    case "sequence":
+                        SendSequence(actionInput);
+                        break;
+                    case "cyclique":
+                        SendCyclique(actionInput);
                         break;
 
                     default:
@@ -135,43 +137,272 @@ namespace megatron
             }
         }
 
-
-        private void SendPhrase(string actionInput)
+        public void SendCyclique(string actionInput)
         {
-            var startPattern = @"\{([^}]+)\}";
-            var endPattern = @"\{([^}]+)\}$";
-            var startMatch = Regex.Match(actionInput, startPattern);
-            var endMatch = Regex.Match(actionInput, endPattern);
-            var text = Regex.Replace(actionInput, startPattern + "|" + endPattern, "");
+            Console.WriteLine("Cyclique command received.");
 
-            // Supposer que le premier et le dernier élément sont des touches spéciales
-            if (startMatch.Success && endMatch.Success)
+            // Ici, on pourrait implémenter la logique future qui gérera la répétition des combos
+            // Par exemple, une boucle qui exécute des combos à intervalle régulier
+        }
+        /* public void SendSequence(string actionInput)
+         {
+             Thread.Sleep(10000);
+             // Durées prédéfinies
+             int shortDuration = 100;  // Durée courte
+             int longDuration = 750;   // Durée longue
+
+             // Séparer les combos et les pauses en utilisant "||" comme délimiteur
+             Console.WriteLine($"Received sequence: {actionInput}");
+             var parts = actionInput.Split(new string[] { "||" }, StringSplitOptions.None);
+
+             foreach (var part in parts)
+             {
+                 Console.WriteLine($"Processing part: {part}");
+
+                 if (part.StartsWith("{") && part.EndsWith("}"))
+                 {
+                     // Utilisation d'un regex pour capturer les parties entre accolades
+                     var matches = Regex.Matches(part, @"\{([^}]+)\}");
+                     if (matches.Count > 0)
+                     {
+                         string actionType = matches[0].Groups[1].Value;  // Le premier élément (short, long, ou autre)
+                         string comboAction = matches.Count > 1 ? matches[1].Groups[1].Value : "";  // Le combo (comme i, u, etc.)
+
+                         int duration = shortDuration;  // Par défaut à court
+
+                         // Vérifier le type de durée et ajuster la durée si besoin
+                         if (actionType == "short")
+                         {
+                             duration = shortDuration;
+                             Console.WriteLine($"Duration set to short ({shortDuration}ms) for action: {comboAction}");
+                         }
+                         else if (actionType == "long")
+                         {
+                             duration = longDuration;
+                             Console.WriteLine($"Duration set to long ({longDuration}ms) for action: {comboAction}");
+                         }
+
+                         // Reformater l'action avec les accolades et l'envoyer à SendCombo
+                         if (!string.IsNullOrEmpty(comboAction))
+                         {
+                             string formattedAction = $"{{{comboAction}}}";  // Ajouter les accolades
+                             Console.WriteLine($"Formatted action: {formattedAction}");
+                             SendCombo(formattedAction, duration);  // Envoyer l'action avec les accolades à SendCombo
+                         }
+                         else
+                         {
+                             Console.WriteLine("Invalid combo action extracted.");
+                         }
+                     }
+                 }
+                 else if (int.TryParse(part, out int delayMs))
+                 {
+                     // S'il s'agit d'un nombre, le considérer comme un délai
+                     Console.WriteLine($"Pause for {delayMs}ms");
+                     Thread.Sleep(delayMs);
+                 }
+                 else
+                 {
+                     Console.WriteLine($"Invalid part in sequence: {part}");
+                 }
+             }
+         }*/
+
+        public void SendSequence(string actionInput)
+        {
+            Thread.Sleep(500);
+            // Step 0: Vérifier si la séquence se termine par {tempo xxx}
+            if (actionInput.EndsWith("}"))
             {
-                var startKey = ParseKeyCode(startMatch.Groups[1].Value);
-                var endKey = ParseKeyCode(endMatch.Groups[1].Value);
-
-                simulator.Keyboard.KeyPress(startKey); // Appuyer et relâcher la touche de début
-                Thread.Sleep(500);
-
-                // Simuler chaque touche du texte
-                foreach (char c in text)
+                var lastPart = actionInput.Substring(actionInput.LastIndexOf("{"));
+                if (lastPart.StartsWith("{tempo"))
                 {
-                    var keyCode = (VirtualKeyCode)char.ToUpper(c);
-                    simulator.Keyboard.KeyPress(keyCode);
-                    Thread.Sleep(10); // Petit délai entre les touches pour simuler une frappe naturelle
+                    Console.WriteLine("Invalid sequence: ends with {tempo}. Ignoring the sequence.");
+                    return;
+                }
+            }
+
+            // Step 1: Découper la séquence en blocs avec {tempo xxx} comme séparateur
+            var parts = Regex.Split(actionInput, @"\{tempo \d+\}");  // Découpe sur {tempo xxx}
+
+            // Step 1.1: Extraire les tempos
+            var tempos = Regex.Matches(actionInput, @"\{tempo (\d+)\}")
+                              .Cast<Match>()
+                              .Select(m => int.Parse(m.Groups[1].Value))
+                              .ToList();
+
+            // Step 2: Pour chaque bloc, vérifier s'il contient {short} ou {long}, sinon ajouter {short}
+            for (int i = 0; i < parts.Length; i++)
+            {
+                var part = parts[i].Trim();  // Enlever les espaces ou accolades inutiles
+                if (string.IsNullOrEmpty(part)) continue;  // Ignorer les parties vides
+
+                // Vérifier la durée du bloc, et enlever {short} ou {long} pour ne pas les envoyer à SendCombo
+                int duration = 100;  // Par défaut {short}
+                if (part.Contains("{short}"))
+                {
+                    duration = 100;  // Durée courte
+                    part = part.Replace("{short}", "");  // Supprimer {short} avant d'envoyer à SendCombo
+                }
+                else if (part.Contains("{long}"))
+                {
+                    duration = 750;  // Durée longue
+                    part = part.Replace("{long}", "");  // Supprimer {long} avant d'envoyer à SendCombo
                 }
 
-                Thread.Sleep(500);
-                simulator.Keyboard.KeyPress(endKey); // Appuyer et relâcher la touche de fin
+                // Step 3: Envoyer chaque bloc d'action sans {short} ou {long}
+                Console.WriteLine($"Sending part: {part}");
+                SendCombo(part, duration);  // Envoi de la commande avec la durée correspondante
+
+                // Si un tempo existe, insérer une pause avant d'exécuter le prochain bloc
+                if (i < tempos.Count)
+                {
+                    int delay = tempos[i];
+                    Console.WriteLine($"Pause for {delay}ms");
+                    Thread.Sleep(delay);  // Pause pour le tempo spécifié
+                }
+            }
+        }
+
+        public void SendCombo(string actionInput, int delayMs = 100)
+        {
+            // Extraire toutes les actions de la commande entre les accolades {}
+            var matches = Regex.Matches(actionInput, @"\{([^}]+)\}");
+            var inputs = matches.Cast<Match>().Select(m => m.Groups[1].Value).ToArray();
+
+            if (inputs.Length == 0)
+            {
+                Console.WriteLine("Aucun input valide trouvé dans la commande.");
+                return;
+            }
+
+            // Appuyer sur toutes les touches/actions en même temps
+            foreach (var input in inputs)
+            {
+                SimulateActionDown(input);  // Simule appui sur la touche ou action souris
+            }
+
+            // Pause pour simuler la durée de la combinaison
+            Thread.Sleep(delayMs); // ou tout autre délai adapté
+
+            // Relâcher toutes les touches/actions
+            foreach (var input in inputs.Reverse())
+            {
+                SimulateActionUp(input);  // Simule relâchement de la touche ou action souris
+            }
+        }
+
+        private void SimulateActionDown(string action)
+        {
+            if (IsMouseAction(action))
+            {
+                // Si c'est une action souris
+                switch (action.ToLower())
+                {
+                    case "left_click":
+                        simulator.Mouse.LeftButtonDown();
+                        break;
+                    case "right_click":
+                        simulator.Mouse.RightButtonDown();
+                        break;
+                    case "middle_click":
+                        simulator.Mouse.MiddleButtonDown();
+                        break;
+                    default:
+                        Console.WriteLine("Action souris non reconnue.");
+                        break;
+                }
             }
             else
             {
-                Console.WriteLine("Invalid format for phrase input.");
+                // Si c'est une touche clavier
+                simulator.Keyboard.KeyDown(ParseKeyCode(action));
             }
-
         }
 
-        private void HandleMouseClick(string button, int delayMs)
+        private void SimulateActionUp(string action)
+        {
+            if (IsMouseAction(action))
+            {
+                // Si c'est une action souris
+                switch (action.ToLower())
+                {
+                    case "left_click":
+                        simulator.Mouse.LeftButtonUp();
+                        break;
+                    case "right_click":
+                        simulator.Mouse.RightButtonUp();
+                        break;
+                    case "middle_click":
+                        simulator.Mouse.MiddleButtonUp();
+                        break;
+                    default:
+                        Console.WriteLine("Action souris non reconnue.");
+                        break;
+                }
+            }
+            else
+            {
+                // Si c'est une touche clavier
+                simulator.Keyboard.KeyUp(ParseKeyCode(action));
+            }
+        }
+
+        private bool IsMouseAction(string action)
+        {
+            return action.ToLower().Contains("click");
+        }
+
+
+
+        public void SendPhrase(string actionInput)
+        {
+            // Pattern pour repérer les balises comme {Enter}, {²}, etc.
+            var regex = new Regex(@"\{([^}]+)\}");
+            var matches = regex.Matches(actionInput);
+            int lastIndex = 0;
+
+            foreach (Match match in matches)
+            {
+                // Récupérer le texte avant la balise
+                if (match.Index > lastIndex)
+                {
+                    var textBeforeTag = actionInput.Substring(lastIndex, match.Index - lastIndex);
+                    if (!string.IsNullOrEmpty(textBeforeTag))
+                    {
+                        // Envoyer ce texte via le presse-papier
+                        PasteText(textBeforeTag);
+                    }
+                }
+
+                // Récupérer et traiter la balise (comme {Enter}, {²}, etc.)
+                string keyName = match.Groups[1].Value;
+                SimulateKey(keyName);
+
+                // Mettre à jour l'index
+                lastIndex = match.Index + match.Length;
+            }
+
+            // Si du texte reste après la dernière balise
+            if (lastIndex < actionInput.Length)
+            {
+                var remainingText = actionInput.Substring(lastIndex);
+                PasteText(remainingText);  // Coller le texte restant via le presse-papier
+            }
+        }
+
+        // Méthode pour copier du texte dans le presse-papier et le coller via Ctrl+V
+        private void PasteText(string text)
+        {
+            ClipboardService.SetText(text);  // Met le texte dans le presse-papier avec TextCopy
+            Thread.Sleep(100);  // Petit délai pour s'assurer que le presse-papier est prêt
+
+            // Simuler Ctrl+V pour coller le texte
+            simulator.Keyboard.ModifiedKeyStroke(VirtualKeyCode.CONTROL, VirtualKeyCode.VK_V);
+            Thread.Sleep(100);  // Petit délai pour coller
+        }
+
+        /*private void HandleMouseClick(string button, int delayMs)
         {
             switch (button.ToLower())
             {
@@ -193,6 +424,23 @@ namespace megatron
                 default:
                     Console.WriteLine($"Invalid mouse button: {button}");
                     break;
+            }
+        }*/
+
+        private void SimulateKey(string keyName, int delayMs = 100)
+        {
+            try
+            {
+                var keyCode = ParseKeyCode(keyName);
+
+                // Appuyer sur la touche
+                simulator.Keyboard.KeyDown(keyCode);
+                Thread.Sleep(delayMs);  // Délai pour simuler la durée de l'appui
+                simulator.Keyboard.KeyUp(keyCode);  // Relâcher la touche
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Erreur lors de la simulation de la touche : {ex.Message}");
             }
         }
 
@@ -389,7 +637,10 @@ namespace megatron
                 case "windows":
                     return VirtualKeyCode.LWIN;
                 case "left_alt":
-                    return VirtualKeyCode.LMENU;
+                    //return VirtualKeyCode.LMENU;
+                    Console.WriteLine("test left_alt");
+                    Console.WriteLine("envoie de :"+ VirtualKeyCode.LMENU);
+                    return (VirtualKeyCode)164; // Virtual Key Code pour Alt gauche
                 case "space":
                     return (VirtualKeyCode)32;
                 case "right_alt":

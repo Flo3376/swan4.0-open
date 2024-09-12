@@ -24,3 +24,7 @@ C:\Users\FP24V\source\repos\megatron\obj\Release\net8.0\refint\megatron.dll
 C:\Users\FP24V\source\repos\megatron\obj\Release\net8.0\megatron.pdb
 C:\Users\FP24V\source\repos\megatron\obj\Release\net8.0\megatron.genruntimeconfig.cache
 C:\Users\FP24V\source\repos\megatron\obj\Release\net8.0\ref\megatron.dll
+C:\Users\FP24V\source\repos\megatron\bin\Release\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\FP24V\source\repos\megatron\bin\Release\net8.0\System.Reactive.dll
+C:\Users\FP24V\source\repos\megatron\bin\Release\net8.0\System.Reactive.Windows.Forms.dll
+C:\Users\FP24V\source\repos\megatron\bin\Release\net8.0\TextCopy.dll

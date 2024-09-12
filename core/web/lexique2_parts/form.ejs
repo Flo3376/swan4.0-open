@@ -72,41 +72,17 @@
 		<textarea class="form-control my_input_form_2 mb-2 auto-height" name="link_ambiance" id="link_ambiance" rows="5"></textarea>
 	</span>
 	<hr>
-	<div>
-		<strong>Output:</strong>
-		<select class="form-control mb-2 output-select" id="outputSelect" name="output">
-			<option value="none">None</option>
-			<option value="keyboard" selected="">Keyboard</option>
-			<option value="mouse">Mouse</option>
-		</select>
-	</div>
 	<div class="type-select">
 		<strong>Type:</strong>
 		<select class="form-control mb-2 type-select" id="typeSelect" name="Type">
 			<option value="none">None</option>
-			<option value="key">Key</option>
 			<option value="combo">Combo</option>
 			<option value="sequence">Sequence</option>
 			<option value="phrase">Phrase</option>
-			<option value="mouse_click" hidden="">Mouse_click</option>
-			<option value="mouse_move" hidden="">Mouse_move</option>
+			<option value="cyclique">Cyclique</option>
 		</select>
 	</div>
 	<h6>Durée:</h6>
-	<div class="durationSelect radio_groupe">
-		<div class="form-check form-check-inline">
-			<input class="form-check-input" type="radio" name="duration" id="duration1" value="short">
-			<label class="form-check-label" for="duration1">Appui court</label>
-		</div>
-		<div class="form-check form-check-inline">
-			<input class="form-check-input" type="radio" name="duration" id="duration2" value="long">
-			<label class="form-check-label" for="duration2">Appui long</label>
-		</div>
-		<div class="form-check form-check-inline">
-			<input class="form-check-input" type="radio" name="duration" id="duration3" value="cycle" disabled>
-			<label class="form-check-label" for="duration3">Appui répétitif</label>
-		</div>
-	</div>
 	<div class="action-Input">
 		<strong>Action: <button class="btn btn-primary" id="modal_activator" data-modal-type="none"><i
 					class="bi bi-pencil-fill"></i></button></strong>

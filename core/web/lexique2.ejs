@@ -91,7 +91,7 @@
 
 		document.addEventListener('DOMContentLoaded', function () {
 			// Ajout des écouteurs pour les sélections des options
-			document.getElementById('outputSelect').addEventListener('change', updateVisibility);
+			//document.getElementById('outputSelect').addEventListener('change', updateVisibility);
 			document.getElementById('typeSelect').addEventListener('change', updateVisibility);
 
 			// Ajout des écouteurs pour les actions du formulaire
@@ -194,9 +194,9 @@
 			});
 		}
 
-		//remplissage de la colone de droite avec les élément de fiche sélectionné
+		// Remplissage de la colonne de gauche avec les éléments de fiche sélectionnée
 		function load_cat(cat) {
-			let action = new Set(); // Utiliser un Set pour éviter les doublons
+			console.log("catload : " + cat);
 			document.getElementById("card_list").value = "";
 			document.getElementById('rule-form').style.display = 'none';
 			let htmlCardList = "<ul class='list-group'>";
@@ -204,24 +204,23 @@
 			// Parcourir le lexique et extraire les catégories uniques
 			for (const key in lexique) {
 				if (lexique[key].rules && lexique[key].rules.length > 0) {
-					if (cat != "other") {
-						if (lexique[key].cat == cat) {
-							htmlCardList += `<li class="list-group-item" data-card-id="${key}" onclick='showDetails("${key}")''>${lexique[key].rules[0].description}</li>`;
+					// Si la catégorie est "other", on affiche les éléments avec cat="other" ou sans catégorie définie
+					if (cat === "other") {
+						if (lexique[key].cat === "other" || !lexique[key].cat || lexique[key].cat === undefined || lexique[key].cat === null) {
+							htmlCardList += `<li class="list-group-item" data-card-id="${key}" onclick='showDetails("${key}")'>${lexique[key].rules[0].description}</li>`;
+						}
+					} else {
+						// Si la catégorie n'est pas "other", on filtre par la catégorie sélectionnée
+						if (lexique[key].cat === cat) {
+							htmlCardList += `<li class="list-group-item" data-card-id="${key}" onclick='showDetails("${key}")'>${lexique[key].rules[0].description}</li>`;
 						}
 					}
-					else {
-						if (lexique[key].cat == undefined) {
-							htmlCardList += `<li class="list-group-item" data-card-id="${key}" onclick='showDetails("${key}")''>${lexique[key].rules[0].description}</li>`;
-						}
-					}
-
 				}
 			}
 
 			htmlCardList += "</ul>";
 			document.getElementById("card_list").innerHTML = htmlCardList;
 			document.getElementById("menu_cat").innerHTML = cat;
-
 		}
 
 		//ouverture d'une carte
@@ -277,7 +276,7 @@
 				});
 
 				// Mettre à jour les sélections des listes déroulantes
-				['output', 'type'].forEach(attr => {
+				['type'].forEach(attr => {
 					let selectValue = rules.interact[attr] || "none";
 					let selectElement = document.getElementById(attr + 'Select');
 					Array.from(selectElement.options).forEach(option => {
@@ -387,46 +386,37 @@
 		}
 
 		function updateVisibility() {
-			const outputValue = document.getElementById('outputSelect').value;
 			typeValue = document.getElementById('typeSelect').value;
 
 			// Afficher ou masquer les sections appropriées en fonction de l'output
-			if (outputValue === 'none') {
-				document.querySelectorAll('.type-select, .durationSelect, .action-Input').forEach(el => {
-					el.style.display = 'none';
-				});
-				document.querySelectorAll('.keyboard_select_display, .mouse_select_display').forEach(el => el.style.display = 'none');
-			} else {
-				document.querySelectorAll('.type-select, .durationSelect, .action-Input').forEach(el => {
+			document.querySelectorAll('.type-select, .action-Input').forEach(el => {
 					el.style.display = '';
 				});
-
-				if (outputValue === 'keyboard') {
-					document.querySelectorAll('.mouse_select_display').forEach(el => el.style.display = 'none');
-					document.querySelectorAll('.keyboard_select_display').forEach(el => el.style.display = '');
-				} else if (outputValue === 'mouse') {
-					document.querySelectorAll('.keyboard_select_display').forEach(el => el.style.display = 'none');
-					document.querySelectorAll('.mouse_select_display').forEach(el => el.style.display = '');
-				}
+			if(typeValue!="sequence")
+			{
+				document.querySelector('.Tempo_select_display').style.display = 'none';
+			}
+			else{
+				document.querySelector('.Tempo_select_display').style.display = 'block';
 			}
 
 			// Verrouillage/Déverrouillage du champ keyInput basé sur le type
-			const keyInput = document.getElementById('keyInput');
-			keyInput.disabled = (typeValue !== 'phrase');  // Déverrouille si 'phrase', sinon verrouille
+			//const keyInput = document.getElementById('keyInput');
+			//keyInput.disabled = (typeValue !== 'phrase');  // Déverrouille si 'phrase', sinon verrouille
 
 			// Filtrer les options disponibles dans le select de type
-			filterTypeOptions(outputValue);
+			//filterTypeOptions(outputValue);
 
 			// Déterminer le type de modal à afficher basé sur l'output et le type sélectionné
-			let modalType = 'none';  // valeur par défaut pour 'none'
+			/*let modalType = 'none';  // valeur par défaut pour 'none'
 			if (outputValue === 'keyboard') {
 				modalType = 'keyboard_' + typeValue;  // modal spécifique pour les types de clavier
 			} else if (outputValue === 'mouse') {
 				modalType = 'mouse_' + typeValue;  // modal spécifique pour les types de souris
-			}
+			}*/
 
 			// Mettre à jour l'attribut de la modal pour refléter le type actuel
-			document.getElementById('modal_activator').setAttribute('data-modal-type', modalType);
+			//document.getElementById('modal_activator').setAttribute('data-modal-type', modalType);
 		}
 
 		function filterTypeOptions(output) {
@@ -447,6 +437,16 @@
 		}
 
 		function handleKeyClick() {
+			console.log('click')
+			const keyInput = document.getElementById('keyInput');
+			const keyTranslate = this.getAttribute('key_translate');
+			console.log(keyTranslate)
+			let keyInputValue=keyInput.value;
+
+			keyInput.value = `${keyInputValue}{${keyTranslate}}`
+
+
+			/*
 			const keyInput = document.getElementById('keyInput');
 			const keyTranslate = this.getAttribute('key_translate');
 			if (typeValue === "phrase") {
@@ -479,7 +479,7 @@
 					document.getElementById('keyInput').value = `{${this.getAttribute('key_translate')}}`;
 					//updateKeyInput();
 				}
-			}
+			}*/
 
 
 		}

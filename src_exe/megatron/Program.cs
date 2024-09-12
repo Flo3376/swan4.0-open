@@ -72,7 +72,7 @@ namespace megatron
                 }
 
                 Console.WriteLine();
-                Console.WriteLine($"Main : received command: {requestLine} from IP: {clientIp}");
+                //Console.WriteLine($"Main : received command: {requestLine} from IP: {clientIp}");
                 Console.WriteLine();
                 var url = requestLine.Split(' ')[1];
                 var uri = new Uri("http://dummy" + url); // Utilisé pour parsing d'URI valide
