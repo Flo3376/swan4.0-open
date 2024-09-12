@@ -552,7 +552,7 @@
 			document.getElementById("description").value = "";
 			document.getElementById("questions").value = "";
 			document.getElementById("responses").value = "";
-			document.getElementById('outputSelect').value = 'none';
+			//document.getElementById('outputSelect').value = 'none';
 			updateVisibility();
 		}
 
@@ -571,8 +571,8 @@
 
 			console.log("Sauvegarder les changements pour la carte:", cardCode);
 
-			let outputValue = document.getElementById('outputSelect').value;
-			let interact = { output: outputValue };
+			let typeValue = document.getElementById('typeSelect').value;
+			let interact = {};
 
 			let isNewCard = !(cardCode in lexique);
 
@@ -582,7 +582,7 @@
 				console.log("Mise à jour d'une carte existante.");
 			}
 
-			if (outputValue !== "none") {
+			if (typeValue !== "combo") {
 				interact.type = document.getElementById('typeSelect').value;
 				interact.action_input = document.getElementById('actionInput').value;
 				let selectedDuration = null;
