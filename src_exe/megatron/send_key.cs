@@ -127,8 +127,7 @@ namespace megatron
                 }
             }
 
-            // Par défaut, le délai est court
-            int delayMs = (commandDict.ContainsKey("duration") && commandDict["duration"] == "long") ? 750 : 100;
+            
 
             try
             {
@@ -136,6 +135,19 @@ namespace megatron
                 switch (commandDict["type"].ToLower())
                 {
                     case "combo":
+                        // Déterminer le délai en fonction de la présence de {long} ou {short} dans actionInput
+                        int delayMs = 100; // Par défaut 100ms
+
+                        if (actionInput.Contains("{long}"))
+                        {
+                            delayMs = 750;
+                            actionInput = actionInput.Replace("{long}", ""); // Retirer {long} de l'actionInput
+                        }
+                        else if (actionInput.Contains("{short}"))
+                        {
+                            delayMs = 100;
+                            actionInput = actionInput.Replace("{short}", ""); // Retirer {short} de l'actionInput
+                        }
                         SendCombo(actionInput, delayMs);
                         break;
 
