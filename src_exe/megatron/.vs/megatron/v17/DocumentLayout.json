@@ -30,9 +30,9 @@
               "Title": "send_key.cs",
               "DocumentMoniker": "C:\\Users\\FP24V\\source\\repos\\megatron\\send_key.cs",
               "RelativeDocumentMoniker": "send_key.cs",
-              "ToolTip": "C:\\Users\\FP24V\\source\\repos\\megatron\\send_key.cs*",
-              "RelativeToolTip": "send_key.cs*",
-              "ViewState": "AQIAAHUAAAAAAAAAAAAwwNQAAAAaAAAA",
+              "ToolTip": "C:\\Users\\FP24V\\source\\repos\\megatron\\send_key.cs",
+              "RelativeToolTip": "send_key.cs",
+              "ViewState": "AQIAAHQBAAAAAAAAAAAuwH8BAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-07T10:35:10.546Z",
               "EditorCaption": ""
@@ -60,8 +60,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AQIAAC0AAAAAAAAAAAAYwEoAAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-27T19:50:37.841Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-27T19:50:37.841Z"
             }
           ]
         }

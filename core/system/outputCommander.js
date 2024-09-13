@@ -61,10 +61,12 @@ class OutputCommander {
         }
     }
 
-    handleCommand(command) {
+    handleCommand(command,action_code) {
+        //console.log (command);
         const { output, type, action_input, duration } = command;
         const class_action="keysender";
-        const params = new URLSearchParams({ type, action_input, duration,class_action }).toString();
+        //const action_code=action_code;
+        const params = new URLSearchParams({ type, action_input, duration,class_action ,action_code}).toString();
         const url = `http://127.0.0.1:2953?${params}`;
         
         axios.get(url)

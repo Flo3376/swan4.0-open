@@ -17,13 +17,33 @@ using TextCopy;  // Utiliser la bibliothèque TextCopy
 
 namespace megatron
 {
+    public class CycliqueCommand
+    {
+        public string ActionInput { get; set; }  // Commande à exécuter
+        public int NumberNb { get; set; }  // Nombre de répétitions (-1 pour infini)
+        public int Tempo { get; set; }  // Délai entre les répétitions (en millisecondes)
+
+        public CycliqueCommand(string actionInput, int numberNb, int tempo)
+        {
+            ActionInput = actionInput;
+            NumberNb = numberNb;
+            Tempo = tempo;
+        }
+    }
+
     public class CommandKeyManager
     {
         private readonly InputSimulator simulator;
 
+        // Dictionnaire pour stocker les commandes cycliques
+        private Dictionary<string, CycliqueCommand> cycliqueCommands;
+
+        // Initialisation du dictionnaire
+        //cycliqueCommands = new Dictionary<string, CycliqueCommand>();
+
         [DllImport("user32.dll")]
         public static extern IntPtr GetKeyboardLayout(uint idThread);
-
+        
         public static string GetCurrentKeyboardLayout()
         {
             IntPtr layout = GetKeyboardLayout(0); // On passe 0 pour obtenir le layout du thread courant
@@ -36,6 +56,9 @@ namespace megatron
 
         public CommandKeyManager()
         {
+            // Initialisation du dictionnaire
+            cycliqueCommands = new Dictionary<string, CycliqueCommand>();
+
             simulator = new InputSimulator();  // Initialisation du simulateur dans le constructeur
             var layout = GetCurrentKeyboardLayout();
             Console.WriteLine($"Layout clavier actuel : {layout}");
@@ -70,7 +93,7 @@ namespace megatron
                 var keyValue = param.Split('=');
                 if (keyValue.Length == 2)
                 {
-                    Console.WriteLine($"Key : '{keyValue[0].ToLower()}'  Value: '{WebUtility.UrlDecode(keyValue[1])}'");
+                    //Console.WriteLine($"Key : '{keyValue[0].ToLower()}'  Value: '{WebUtility.UrlDecode(keyValue[1])}'");
                     commandDict[keyValue[0].ToLower()] = WebUtility.UrlDecode(keyValue[1]);
                 }
             }
@@ -93,10 +116,15 @@ namespace megatron
             var matches = Regex.Matches(actionInput, @"\{([^}]+)\}");
             var inputs = matches.Cast<Match>().Select(m => m.Groups[1].Value).ToArray();
 
+            Console.WriteLine(actionInput);
             if (inputs.Length == 0)
             {
-                Console.WriteLine("Aucun input valide trouvé dans la commande.");
-                return;
+
+                if (!commandDict.ContainsKey("action_code") || !commandDict["action_code"].EndsWith("_stop") || commandDict["type"] != "cyclique")
+                {
+                    Console.WriteLine("Aucun input valide trouvé dans la commande.");
+                    return;
+                }
             }
 
             // Par défaut, le délai est court
@@ -118,7 +146,7 @@ namespace megatron
                         SendSequence(actionInput);
                         break;
                     case "cyclique":
-                        SendCyclique(actionInput);
+                        SendCyclique(command);
                         break;
 
                     default:
@@ -137,76 +165,303 @@ namespace megatron
             }
         }
 
-        public void SendCyclique(string actionInput)
+        public void SendCyclique(string command)
         {
-            Console.WriteLine("Cyclique command received.");
+            //http://127.0.0.1:2953/&class_action=keysender&type=cyclique&action_input={short}{enter}{tempo 5000}{quantity 10}&action_code=scan_univers_actuel_start
+            //http://127.0.0.1:2953/&class_action=keysender&type=cyclique&action_code=scan_univers_actuel_stop
+            Console.WriteLine("la commande reçu : "+command);
 
-            // Ici, on pourrait implémenter la logique future qui gérera la répétition des combos
-            // Par exemple, une boucle qui exécute des combos à intervalle régulier
+            // Dictionnaire pour stocker les paramètres de la commande
+            var dict = new Dictionary<string, string>();
+
+            // La commande est du type "action_code=scan_stop&action_input={short}{Right_shift}{Asterisk}"
+            var parameters = command.Split('&');
+
+            // Parsing de la commande
+            foreach (var param in parameters)
+            {
+                var keyValue = param.Split('=');
+                if (keyValue.Length == 2)
+                {
+                    dict[keyValue[0]] = keyValue[1];  // Ajoute le paramètre au dictionnaire
+                }
+            }
+
+            // Vérifier que la commande contient "action_code"
+            if (!dict.ContainsKey("action_code"))
+            {
+                Console.WriteLine("Invalid command: missing action_code");
+                return;
+            }
+
+            string actionCode = dict["action_code"].ToLower();
+
+            Console.WriteLine("Start/Stop détecté : " + dict["action_code"].ToLower());
+
+            // Step 1: Vérifier si le actionCode se termine par "_stop"
+            if (actionCode.EndsWith("_stop"))
+            {
+                 // Extraire la partie avant "_stop"
+                string trimmedActionCode = actionCode.Substring(0, actionCode.LastIndexOf("_"));
+
+                Console.WriteLine("Start détecté pour : " + trimmedActionCode);
+
+                // Appeler StopCyclique avec le action_code coupé
+                StopCyclique(trimmedActionCode);
+                return;
+            }
+
+            // Step 2: Si c'est un "_start", démarrer le cycle
+            if (actionCode.EndsWith("_start"))
+            {
+                // Retirer le suffixe "_start" de l'actionCode
+                string trimmedActionCode = actionCode.Substring(0, actionCode.LastIndexOf("_"));
+
+                Console.WriteLine("Stop détecté pour : " + trimmedActionCode);
+                
+                // Vérifier si la commande contient "action_input"
+                if (!dict.ContainsKey("action_input"))
+                {
+                    Console.WriteLine("Invalid command: missing action_input for cyclique start");
+                    return;
+                }
+                string decodedActionInput = WebUtility.UrlDecode(dict["action_input"]);
+                Console.WriteLine($"Decoded action_input: {decodedActionInput}");
+
+                // Extraire tempo et quantity à partir de decodedActionInput
+                int tempo = 1000;  // Par défaut
+                int quantity = -1;  // Par défaut (infini)
+
+                // Regex pour extraire {tempo XXX} et {quantity XXX}
+                var tempoMatch = Regex.Match(decodedActionInput, @"\{tempo (\d+)\}");
+                if (tempoMatch.Success)
+                {
+                    tempo = int.Parse(tempoMatch.Groups[1].Value);
+                }
+
+                var quantityMatch = Regex.Match(decodedActionInput, @"\{quantity (\d+)\}");
+                if (quantityMatch.Success)
+                {
+                    quantity = int.Parse(quantityMatch.Groups[1].Value);
+                }
+
+                
+                // Nettoyer les tags tempo et quantity de l'actionInput
+                decodedActionInput = Regex.Replace(decodedActionInput, @"\{tempo \d+\}|\{quantity \d+\}", "");
+
+                // Appeler StartCyclique avec les valeurs correctes
+                StartCyclique(decodedActionInput, quantity, tempo, trimmedActionCode);
+
+            }
         }
-        /* public void SendSequence(string actionInput)
-         {
-             Thread.Sleep(10000);
-             // Durées prédéfinies
-             int shortDuration = 100;  // Durée courte
-             int longDuration = 750;   // Durée longue
 
-             // Séparer les combos et les pauses en utilisant "||" comme délimiteur
-             Console.WriteLine($"Received sequence: {actionInput}");
-             var parts = actionInput.Split(new string[] { "||" }, StringSplitOptions.None);
+        /*public void StartCyclique(string actionInput, int numberNb, int tempo, string actionCode)
+        {
+            // Décodage de l'action input pour bien interpréter les commandes
+            string decodedActionInput = WebUtility.UrlDecode(actionInput);
 
-             foreach (var part in parts)
-             {
-                 Console.WriteLine($"Processing part: {part}");
+            Console.WriteLine($"Starting cyclique command {actionCode} with input: {actionInput}, repetitions: {numberNb}, tempo: {tempo}");
 
-                 if (part.StartsWith("{") && part.EndsWith("}"))
-                 {
-                     // Utilisation d'un regex pour capturer les parties entre accolades
-                     var matches = Regex.Matches(part, @"\{([^}]+)\}");
-                     if (matches.Count > 0)
-                     {
-                         string actionType = matches[0].Groups[1].Value;  // Le premier élément (short, long, ou autre)
-                         string comboAction = matches.Count > 1 ? matches[1].Groups[1].Value : "";  // Le combo (comme i, u, etc.)
+            // Si la commande cyclique est déjà en cours pour cet actionCode
+            if (cycliqueCommands.ContainsKey(actionCode))
+            {
+                var existingCommand = cycliqueCommands[actionCode];
 
-                         int duration = shortDuration;  // Par défaut à court
+                // Ajouter la nouvelle quantité à la quantité restante si la commande est déjà en cours
+                if (existingCommand.NumberNb != -1 && numberNb != -1)
+                {
+                    existingCommand.NumberNb += numberNb;
+                    Console.WriteLine($"Updated cyclique command {actionCode} with new quantity: {existingCommand.NumberNb}");
+                }
+                else
+                {
+                    Console.WriteLine($"Cyclique command {actionCode} is already running with infinite quantity.");
+                }
+                return;
+            }
+            // Traitement des directives de durée {short} et {long}
+            int delayMs = 100; // Par défaut 100ms pour {short}
+            if (decodedActionInput.Contains("{long}"))
+            {
+                delayMs = 750;
+                decodedActionInput = decodedActionInput.Replace("{long}", "");  // Supprimer {long} de la commande
+            }
+            else
+            {
+                decodedActionInput = decodedActionInput.Replace("{short}", "");  // Supprimer {short} de la commande
+            }
 
-                         // Vérifier le type de durée et ajuster la durée si besoin
-                         if (actionType == "short")
-                         {
-                             duration = shortDuration;
-                             Console.WriteLine($"Duration set to short ({shortDuration}ms) for action: {comboAction}");
-                         }
-                         else if (actionType == "long")
-                         {
-                             duration = longDuration;
-                             Console.WriteLine($"Duration set to long ({longDuration}ms) for action: {comboAction}");
-                         }
+            // Ajout de la commande cyclique au dictionnaire
+            var cycliqueCommand = new CycliqueCommand(decodedActionInput, numberNb, tempo);
+            cycliqueCommands.Add(actionCode, cycliqueCommand);
 
-                         // Reformater l'action avec les accolades et l'envoyer à SendCombo
-                         if (!string.IsNullOrEmpty(comboAction))
-                         {
-                             string formattedAction = $"{{{comboAction}}}";  // Ajouter les accolades
-                             Console.WriteLine($"Formatted action: {formattedAction}");
-                             SendCombo(formattedAction, duration);  // Envoyer l'action avec les accolades à SendCombo
-                         }
-                         else
-                         {
-                             Console.WriteLine("Invalid combo action extracted.");
-                         }
-                     }
-                 }
-                 else if (int.TryParse(part, out int delayMs))
-                 {
-                     // S'il s'agit d'un nombre, le considérer comme un délai
-                     Console.WriteLine($"Pause for {delayMs}ms");
-                     Thread.Sleep(delayMs);
-                 }
-                 else
-                 {
-                     Console.WriteLine($"Invalid part in sequence: {part}");
-                 }
-             }
-         }*/
+            // Exécution de la commande en boucle dans un Task pour ne pas bloquer le thread principal
+            Task.Run(async () =>
+            {
+                int count = 0;
+                while (numberNb == -1 || count < numberNb)  // Exécute à l'infini ou selon la quantité
+                {
+                    // Exécution de l'action réelle
+                    Console.WriteLine($"Executing cyclique action: {decodedActionInput}");
+
+                    SendCombo(decodedActionInput, delayMs);  // Exécute le combo avec la durée appropriée (100ms ou 750ms)
+
+                    // Attente du tempo entre chaque exécution
+                    await Task.Delay(tempo);
+
+                    // Incrémente le compteur si le nombre de répétitions est limité
+                    if (numberNb != -1)
+                    {
+                        count++;
+                    }
+
+                    // Si la commande est stoppée, sortir de la boucle
+                    if (!cycliqueCommands.ContainsKey(actionCode))
+                    {
+                        Console.WriteLine($"Cyclique command {actionCode} was stopped.");
+                        return;
+                    }
+                }
+
+                // Si le cycle est fini (nombre de répétitions atteint), on retire la commande
+                Console.WriteLine($"Cyclique command {actionCode} completed.");
+                cycliqueCommands.Remove(actionCode);
+            });
+        }*/
+
+        public void StartCyclique(string actionInput, int numberNb, int tempo, string actionCode)
+        {
+            // Décodage de l'action input pour bien interpréter les commandes
+            string decodedActionInput = WebUtility.UrlDecode(actionInput);
+            Console.WriteLine($"Starting cyclique command {actionCode} with input: {decodedActionInput}, repetitions: {numberNb}, tempo: {tempo}");
+
+            // Si la commande cyclique est déjà en cours pour cet actionCode
+            if (cycliqueCommands.ContainsKey(actionCode))
+            {
+                var existingCommand = cycliqueCommands[actionCode];
+
+                // Ajouter la nouvelle quantité à la quantité restante si la commande est déjà en cours
+                if (existingCommand.NumberNb != -1 && numberNb != -1)
+                {
+                    // Ajout correct de la nouvelle quantité à la quantité restante
+                    existingCommand.NumberNb += numberNb;
+                    Console.WriteLine($"Updated cyclique command {actionCode} with new quantity: {existingCommand.NumberNb}");
+                }
+                else if (existingCommand.NumberNb == -1)
+                {
+                    // Si la commande est infinie, pas besoin de changer la quantité
+                    Console.WriteLine($"Cyclique command {actionCode} is already running with infinite quantity.");
+                }
+                return;
+            }
+
+            // Traitement des directives de durée {short} et {long}
+            int delayMs = 100; // Par défaut 100ms pour {short}
+            if (decodedActionInput.Contains("{long}"))
+            {
+                delayMs = 750;
+                decodedActionInput = decodedActionInput.Replace("{long}", "");  // Supprimer {long} de la commande
+            }
+            else
+            {
+                decodedActionInput = decodedActionInput.Replace("{short}", "");  // Supprimer {short} de la commande
+            }
+
+            // Ajout de la commande cyclique au dictionnaire
+            var cycliqueCommand = new CycliqueCommand(decodedActionInput, numberNb, tempo);
+            cycliqueCommands.Add(actionCode, cycliqueCommand);
+
+            // Exécution de la commande en boucle dans un Task pour ne pas bloquer le thread principal
+            Task.Run(async () =>
+            {
+                int count = 0;
+                while (cycliqueCommands.ContainsKey(actionCode) && (cycliqueCommands[actionCode].NumberNb == -1 || count < cycliqueCommands[actionCode].NumberNb))  // Exécute à l'infini ou selon la quantité dynamique
+                {
+                    // Exécution de l'action réelle
+                    // Affichage du compteur et de la quantité totale
+                    int totalQuantity = cycliqueCommands[actionCode].NumberNb == -1 ? int.MaxValue : cycliqueCommands[actionCode].NumberNb;
+                    Console.WriteLine($"Executing cyclique action: {decodedActionInput} ({count + 1}/{totalQuantity})");
+
+                    SendCombo(decodedActionInput, delayMs);  // Exécute le combo avec la durée appropriée (100ms ou 750ms)
+
+                    // Attente du tempo entre chaque exécution
+                    await Task.Delay(tempo);
+
+                    // Incrémente le compteur si le nombre de répétitions est limité
+                    if (cycliqueCommands[actionCode].NumberNb != -1)
+                    {
+                        count++;
+                    }
+
+                    // Si la commande est stoppée, sortir de la boucle
+                    if (!cycliqueCommands.ContainsKey(actionCode))
+                    {
+                        Console.WriteLine($"Cyclique command {actionCode} was stopped.");
+                        return;
+                    }
+                }
+
+                // Si le cycle est fini (nombre de répétitions atteint), on retire la commande
+                Console.WriteLine($"Cyclique command {actionCode} completed.");
+                cycliqueCommands.Remove(actionCode);
+            });
+        }
+
+
+        public void StopCyclique(string actionCode)
+        {
+            if (cycliqueCommands.ContainsKey(actionCode))
+            {
+                cycliqueCommands.Remove(actionCode);  // Supprime la commande du dictionnaire pour l'arrêter
+                Console.WriteLine($"Cyclique command {actionCode} stopped.");
+            }
+            else
+            {
+                Console.WriteLine($"Cyclique command {actionCode} is not running.");
+            }
+        }
+
+        
+        // Méthode pour ajouter une commande cyclique au dictionnaire
+        public void AddCycliqueCommand(string actionCode, string actionInput, int numberNb, int tempo)
+        {
+            if (!cycliqueCommands.ContainsKey(actionCode))
+            {
+                var cycliqueCommand = new CycliqueCommand(actionInput, numberNb, tempo);
+                cycliqueCommands.Add(actionCode, cycliqueCommand);
+                Console.WriteLine($"Added cyclique command with actionCode: {actionCode}");
+            }
+            else
+            {
+                Console.WriteLine($"Action code {actionCode} already exists.");
+            }
+        }
+
+        // Méthode pour supprimer une commande cyclique
+        public void RemoveCycliqueCommand(string actionCode)
+        {
+            if (cycliqueCommands.ContainsKey(actionCode))
+            {
+                cycliqueCommands.Remove(actionCode);
+                Console.WriteLine($"Removed cyclique command with actionCode: {actionCode}");
+            }
+            else
+            {
+                Console.WriteLine($"Action code {actionCode} not found.");
+            }
+        }
+
+        // Exemple de méthode pour afficher toutes les commandes cycliques
+        public void DisplayCycliqueCommands()
+        {
+            foreach (var command in cycliqueCommands)
+            {
+                Console.WriteLine($"ActionCode: {command.Key}, ActionInput: {command.Value.ActionInput}, NumberNb: {command.Value.NumberNb}, Tempo: {command.Value.Tempo}");
+            }
+        }
+        
+
+
 
         public void SendSequence(string actionInput)
         {

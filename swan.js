@@ -460,7 +460,7 @@ const callback_listen = (data) => {
 
                 if (ruleInteract) {
                     if (ruleInteract.output !== "none") {
-                        output_c.handleCommand(ruleInteract);  // Exécute la commande associée à l'interaction
+                        output_c.handleCommand(ruleInteract,data.options.action);  // Exécute la commande associée à l'interaction
                     }
                     
                     // Gère l'effet à appliquer lors de la vocalisation

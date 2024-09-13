@@ -208,3 +208,18 @@ input[type="radio"] {
     --bs-btn-disabled-border-color: #ffc107;
     --bs-gradient: none;
 }
+
+.btn_tempo{
+    background-color: #ffc107;
+    color: #242424;
+    font-size: small;
+}
+
+.important-text {
+    background-color: #ffcc00; /* Couleur de fond jaune vif */
+    border: 2px solid #ff9900; /* Bordure orange */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.2em; /* Agrandir le texte */
+    color: #333; /* Couleur du texte */
+}

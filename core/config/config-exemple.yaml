@@ -29,9 +29,9 @@ openAI:
     # Nom de l'assistant
     assistant_name: ""
     # Modèle du robot, son niveau d'intelligence, "gpt-3.5-turbo-16k" peu coûteux, mais peu puissant, "gpt-4-turbo" très coûteux mais très puissant
-    model_assistant: "gpt-4-turbo"
+    model_assistant: ""
     # Voix de l'assistant: alloy, echo, fable, onyx, nova, shimmer
-    assistant_voice: "nova"
+    assistant_voice: ""
     #répertoire de stockageg des sons de revoicer
     path_output :  "/sound/output_sound/openAI/"
      
@@ -84,16 +84,19 @@ spotify :
 sound_bank :
     path_output :  "/sound/output_sound/sound_bank/"
 
-
 #module de vocalisation "revoicer" payant / "openAI" payant / "google" inconnu (prochainement) / "sound_bank" lecture des son dans les répertoires
-vocalisation : "sound_bank"
+vocalisation : 
+    engine : "revoicer"
+    volume : "100"
 #effet sur la voix "bocal"/"small_speaker"/"radio"/"telephone" /"none"
-effect : "small_speaker"
-# Info sur Sox
+    effect : "none"
+
 
 #décrytagge info "local" (gratuit) / openAI (payant)
-tokenizer : "local"
-
+tokenizer : "openAI"
+# Info sur Sox
 sox_path : ';C:\\Program Files (x86)\\sox-14-4-2'
-
+# Info sur la sortie audio
+#player_path: "C:\\Program Files (x86)\\Winamp\\winamp.exe"
+# Info sur le debug global
 debug_sw: false

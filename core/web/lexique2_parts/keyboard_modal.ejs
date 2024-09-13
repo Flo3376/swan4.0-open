@@ -168,25 +168,63 @@
                         </div>
                         <hr>
                         <div class="keyboard-row duration_select_display">
-                            <button class="key key_t6" key_translate="short">Appuie court</button>
-                            <button class="key key_t6" key_translate="long">Appuie long</button>
+                            Type d'appuie court/long 
+                            <div>
+                                <button class="key key_t3 btn_tempo" key_translate="short"><i class="bi bi-lightning"></i> </button>
+                                <button class="key key_t3 btn_tempo" key_translate="long"><i class="bi bi-hourglass"></i></button>
+                            </div>
+                            
                         </div>
                         <hr>
                         <div class="keyboard-row Tempo_select_display">
-                            <span style="color: #ffc107;">En mod séquence, vous pouvez faire une combinaison de touche, attendre, faire une autre combinaison...</span><br>
-                            <span style="color: #ffc107;">Une combinaison de touche est définis pas sa durée {short} ou {long}(appuie court ou long) puis les touches </span><br>
-                            <span style="color: #ffc107;">chaque combinaison et séparer par un temps d'attente {tempo 1000} en millisecondes</span><br>
-                            <span style="color: #ffc107;">ex:{short}{i}    {tempo 1000}    {short}{u}    {tempo 1000}    {long}{y}</span>
+                            <span style="color: #ffc107;">En mod séquence, vous pouvez faire une combinaison de touche, attendre, faire une autre combinaison...<br>
+                            Une combinaison de touche est définis pas sa durée {short} ou {long}(appuie court ou long) puis les touches<br>
+                            chaque combinaison et séparer par un temps d'attente {tempo 1000} en millisecondes<br>
+                            ex:{short}{i}    {tempo 1000}    {short}{u}    {tempo 1000}    {long}{y}
                             <br>
-                            <button class="key key_t4" key_translate="tempo 100">T 0,1s</button>
-                            <button class="key key_t4" key_translate="tempo 250">T 0,25s</button>
-                            <button class="key key_t4" key_translate="tempo 500">T 0,5s</button>
-                            <button class="key key_t4" key_translate="tempo 750">T 0,75s</button>
-                            <button class="key key_t4" key_translate="tempo 750">T 1s</button>
-                            <button class="key key_t4" key_translate="tempo 1250">T 1.25s</button>
-                            <button class="key key_t4" key_translate="tempo 1500">T 1.5s</button>
-                            <button class="key key_t4" key_translate="tempo 5000">T 5s</button>
-                            <button class="key key_t4" key_translate="tempo 1000">T 10s</button>
+                            <hr>
+                            Tempo : (Vous pouvez les modifier dans la section touche)
+                            <div>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 100"><i class="bi bi-stopwatch"></i><br> 0,1s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 250"><i class="bi bi-stopwatch"></i><br> 0,25s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 500"><i class="bi bi-stopwatch"></i><br> 0,5s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 750"><i class="bi bi-stopwatch"></i><br> 0,75s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 750"><i class="bi bi-stopwatch"></i><br> 1s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 1250"><i class="bi bi-stopwatch"></i><br> 1.25s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 1500"><i class="bi bi-stopwatch"></i><br> 1.5s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 5000"><i class="bi bi-stopwatch"></i><br> 5s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 1000"><i class="bi bi-stopwatch"></i><br> 10s</button>
+                            </div>
+                        </div>
+                        <div class="keyboard-row Cyclique_select_display">
+                            <span>En mod cyclique, vous pouvez faire une combinaison de touche a intervalle régulier :<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;-Une combinaison de touche est définis pas sa durée {short} ou {long}(appuie court ou long) puis les touches <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;-Vous pouvez définir un nombre de fois. Si vous ne le faites pas on considérera que c'est à l'infinie<br>
+                            ex:{short}{Tab}      {tempo 3500}    {quantity 5}</span>
+                            <div class="important-text">
+                                <strong>⚠️ Important :</strong> Le code de la commande doit absolument terminer par "_start", une commande de coupure doit être programmer avec en le même code mais avec stop au lieu de start!
+                            </div>
+                            <br>
+                            <hr>
+                            Tempo : (Vous pouvez les modifier dans la section touche)
+                            <div>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 100"><i class="bi bi-stopwatch"></i><br> 0,1s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 250"><i class="bi bi-stopwatch"></i><br> 0,25s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 500"><i class="bi bi-stopwatch"></i><br> 0,5s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 750"><i class="bi bi-stopwatch"></i><br> 0,75s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 750"><i class="bi bi-stopwatch"></i><br> 1s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 1250"><i class="bi bi-stopwatch"></i><br> 1.25s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 1500"><i class="bi bi-stopwatch"></i><br> 1.5s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 5000"><i class="bi bi-stopwatch"></i><br> 5s</button>
+                                <button class="key key_t3 btn_tempo" key_translate="tempo 1000"><i class="bi bi-stopwatch"></i><br> 10s</button>
+                            </div>
+                            <hr>
+                            Quantité, si pas utilisé, l'action se répétera indéfiniment:  (Vous pouvez les modifier dans la section touche)
+                            <div>
+                                <button class="key key_t3 btn_tempo" key_translate="quantity 5"><i class="bi bi-stack"></i><br>5</button>
+                                <button class="key key_t3 btn_tempo" key_translate="quantity 10"><i class="bi bi-stack"></i><br>10</button>
+                                <button class="key key_t3 btn_tempo" key_translate="quantity 15"><i class="bi bi-stack"></i><br>15</button>
+                            </div>
                         </div>
                         <hr>
 
@@ -195,7 +233,7 @@
                 <form id="keyConfigForm">
                     <div class="form-group">
                         <label for="keyInput">Touche:</label>
-                        <input type="text" class="form-control" id="keyInput">
+                        <input type="text" class="form-control" id="keyInput" style="border: solid 1px #ffc107;">
                     </div>
                 </form>
             </div>
