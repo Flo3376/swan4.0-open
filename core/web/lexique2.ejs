@@ -290,17 +290,17 @@
 				document.getElementById('actionInput').value = rules.interact && rules.interact.action_input ? rules.interact.action_input : '';
 
 				// Récupère la valeur de duration depuis rules
-				var durationValue = rules.interact.duration;
+				//var durationValue = rules.interact.duration;
 
 				// Parcourt tous les checkboxes dans le groupe de sélection de la durée
-				document.querySelectorAll('.durationSelect .form-check-input').forEach(function (checkbox) {
+				/*document.querySelectorAll('.durationSelect .form-check-input').forEach(function (checkbox) {
 					// Si la valeur du checkbox correspond à la valeur de duration, on le coche
 					if (checkbox.value === durationValue) {
 						checkbox.checked = true;
 					} else {
 						checkbox.checked = false; // Sinon, on s'assure qu'il est décoché
 					}
-				});
+				});*/
 
 				// Récupère la valeur de player depuis ambiance
 				var playerValue = details.ambiance?.player ? details.ambiance.player : "none";
@@ -430,7 +430,7 @@
 		}
 
 		function filterTypeOptions(output) {
-			const typeSelect = document.getElementById('typeSelect');
+			/*const typeSelect = document.getElementById('typeSelect');
 			Array.from(typeSelect.options).forEach(option => {
 				if (output === 'keyboard') {
 					option.hidden = option.classList.contains('mouse-option');
@@ -439,7 +439,7 @@
 				} else {
 					option.hidden = false;
 				}
-			});
+			});*/
 		}
 
 		function updateKeyInput() {
@@ -591,18 +591,11 @@
 			} else {
 				console.log("Mise à jour d'une carte existante.");
 			}
-
-			if (typeValue !== "combo") {
-				interact.type = document.getElementById('typeSelect').value;
-				interact.action_input = document.getElementById('actionInput').value;
-				let selectedDuration = null;
-				document.querySelectorAll('.durationSelect .form-check-input').forEach(function (checkbox) {
-					if (checkbox.checked) {
-						selectedDuration = checkbox.value;
-					}
-				});
-				interact.duration = selectedDuration ? selectedDuration : "short";
-			}
+			
+			
+			interact.type = document.getElementById('typeSelect').value;
+			interact.action_input = document.getElementById('actionInput').value;
+							
 			let selectedEffect = null;
 			document.querySelectorAll('.effectSelect .form-check-input').forEach(function (checkbox) {
 				if (checkbox.checked) {
