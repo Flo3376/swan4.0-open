@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.IO;
 using System.Web;
+using System.Text;
 
 namespace megatron
 {
@@ -11,6 +12,8 @@ namespace megatron
     {
         static void Main(string[] args)
         {
+            // Définir l'encodage de sortie de la console à UTF-8
+            Console.OutputEncoding = Encoding.UTF8;
             // Création d'une instance du SoundManager
             SoundManager soundManager = new SoundManager();
             CommandPlayerManager commandPlayerManager = new CommandPlayerManager();

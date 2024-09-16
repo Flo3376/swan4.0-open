@@ -46,6 +46,6 @@ sound/output_sound/**/*.mp4
 core/exe/megatron/ouput/*.mp3
 
 
-*.ico
+#*.ico
 #*.exe
 *.dat

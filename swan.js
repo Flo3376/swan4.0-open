@@ -348,7 +348,6 @@ if ((config.vocalisation.engine == "revoicer" && revoicer_set) || (config.vocali
     
     console.log(colors.red(`Passage sur la banque de son interne ("sound_bank")`));
     config.vocalisation="sound_bank";
-    //process.exit(1); // Arrête l'exécution du programme avec un code d'erreur
 }
 
 
@@ -387,26 +386,33 @@ function findResponsesByAction(lexique, action) {
     return null; // Retourner null si aucune action correspondante n'est trouvée
 }
 
+
+
+
+
+// -----------------------------
+// Section Musique
+// -----------------------------
 const MusicManager = require('./core/system/musicManager');
 // Initialiser le gestionnaire de lecteurs
 const musicManager = new MusicManager(config)
+
 
 // Si le module reconnaît une commande
 const callback_listen = (data) => {
     // Vérifie si 'options' et 'action' sont définis dans 'data'
     if (data && data.options && data.options.action) {
 
-        //console.log(data)
-        
-        console.log("silent_mod : " + silent_mod);
-        
-        // Si l'action contient "spotify" et que le mode silencieux (silent_mod) n'est pas activé
-        if (data.options.action.includes("spotify") && !silent_mod) {
-            spotify_go(data.options.action);  // Lance la commande pour Spotify
-        } 
-        
+        if (data.options.action.startsWith("mm_")) {
+            musicManager.handleCommand(data.options.action, data.options.info || null, ( message) => {
+                console.log(`Callback reçu : ${message}`);
+                vocalise(message, config, openai, data.options.action, "none");  // Vocalise la réponse liée à l'action
+            });
+            return;
+        }
+
         // Si l'action contient "system_restart" et que le mode silencieux n'est pas activé
-        else if (data.options.action.includes("system_restart") && !silent_mod) {
+        if (data.options.action.includes("system_restart") && !silent_mod) {
             restart();  // Redémarre le système
         } 
         
@@ -475,40 +481,28 @@ const callback_listen = (data) => {
                     // Gère l'ambiance musicale si elle est définie dans le lexique
                     if (lexique[data.options.action]?.ambiance?.track) {
                         if (lexique[data.options.action].ambiance.player == "Spotify") {
-                            player_type="spotify";
+                            //player_type="spotify";
                             let music = lexique[data.options.action].ambiance.track;
-
-                            // Gestion des différentes pistes selon leur type (playlist, track, album)
-                            if (music.includes("playlist")) {
-                                console.log(music);
-                                let playlistId = music.split("/playlist/")[1].split("?")[0];
-                                console.log("playlist id : " + playlistId);
-                                spotify_go("spotify_lauch_playlist", playlistId);  // Lance une playlist sur Spotify
-                            }
-                            if (music.includes("track")) {
-                                console.log(music);
-                                let trackId = music.split("/track/")[1].split("?")[0];
-                                console.log("track id : " + trackId);
-                                spotify_go("playTrack", trackId);  // Lance une piste spécifique sur Spotify
-                            }
-                            if (music.includes("album")) {
-                                console.log(music);
-                                let albumId = music.split("/album/")[1].split("?")[0];
-                                console.log("album id : " + albumId);
-                                spotify_go("spotify_lauch_album", albumId);  // Lance un album sur Spotify
-                            }
-                        }
+                            musicManager.pause()
+                                .then(() => musicManager.setPlayer("spotify"))
+                                .then(() => musicManager.addMusics(music))
+                                .then(() => {
+                                    console.log('Musique ajoutée sur Spotify avec succès.');
+                                })
+                                .catch((error) => {
+                                    console.error('Erreur lors de l\'exécution des commandes :', error);
+                                });
+                         }
                         if(lexique[data.options.action].ambiance.player == "Local")
                         {
-                            player_type="local";
                             let music = lexique[data.options.action].ambiance.track;
 
-                            // Ajouter plusieurs musiques avec 25% de volume et 250ms de délai entre chaque ajout
-                            localPlayer.addMultipleMusics(music, 5, 250)
-                            .then(() => console.log('Toutes les musiques ont été ajoutées avec succès'))
-                            .catch((err) => console.error('Erreur:', err));
-
-
+                            musicManager.pause()
+                                .then(() => musicManager.setPlayer("local"))
+                                .then(() => musicManager.addMusics(music))
+                                .catch((error) => {
+                                    console.error('Erreur lors de l\'exécution des commandes :', error);
+                                });
                         }
                     }
                 } else {
@@ -546,35 +540,6 @@ chat.on('error', (error) => {
     console.error("Erreur reçue:", error);
 });
 
-
-
-
-
-// -----------------------------
-// Section spotify
-// -----------------------------
-
-const spotify = new SpotifyController(config.spotify)
-
-async function spotify_go(action,info) {
-    const success = await spotify.spotify_action(action,info);
-    if (!success) {
-        vocalise("Désolé mais je n'y arrive pas.", config, openai, "error_generic", "none");
-    }
-    else {
-        const responses = findResponsesByAction(lexique, action);
-        
-        if(responses!=null){
-            vocalise(responses, config, openai, action, config.effect)
-        }
-        else{
-            //console.log(responses)
-            //console.log(lexique)
-            //console.log(action)
-        }
-        
-    }
-}
 
 
 
@@ -630,14 +595,3 @@ async function restart() {
 cleanDirectory('sound/input_listen_sound');
 cleanDirectory('core/exe/my_player/output');
 cleanDirectory('core/exe/megatron/output');
-
-
-/*
-console.log(colors.red('Ce texte est en rouge'));
-console.log(colors.green('Ce texte est en vert'));
-console.log(colors.yellow('Ce texte est en jaune'));
-console.log(colors.blue('Ce texte est en bleu'));
-console.log(colors.magenta('Ce texte est en magenta'));
-console.log(colors.cyan('Ce texte est en cyan'));
-console.log(colors.white('Ce texte est en blanc'));
-console.log(colors.gray('Ce texte est en gris'));*/

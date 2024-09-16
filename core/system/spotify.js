@@ -8,8 +8,9 @@ class SpotifyController {
         console.error("La configuration Spotify est incorrecte ou incomplète.");
         this.isAvailable = false;  // Marquer Spotify comme non disponible
     } else {
-      console.error("La configuration Spotify est potentiellement correcte.");
+      console.log("La configuration Spotify est potentiellement correcte.");
         // Initialisation de l'API Spotify avec les paramètres de configuration valides
+        //console.log(config.redirectUri)
         this.spotifyApi = new SpotifyWebApi({
             clientId: config.clientId,
             clientSecret: config.clientSecret,
@@ -23,183 +24,19 @@ class SpotifyController {
     }
 }
 
-// Méthode pour vérifier la disponibilité
-_checkAvailability() {
-    if (!this.isAvailable) {
-        console.error("Spotify est hors service en raison d'une configuration incorrecte.");
-        return false;
-    }
-    return true;
-}
-
-  // Méthode pour démarrer la lecture
-  async play() {
-    if (!this._checkAvailability()) return;
-    try {
-      await this.spotifyApi.play();
-      console.log('Lecture commencée');
+  // Méthode pour vérifier la disponibilité
+  _checkAvailability() {
+      if (!this.isAvailable) {
+          console.error("Spotify est hors service en raison d'une configuration incorrecte.");
+          return false;
+      }
       return true;
-    } catch (error) {
-      console.error('Erreur de lecture:', error);
-      return false;
-    }
-  }
-
-  // Méthode pour mettre la lecture en pause
-  async pause() {
-    if (!this._checkAvailability()) return;
-    try {
-      await this.spotifyApi.pause();
-      console.log('Lecture mise en pause');
-      return true;
-    } catch (error) {
-      console.error('Erreur de pause:', error);
-      return false;
-    }
-  }
-
-  // Méthode pour passer à la piste suivante
-  async nextTrack() {
-    if (!this._checkAvailability()) return;
-    try {
-      await this.spotifyApi.skipToNext();
-      console.log('Passé au morceau suivant');
-      return true;
-    } catch (error) {
-      console.error('Erreur lors du passage au suivant:', error);
-      return false;
-    }
-  }
-
-  // Méthode pour revenir à la piste précédente
-  async previousTrack() {
-    if (!this._checkAvailability()) return;
-    try {
-      await this.spotifyApi.skipToPrevious();
-      console.log('Revenu au morceau précédent');
-      return true;
-    } catch (error) {
-      console.error('Erreur lors du retour au précédent:', error);
-      return false;
-    }
   }
 
   // Vérifie si le token est expiré
   isTokenExpired() {
     if (!this._checkAvailability()) return;
     return !this.tokenExpiryTime || this.tokenExpiryTime <= Date.now();
-  }
-
-  // Méthode pour définir le volume
-  async setVolume(volumePercent) {
-    if (!this._checkAvailability()) return;
-    try {
-      await this.spotifyApi.setVolume(volumePercent);
-      console.log(`Volume fixé à ${volumePercent}%`);
-      this.volume = volumePercent;
-      return true;
-    } catch (error) {
-      console.error('Erreur de réglage du volume:', error);
-      return false;
-    }
-  }
-
-  // Méthode pour rechercher des pistes
-  async searchTracks(trackName) {
-    if (!this._checkAvailability()) return;
-    try {
-      const data = await this.spotifyApi.searchTracks(trackName);
-      //console.log(`Résultats de la recherche pour '${trackName}':`, data.body.tracks.items);
-      return data.body.tracks.items;
-    } catch (error) {
-      console.error('Erreur lors de la recherche de morceaux:', error);
-      return false;
-    }
-  }
-
-  // Méthode pour jouer une piste spécifique
-  async playTrack(trackId) {
-    if (!this._checkAvailability()) return;
-    try {
-      await this.spotifyApi.play({
-        uris: [`spotify:track:${trackId}`]
-      });
-      console.log(`Lecture du morceau avec ID: ${trackId}`);
-      return true;
-    } catch (error) {
-      console.error('Erreur lors de la lecture du morceau:', error);
-      return false;
-    }
-  }
-
-  // Méthode pour jouer un album spécifique
-  async playAlbum(albumId) {
-    if (!this._checkAvailability()) return;
-    try {
-      await this.spotifyApi.play({
-        context_uri: `spotify:album:${albumId}`  // Utiliser context_uri pour un album
-      });
-      console.log(`Lecture de l'album avec ID: ${albumId}`);
-      return true;
-    } catch (error) {
-      console.error("Erreur lors de la lecture de l'album:", error);
-      return false;
-    }
-  }
-
-   // Méthode pour jouer une playlist spécifique
-   async playPlaylist(playlistId) {
-    if (!this._checkAvailability()) return;
-    try {
-      await this.spotifyApi.play({
-        context_uri: `spotify:playlist:${playlistId}`  // Utiliser context_uri pour un album
-      });
-      console.log(`Lecture de la playlist avec ID: ${playlistId}`);
-      return true;
-    } catch (error) {
-      console.error("Erreur lors de la lecture de playlist:", error);
-      return false;
-    }
-  }
-
-
-  // Méthode pour obtenir les appareils disponibles
-  async getDevices() {
-    if (!this._checkAvailability()) return;
-    try {
-      const data = await this.spotifyApi.getMyDevices();
-      //console.log('Appareils disponibles:', data.body.devices);
-      return data.body.devices;
-    } catch (error) {
-      console.error('Erreur lors de la récupération des appareils:', error);
-      return false;
-    }
-  }
-
-  // Méthode pour activer un appareil spécifique
-  async setActiveDevice(deviceId) {
-    if (!this._checkAvailability()) return;
-    try {
-      await this.spotifyApi.transferMyPlayback([deviceId]);
-      return true;
-    } catch (error) {
-      console.error("Erreur lors du ciblage de l'appareil:", error);
-      return false;
-    }
-  }
-
-  // Méthode pour augmenter le volume
-  async increaseVolume() {
-    if (!this._checkAvailability()) return;
-    const newVolume = Math.min(this.volume + 10, 100);
-    return await this.setVolume(newVolume);
-  }
-
-  // Méthode pour diminuer le volume
-  async decreaseVolume() {
-    if (!this._checkAvailability()) return;
-    const newVolume = Math.max(this.volume - 10, 0);
-    return await this.setVolume(newVolume);
   }
 
   // Méthode pour rafraîchir le jeton d'accès
@@ -224,9 +61,275 @@ _checkAvailability() {
       console.log("Le token d'accès est toujours valide.");
     }
   }
-  async spotify_search(search_item) {
-    if (!this._checkAvailability()) return;
+
+  // Méthode privée pour effectuer les vérifications avant une action
+  async _preActionChecks() {
+    if (!this._checkAvailability()) return false; // Vérifier la disponibilité
     await this.refreshAccessToken(); // Rafraîchir le token
+
+    const devices = await this.getDevices(); // Obtenir la liste des appareils
+    let deviceActive = false;
+
+    // Vérifier si l'appareil préféré est actif
+    if (devices.length > 0) {
+        devices.forEach(device => {
+            if (device.id === this.client_pref_device && device.is_active) {
+                deviceActive = true;
+                console.log("Appareil préféré déjà actif:", device.name);
+            }
+        });
+
+        // Si l'appareil préféré n'est pas actif, l'activer
+        if (!deviceActive) {
+            console.log("Activation de l'appareil préféré:", this.client_pref_device);
+            await this.setActiveDevice(this.client_pref_device);
+        }
+    } else {
+        console.log("Aucun appareil disponible.");
+        return false;
+    }
+
+    return true;
+  }
+  // Méthode pour obtenir les appareils disponibles
+  async getDevices() {
+    if (!this._checkAvailability()) return;
+    try {
+      const data = await this.spotifyApi.getMyDevices();
+      //console.log('Appareils disponibles:', data.body.devices);
+      return data.body.devices;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des appareils:', error);
+      return false;
+    }
+  }
+
+  // Méthode pour activer un appareil spécifique
+  async setActiveDevice(deviceId) {
+    if (!this._checkAvailability()) return;
+    try {
+      await this.spotifyApi.transferMyPlayback([deviceId]);
+      return true;
+    } catch (error) {
+      console.error("Erreur lors du ciblage de l'appareil:", error);
+      return false;
+    }
+  }
+  // Méthode pour démarrer la lecture
+  async play(callback) {
+    if (!await this._preActionChecks()) return; // Effectuer les vérifications préalables
+
+    try {
+      await this.spotifyApi.play();
+      console.log('Lecture commencée');
+      if (callback) callback( 'Lecture démarrée sur spotify');
+      return true;
+    } catch (error) {
+      console.error('Erreur de lecture:', error);
+      if (callback) callback("Je suis désolé mais je n'arrive pas à interragir avec spotify");
+      return false;
+    }
+  }
+
+  // Méthode pour mettre la lecture en pause
+  async pause(callback) {
+    if (!await this._preActionChecks()) return; // Effectuer les vérifications préalables
+
+    try {
+      await this.spotifyApi.pause();
+      console.log('Lecture mise en pause');
+      if (callback) callback( 'Lecture mise en pause sur spotify');
+      return true;
+    } catch (error) {
+      console.error('Erreur de pause:', error);
+      if (callback) callback("Je suis désolé mais je n'arrive pas à interragir avec spotify");
+      return false;
+    }
+  }
+
+  // Méthode pour passer à la piste suivante
+  async next_track(callback) {
+    if (!await this._preActionChecks()) return; // Effectuer les vérifications préalables
+
+    try {
+      await this.spotifyApi.skipToNext();
+      console.log('Passé au morceau suivant');
+      if (callback) callback( 'Musique suivante sur spotify');
+      return true;
+    } catch (error) {
+      if (callback) callback("Je suis désolé mais je n'arrive pas à interragir avec spotify");
+      console.error('Erreur lors du passage au suivant:', error);
+      return false;
+    }
+  }
+
+  // Méthode pour revenir à la piste précédente
+  async previous_track(callback) {
+    if (!await this._preActionChecks()) return; // Effectuer les vérifications préalables
+
+    try {
+      await this.spotifyApi.skipToPrevious();
+      console.log('Revenu au morceau précédent');
+      if (callback) callback( 'Musique précédente sur spotify');
+      return true;
+    } catch (error) {
+      if (callback) callback("Je suis désolé mais je n'arrive pas à interragir avec spotify");
+      console.error('Erreur lors du retour au précédent:', error);
+      return false;
+    }
+  }
+
+  async addMusics(music)
+  {
+    // Gestion des différentes pistes selon leur type (playlist, track, album)
+      if (music.includes("playlist")) {
+        console.log(music);
+        let playlistId = music.split("/playlist/")[1].split("?")[0];
+        //console.log("playlist id : " + playlistId);
+        this.playPlaylist(playlistId);  // Lance une playlist sur Spotify
+    }
+    if (music.includes("track")) {
+        console.log(music);
+        let trackId = music.split("/track/")[1].split("?")[0];
+        //console.log("track id : " + trackId);
+        this.playTrack (trackId);  // Lance une piste spécifique sur Spotify
+    }
+    if (music.includes("album")) {
+        console.log(music);
+        let albumId = music.split("/album/")[1].split("?")[0];
+        //console.log("album id : " + albumId);
+        this.playAlbum (albumId);  // Lance un album sur Spotify
+    }
+  }
+
+  // Méthode pour rechercher des pistes
+  async searchTracks(trackName) {
+    if (!await this._preActionChecks()) return; // Effectuer les vérifications préalables
+
+    try {
+      const data = await this.spotifyApi.searchTracks(trackName);
+      //console.log(`Résultats de la recherche pour '${trackName}':`, data.body.tracks.items);
+      return data.body.tracks.items;
+    } catch (error) {
+      console.error('Erreur lors de la recherche de morceaux:', error);
+      return false;
+    }
+  }
+
+  // Méthode pour jouer une piste spécifique
+  async playTrack(trackId) {
+    if (!await this._preActionChecks()) return; // Effectuer les vérifications préalables
+
+    try {
+      await this.spotifyApi.play({
+        uris: [`spotify:track:${trackId}`]
+      });
+      console.log(`Lecture du morceau avec ID: ${trackId}`);
+      return true;
+    } catch (error) {
+      console.error('Erreur lors de la lecture du morceau:', error);
+      return false;
+    }
+  }
+
+  // Méthode pour jouer un album spécifique
+  async playAlbum(albumId) {
+    if (!await this._preActionChecks()) return; // Effectuer les vérifications préalables
+
+    try {
+      await this.spotifyApi.play({
+        context_uri: `spotify:album:${albumId}`  // Utiliser context_uri pour un album
+      });
+      console.log(`Lecture de l'album avec ID: ${albumId}`);
+      return true;
+    } catch (error) {
+      console.error("Erreur lors de la lecture de l'album:", error);
+      return false;
+    }
+  }
+
+   // Méthode pour jouer une playlist spécifique
+   async playPlaylist(playlistId) {
+    if (!await this._preActionChecks()) return; // Effectuer les vérifications préalables
+
+    try {
+      await this.spotifyApi.play({
+        context_uri: `spotify:playlist:${playlistId}`  // Utiliser context_uri pour un album
+      });
+      console.log(`Lecture de la playlist avec ID: ${playlistId}`);
+      return true;
+    } catch (error) {
+      console.error("Erreur lors de la lecture de playlist:", error);
+      return false;
+    }
+  }
+
+  // Méthode pour obtenir le volume actuel du lecteur Spotify
+  async getCurrentVolume() {
+    if (!await this._preActionChecks()) return; // Effectuer les vérifications préalables
+
+    try {
+        const playbackState = await this.spotifyApi.getMyCurrentPlaybackState();
+
+        console.log(playbackState.body.device);
+
+
+        if (playbackState && playbackState.body.device) {
+            return playbackState.body.device.volume_percent;
+        } else {
+            console.warn('Aucun état de lecture ou appareil disponible.');
+            return null;
+        }
+    } catch (error) {
+        console.error('Erreur lors de la récupération du volume:', error);
+        return null;
+    }
+  }
+
+  // Méthode pour définir le volume
+  async setVolume(volume,callback) {
+    if (!await this._preActionChecks()) return; // Effectuer les vérifications préalables
+
+    try {
+      await this.spotifyApi.setVolume(volume); // Imaginons que `spotifyAPI` ait une méthode `setVolume`
+      console.log(`Volume réglé à ${volume} sur Spotify`);
+      if (callback) callback(`Volume réglé à ${volume} sur Spotify`);
+    } catch (error) {
+        console.error('Erreur lors du réglage du volume sur Spotify:', error);
+        if (callback) callback('Erreur lors du réglage du volume sur Spotify');
+    }
+  }
+  // Méthode pour augmenter le volume
+  async increase_volume() {
+    if (!await this._preActionChecks()) return; // Effectuer les vérifications préalables
+
+    const currentVolume = await this.getCurrentVolume();
+    if (currentVolume === null) {
+        console.error('Impossible de récupérer le volume actuel.');
+        return false;
+    }
+
+    const newVolume = Math.min(currentVolume + 5, 100); // Incrémente de 5
+    return await this.setVolume(newVolume);
+  }
+
+  // Méthode pour diminuer le volume
+  async decrease_volume() {
+    if (!await this._preActionChecks()) return; // Effectuer les vérifications préalables
+
+    const currentVolume = await this.getCurrentVolume();
+    if (currentVolume === null) {
+        console.error('Impossible de récupérer le volume actuel.');
+        return false;
+    }
+
+    const newVolume = Math.max(currentVolume - 5, 0); // Décrémente de 5
+    return await this.setVolume(newVolume);
+  }
+
+  async spotify_search(search_item) {
+    if (!await this._preActionChecks()) return; // Effectuer les vérifications préalables
+
 
     try {
       const results = await this.searchTracks(search_item);
@@ -244,60 +347,6 @@ _checkAvailability() {
     }
   }
 
-  // Méthode principale pour exécuter des actions
-  async spotify_action(action,info) {
-    if (!this._checkAvailability()) return;
-    await this.refreshAccessToken(); // Rafraîchir le token
-
-    const devices = await this.getDevices(); // Obtenir la liste des appareils
-    let deviceActive = false;
-
-    // Vérifier si l'appareil préféré est actif
-    if (devices.length > 0) {
-      devices.forEach(device => {
-        if (device.id === this.client_pref_device && device.is_active) {
-          deviceActive = true;
-          console.log("Appareil préféré déjà actif:", device.name);
-        }
-      });
-
-      // Si l'appareil préféré n'est pas actif, l'activer
-      if (!deviceActive) {
-        console.log("Activation de l'appareil préféré:", this.client_pref_device);
-        await this.setActiveDevice(this.client_pref_device);
-      }
-    } else {
-      console.log("Aucun appareil disponible.");
-      return false;
-    }
-
-    switch (action) {
-      case 'spotify_play':
-        return await this.play();
-      case 'spotify_pause':
-        return await this.pause();
-      case 'spotify_next_track':
-        return await this.nextTrack();
-      case 'spotify_previous_track':
-        return await this.previousTrack();
-      case 'spotify_increase_volume':
-        return await this.increaseVolume();
-      case 'spotify_decrease_volume':
-        return await this.decreaseVolume();
-      case 'spotify_lauch_playlist':
-        return await this.playPlaylist(info);
-      case 'spotify_lauch_album':
-        return await this.playAlbum(info);
-      case 'playTrack':
-        return await this.playTrack(info);
-      case 'volume50':
-        return await this.setVolume(50);
-      default:
-        console.log("Action inconnue. Les actions valides incluent 'play', 'pause', 'next', 'previous', 'volume50'.");
-        return false;
-    }
-  }
 }
 
 module.exports = SpotifyController;
-//https://open.spotify.com/intl-fr/track/0C80GCp0mMuBzLf3EAXqxv?si=e7d23e2103f9488c

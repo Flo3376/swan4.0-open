@@ -1,60 +1,95 @@
 const http = require('http');
 
-// Fonction pour envoyer une requête GET pour ajouter un fichier audio
-function addMusic(path, volume = 10) {
-    const encodedPath = encodeURIComponent(path);
-    const urlPath = `class_action=sound&action=playoradd&type=music&path=${encodedPath}&volume=${volume}`;
+class LocalPlayer {
+    constructor() {
+        this.baseUrl = 'http://127.0.0.1:2953'; // URL de base du serveur de contrôle local
+    }
 
-    const options = {
-        hostname: '127.0.0.1',
-        port: 2953,
-        path: `/?${urlPath}`,
-        method: 'GET',
-    };
+    // Méthode pour envoyer une requête GET
+    sendRequest(path) {
+        return new Promise((resolve, reject) => {
+            const options = {
+                hostname: '127.0.0.1',
+                port: 2953,
+                path: `/${path}`,
+                method: 'GET',
+            };
 
-    return new Promise((resolve, reject) => {
-        const req = http.request(options, (res) => {
-            let data = '';
+            const req = http.request(options, (res) => {
+                let data = '';
 
-            // Réception des données
-            res.on('data', (chunk) => {
-                data += chunk;
+                res.on('data', (chunk) => {
+                    data += chunk;
+                });
+
+                res.on('end', () => {
+                    console.log(`Réponse pour ${path} :`, data);
+                    resolve(data);
+                });
             });
 
-            // Fin de la réception
-            res.on('end', () => {
-                console.log(`Réponse pour ${path} :`, data);
-                resolve();
+            req.on('error', (error) => {
+                console.error(`Erreur lors de la requête pour ${path} :`, error);
+                reject(error);
             });
+
+            req.end();
         });
+    }
 
-        req.on('error', (error) => {
-            console.error(`Erreur lors de la requête pour ${path} :`, error);
-            reject(error);
-        });
+    async addMusics(music)
+    {
+        // Ajouter plusieurs musiques avec 25% de volume et 250ms de délai entre chaque ajout
 
-        req.end();
-    });
-}
+        console.log(music)
+        this.addMultipleMusics(music, 5, 250)
+        .then(() => console.log('Toutes les musiques ont été ajoutées avec succès'))
+        .catch((err) => console.error('Erreur:', err));
+    }
 
-// Fonction pour ajouter plusieurs musiques avec délai entre chaque
-async function addMultipleMusics(paths, volume = 10, delay = 250) {
-    // 1. Diviser le string en lignes
-    const lines = paths.trim().split("\n").map(line => line.trim());    
-    console.log(lines);
-    // 2. Supprimer les guillemets (") autour des chemins
-    const cleanPaths = lines.map(path => path.replace(/"/g, ''));
-    console.log(cleanPaths);
+    // Méthode pour ajouter un fichier audio
+    async addMusic(path, volume = 10) {
+        const encodedPath = encodeURIComponent(path);
+        const urlPath = `?class_action=sound&action=playoradd&type=music&path=${encodedPath}&volume=${volume}`;
+        return this.sendRequest(urlPath);
+    }
 
-    for (let i = 0; i < cleanPaths.length; i++) {
-        const path = cleanPaths[i];
-        console.log(`Ajout de la musique : ${path}`);
-        await addMusic(path, volume); // Attendre la fin de la requête
-        await new Promise(resolve => setTimeout(resolve, delay)); // Attendre le délai avant d'ajouter la suivante
+    // Méthode pour ajouter plusieurs musiques
+    async addMultipleMusics(paths, volume = 10, delay = 250) {
+        const lines = paths.trim().split("\n").map(line => line.trim());
+        const cleanPaths = lines.map(path => path.replace(/"/g, ''));
+
+        for (const path of cleanPaths) {
+            console.log(`Ajout de la musique : ${path}`);
+            await this.addMusic(path, volume);
+            await new Promise(resolve => setTimeout(resolve, delay));
+        }
+    }
+
+    // Méthode pour mettre en pause la lecture
+    async pause() {
+        return this.sendRequest('?class_action=sound&action=pausemusic');
+    }
+
+    // Méthode pour reprendre la lecture
+    async play() {
+        return this.sendRequest('?class_action=sound&action=resumemusic');
+    }
+
+    // Méthode pour arrêter la lecture
+    async stop() {
+        return this.sendRequest('?class_action=sound&action=stopmusic');
+    }
+
+    // Méthode pour passer à la piste suivante
+    async next_track() {
+        return this.sendRequest('?class_action=sound&action=playnext');
+    }
+
+    // Méthode pour régler le volume
+    async setVolume(volume) {
+        return this.sendRequest(`?class_action=sound&action=setvolume&volume=${volume}&type=music`);
     }
 }
 
-module.exports = {
-    addMusic,
-    addMultipleMusics
-};
+module.exports = new LocalPlayer();

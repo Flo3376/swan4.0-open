@@ -68,8 +68,9 @@ namespace megatron
 
         public void key_command(string command)
         {
-            Console.WriteLine("Keysender : received command: " + command);
-
+            Console.WriteLine("Keysender : received command: " + WebUtility.UrlDecode(command)
+            );
+            
             // Retirer le caractère '?' ou '/?' au début, si présent
             if (command.StartsWith("/?") || command.StartsWith("?"))
             {
@@ -392,7 +393,7 @@ namespace megatron
                     // Exécution de l'action réelle
                     // Affichage du compteur et de la quantité totale
                     int totalQuantity = cycliqueCommands[actionCode].NumberNb == -1 ? int.MaxValue : cycliqueCommands[actionCode].NumberNb;
-                    Console.WriteLine($"Executing cyclique action: {decodedActionInput} ({count + 1}/{totalQuantity})");
+                    //Console.WriteLine($"Executing cyclique action: {decodedActionInput} ({count + 1}/{totalQuantity})");
 
                     SendCombo(decodedActionInput, delayMs);  // Exécute le combo avec la durée appropriée (100ms ou 750ms)
 
@@ -414,7 +415,7 @@ namespace megatron
                 }
 
                 // Si le cycle est fini (nombre de répétitions atteint), on retire la commande
-                Console.WriteLine($"Cyclique command {actionCode} completed.");
+                //Console.WriteLine($"Cyclique command {actionCode} completed.");
                 cycliqueCommands.Remove(actionCode);
             });
         }
@@ -518,14 +519,14 @@ namespace megatron
                 }
 
                 // Step 3: Envoyer chaque bloc d'action sans {short} ou {long}
-                Console.WriteLine($"Sending part: {part}");
+               // Console.WriteLine($"Sending part: {part}");
                 SendCombo(part, duration);  // Envoi de la commande avec la durée correspondante
 
                 // Si un tempo existe, insérer une pause avant d'exécuter le prochain bloc
                 if (i < tempos.Count)
                 {
                     int delay = tempos[i];
-                    Console.WriteLine($"Pause for {delay}ms");
+                    //Console.WriteLine($"Pause for {delay}ms");
                     Thread.Sleep(delay);  // Pause pour le tempo spécifié
                 }
             }

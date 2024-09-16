@@ -44,6 +44,8 @@ app.get('/callback', function (req, res) {
         return res.status(400).send('Code d’autorisation manquant dans la requête.');
     }
 
+    console.log("Code reçu dans le GET : "+code)
+
     //console.log("Code reçu:", code);  // Afficher le code reçu
     axios({
         method: 'post',
@@ -68,7 +70,7 @@ app.get('/callback', function (req, res) {
             'client_refresh_token': `"${response.data.refresh_token}"`
         };
         // Appel de la fonction
-        update_config('./core/config/config.yaml', updates);
+        update_config('./../core/config/config.yaml', updates);
         res.send('Tokens: ' + JSON.stringify(response.data));
 
         console.log(colors.green('Configuration mise à jours, vous avez terminé avec la configuration de Spotify'));

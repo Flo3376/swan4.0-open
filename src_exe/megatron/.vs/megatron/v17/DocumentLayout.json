@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "C:\\Users\\FP24V\\source\\repos\\megatron\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\FP24V\\AppData\\Local\\Temp\\.vsdbgsrc\\4a2c823b8162ae646d5d4a046be28fd67b4977cd9fc49bbc3d7566af51eb3d68\\Socket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{001558B2-9640-4D53-B7C0-A4C18C945754}|megatron.csproj|c:\\users\\fp24v\\source\\repos\\megatron\\send_key.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{001558B2-9640-4D53-B7C0-A4C18C945754}|megatron.csproj|solutionrelative:send_key.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -27,39 +30,54 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Socket.cs",
+              "DocumentMoniker": "C:\\Users\\FP24V\\AppData\\Local\\Temp\\.vsdbgsrc\\4a2c823b8162ae646d5d4a046be28fd67b4977cd9fc49bbc3d7566af51eb3d68\\Socket.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\4a2c823b8162ae646d5d4a046be28fd67b4977cd9fc49bbc3d7566af51eb3d68\\Socket.cs",
+              "ToolTip": "C:\\Users\\FP24V\\AppData\\Local\\Temp\\.vsdbgsrc\\4a2c823b8162ae646d5d4a046be28fd67b4977cd9fc49bbc3d7566af51eb3d68\\Socket.cs [Lecture seule]",
+              "RelativeToolTip": "..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\4a2c823b8162ae646d5d4a046be28fd67b4977cd9fc49bbc3d7566af51eb3d68\\Socket.cs [Lecture seule]",
+              "ViewState": "AQIAANcNAAAAAAAAAAAYwAEOAAACAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-16T06:30:00.383Z",
+              "EditorCaption": " [Lecture seule]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "send_key.cs",
               "DocumentMoniker": "C:\\Users\\FP24V\\source\\repos\\megatron\\send_key.cs",
               "RelativeDocumentMoniker": "send_key.cs",
               "ToolTip": "C:\\Users\\FP24V\\source\\repos\\megatron\\send_key.cs",
               "RelativeToolTip": "send_key.cs",
-              "ViewState": "AQIAAFcAAAAAAAAAAAAIwJUAAAAZAAAA",
+              "ViewState": "AQIAABYAAAAAAAAAAAAQwEgAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-07T10:35:10.546Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "player.cs",
               "DocumentMoniker": "C:\\Users\\FP24V\\source\\repos\\megatron\\player.cs",
               "RelativeDocumentMoniker": "player.cs",
               "ToolTip": "C:\\Users\\FP24V\\source\\repos\\megatron\\player.cs",
               "RelativeToolTip": "player.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAGADAAAvAAAA",
+              "ViewState": "AQIAADoAAAAAAAAAAAAcwG4AAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-27T19:53:09.006Z"
+              "WhenOpened": "2024-08-27T19:53:09.006Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\FP24V\\source\\repos\\megatron\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\FP24V\\source\\repos\\megatron\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAC0AAAAAAAAAAAAYwEoAAAASAAAA",
+              "ViewState": "AQIAABwAAAAAAAAAAAAQwA8AAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-27T19:50:37.841Z"
+              "WhenOpened": "2024-08-27T19:50:37.841Z",
+              "EditorCaption": ""
             }
           ]
         }

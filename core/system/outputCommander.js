@@ -7,6 +7,37 @@ const colors = require('colors');
 const KEY_SENDER = path.resolve(__dirname, '../exe/megatron/megatron.exe');
 let PIDS = {};
 
+function my_console(title = '', text = '', titleColor = 'gray', textColor = 'gray', indentation = 0) {
+
+     // Ne rien faire si le texte est vide ou ne contient que des espaces
+     if (text.trim() === '') {
+        return;
+    }
+    
+    // Créer la chaîne d'indentation pour le titre
+    const titleIndent = ' '.repeat(indentation);
+    
+    // Créer l'indentation supplémentaire pour le texte
+    const textIndent = ' '.repeat(indentation + 4); // 4 espaces supplémentaires pour le texte
+
+    // Colorer le titre et l'afficher
+    if (colors[titleColor]) {
+        console.log(colors[titleColor](`${titleIndent}${title}`));
+    } else {
+        console.log(`${titleIndent}${title}`); // Si la couleur n'existe pas, on affiche sans couleur
+    }
+
+    // Diviser le texte en lignes et ajouter l'indentation
+    const lines = text.split('\n');
+    lines.forEach(line => {
+        if (colors[textColor]) {
+            console.log(colors[textColor](`${textIndent}${line}`));
+        } else {
+            console.log(`${textIndent}${line}`);
+        }
+    });
+}
+
 class OutputCommander {
     constructor() {}
 
@@ -17,12 +48,14 @@ class OutputCommander {
             let child = spawn(KEY_SENDER, []);
 
             child.stdout.on('data', data => {
-                console.log(colors.cyan(`       Output from ${id}: `));
-                console.log(colors.cyan(`       ${data.toString()}`));
+                my_console("De Mégatron :",data.toString(),"cyan","white",4);
+                //console.log(colors.cyan(`       Output from Megatron: `));
+                //console.log(colors.cyan(`       ${data.toString()}`));
             });
 
             child.stderr.on('data', data => {
-                console.error(`Error from ${id}: ${data.toString()}`);
+                my_console("De Mégatron :",data.toString(),"cyan","red",4);
+                //console.error(`Error from ${id}: ${data.toString()}`);
             });
 
             child.on('close', code => {

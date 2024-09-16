@@ -62,30 +62,6 @@ namespace megatron
             }
         }
 
-        /*private void AdjustVolumeCycle()
-        {
-            while (_isAdjusting)
-            {
-                if (_volume < _volumeConsigne)
-                {
-                    _volume++;
-                }
-                else if (_volume > _volumeConsigne)
-                {
-                    _volume--;
-                }
-
-                _audioFileReader.Volume = _volume / 100.0f;
-
-                Thread.Sleep(10);
-
-                if (_volume == _volumeConsigne)
-                {
-                    _isAdjusting = false;
-                }
-            }
-        }*/
-
         public void AdjustVolumeCycle(Action onFadeOutComplete = null)
         {
             while (_isAdjusting)
@@ -132,7 +108,8 @@ namespace megatron
 
         public void player_command(string command)
         {
-            Console.WriteLine("Sound : received command: " + command);
+            Console.WriteLine("Sound : received command: " + WebUtility.UrlDecode(command)
+            );
 
             // Retirer le caractère '?' au début, si présent
             if (command.StartsWith("/?")) command = command.Substring(2);
@@ -387,7 +364,7 @@ namespace megatron
                     waveOutDeviceMusic.Stop();
                     waveOutDeviceMusic.Dispose();
                     waveOutDeviceMusic = null;
-                    Console.WriteLine("Musique arrêtée après fade out.");
+                    //Console.WriteLine("Musique arrêtée après fade out.");
                     Console.WriteLine("Musique arrêtée, file d'attente vidée, et volume réinitialisé à 0.");
                     Console.WriteLine();
                 });
@@ -425,12 +402,12 @@ namespace megatron
 
             if (waveOutDeviceMusic != null && waveOutDeviceMusic.PlaybackState == PlaybackState.Playing)
             {
-                Console.WriteLine("Arrêt du lecteur avant de passer au suivant.");
+                //Console.WriteLine("Arrêt du lecteur avant de passer au suivant.");
                 StopPlayer(waveOutDeviceMusic);  // Stopper le lecteur si quelque chose joue déjà
             }
 
             if (musicQueue.TryDequeue(out SoundFile soundFile))
-            {
+            {//
                 Console.WriteLine("Lecture du prochain morceau.");
                 //PlayMusic1(soundFile);  // Lecture immédiate sur le lecteur unique
                 if (waveOutDeviceMusic != null)
@@ -449,7 +426,7 @@ namespace megatron
                 waveOutDeviceMusic.PlaybackStopped += OnPlaybackStopped;
 
                 waveOutDeviceMusic.Play();
-                Console.WriteLine($"La musique joue avec un volume de : {musicVolume}%");
+                //Console.WriteLine($"La musique joue avec un volume de : {musicVolume}%");
 
                 // On met à jour le volume manager pour ce morceau avec musicVolume
                 volumeManagerMusic = new VolumeManager(audioFileReaderMusic, musicVolume);
@@ -548,7 +525,7 @@ namespace megatron
 
         public void ManualNext()
         {
-            Console.WriteLine("Manuel : Passage au morceau suivant avec crossfade.");
+            //Console.WriteLine("Manuel : Passage au morceau suivant avec crossfade.");
 
             if (waveOutDeviceMusic != null && waveOutDeviceMusic.PlaybackState == PlaybackState.Playing)
             {
@@ -560,7 +537,7 @@ namespace megatron
             }
             else
             {
-                Console.WriteLine("Aucune musique en cours de lecture.");
+               // Console.WriteLine("Aucune musique en cours de lecture.");
             }
         }
 
@@ -732,7 +709,7 @@ namespace megatron
                 {
                     string jsonContent = File.ReadAllText(jsonPath);
                     effects = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(jsonContent);
-                    Console.WriteLine("Fichier 'effects.json' chargé avec succès.");
+                    //Console.WriteLine("Fichier 'effects.json' chargé avec succès.");
                 }
                 else
                 {
@@ -874,7 +851,7 @@ namespace megatron
 
                 if (ffmpeg.ExitCode == 0)
                 {
-                    Console.WriteLine("FFmpeg est disponible.");
+                    //Console.WriteLine("FFmpeg est disponible.");
                     return true;
                 }
                 else

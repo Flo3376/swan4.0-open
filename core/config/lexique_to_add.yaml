@@ -1,0 +1,481 @@
+mm_switch_to_spotify:
+  root: mm_switch_to_spotify
+  cat: music
+  ambiance:
+    player: none
+    track: ''
+  effect: none
+  rules:
+    - action: mm_switch_to_spotify
+      description: indique que l'on passe sur spotify
+      questions:
+        - passe sur spotify
+      responses:
+        - Passage sur spotify
+      interact:
+        type: none
+        action_input: ''
+mm_switch_to_youtube:
+  root: mm_switch_to_youtube
+  cat: music
+  ambiance:
+    player: none
+    track: ''
+  effect: none
+  rules:
+    - action: mm_switch_to_youtube
+      description: indique que l'on passe sur youtube
+      questions:
+        - passe sur youtube
+      responses:
+        - Passage sur youtube
+      interact:
+        type: none
+        action_input: ''
+mm_switch_to_deezzer:
+  root: mm_switch_to_deezzer
+  cat: music
+  ambiance:
+    player: none
+    track: ''
+  effect: none
+  rules:
+    - action: mm_switch_to_deezzer
+      description: indique que l'on passe sur deeezer
+      questions:
+        - passe sur deeezer
+      responses:
+        - Passage sur deeezer
+      interact:
+        type: none
+        action_input: ''
+mm_switch_to_local:
+  root: mm_switch_to_local
+  cat: music
+  ambiance:
+    player: none
+    track: ''
+  effect: none
+  rules:
+    - action: mm_switch_to_local
+      description: indique que l'on passe sur le lecteur mp3 interne
+      questions:
+        - passe sur le lecteur local
+      responses:
+        - Passage sur le lecteur mp3
+      interact:
+        type: none
+        action_input: ''
+mm_play:
+  root: mm_play
+  cat: music
+  rules:
+    - action: mm_play
+      description: mm_play
+      questions:
+        - Peux-tu démarrer la musique
+        - Mets de la musique
+        - Lance la lecture sur Spotify
+        - relance la musique
+        - Lance la musique
+      responses:
+        - Musique démarrée sur Spotify.
+        - Lecture en cours.
+      interact:
+        output: none
+mm_pause:
+  root: mm_pause
+  cat: music
+  rules:
+    - action: mm_pause
+      description: mm_pause
+      questions:
+        - Peux-tu mettre en pause
+        - Mets la musique en pause
+        - Pause la musique
+        - Met en pause
+        - coupe la musique
+      responses:
+        - Musique mise en pause.
+        - Pause activée.
+      interact:
+        output: none
+mm_next_track:
+  root: mm_next_track
+  cat: music
+  rules:
+    - action: mm_next_track
+      description: mm_next_track
+      questions:
+        - Peux-tu passer à la suivante
+        - Suivant sur Spotify
+        - Change de piste
+        - Musique suivante
+        - Morceau suivant
+      responses:
+        - Piste suivante jouée.
+        - Changement de piste effectué.
+      interact:
+        output: none
+mm_previous_track:
+  root: mm_previous_track
+  cat: music
+  rules:
+    - action: mm_previous_track
+      description: mm_previous_track
+      questions:
+        - Peux-tu passer à la précédente
+        - précédent sur Spotify
+        - Musique précédente
+        - morceaux précédent
+      responses:
+        - Piste précédente jouée.
+        - Changement de piste effectué.
+      interact:
+        output: none
+mm_increase_volume:
+  root: mm_increase_volume
+  cat: music
+  rules:
+    - action: mm_increase_volume
+      description: mm_increase_volume
+      questions:
+        - Augmente le volume
+        - Augmente la musique
+        - Augmente le son
+        - Plus fort s'il te plaît
+      responses:
+        - Volume augmenté.
+        - C'est maintenant plus fort.
+      interact:
+        output: none
+mm_decrease_volume:
+  root: mm_decrease_volume
+  cat: music
+  rules:
+    - action: mm_decrease_volume
+      description: mm_decrease_volume
+      questions:
+        - Baisse le volume
+        - Baisse la musique
+        - Baisse le son
+        - Moins fort s'il te plaît
+      responses:
+        - Volume diminué.
+        - C'est maintenant plus doux.
+      interact:
+        output: none
+mm_set_volume_0: 
+  root: mm_set_volume_0
+  cat: music
+  rules:
+    - action: mm_set_volume_0
+      description: mets le volume à 0% 
+      questions:
+        - met la musique à 0
+        - met la musique à 0%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_5: 
+  root: mm_set_volume_5
+  cat: music
+  rules:
+    - action: mm_set_volume_5
+      description: mets le volume à 5% 
+      questions:
+        - met la musique à 5
+        - met la musique à 5%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_10: 
+  root: mm_set_volume_10
+  cat: music
+  rules:
+    - action: mm_set_volume_10
+      description: mets le volume à 10% 
+      questions:
+        - met la musique à 10
+        - met la musique à 10%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_15: 
+  root: mm_set_volume_15
+  cat: music
+  rules:
+    - action: mm_set_volume_15
+      description: mets le volume à 15% 
+      questions:
+        - met la musique à 15
+        - met la musique à 15%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_20: 
+  root: mm_set_volume_20
+  cat: music
+  rules:
+    - action: mm_set_volume_20
+      description: mets le volume à 20% 
+      questions:
+        - met la musique à 20
+        - met la musique à 20%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_25: 
+  root: mm_set_volume_25
+  cat: music
+  rules:
+    - action: mm_set_volume_25
+      description: mets le volume à 25% 
+      questions:
+        - met la musique à 25
+        - met la musique à 25%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_30: 
+  root: mm_set_volume_30
+  cat: music
+  rules:
+    - action: mm_set_volume_30
+      description: mets le volume à 30% 
+      questions:
+        - met la musique à 30
+        - met la musique à 30%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_35: 
+  root: mm_set_volume_35
+  cat: music
+  rules:
+    - action: mm_set_volume_35
+      description: mets le volume à 35% 
+      questions:
+        - met la musique à 35
+        - met la musique à 35%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_40: 
+  root: mm_set_volume_40
+  cat: music
+  rules:
+    - action: mm_set_volume_40
+      description: mets le volume à 40% 
+      questions:
+        - met la musique à 40
+        - met la musique à 40%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_45: 
+  root: mm_set_volume_45
+  cat: music
+  rules:
+    - action: mm_set_volume_45
+      description: mets le volume à 45% 
+      questions:
+        - met la musique à 45
+        - met la musique à 45%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_50: 
+  root: mm_set_volume_50
+  cat: music
+  rules:
+    - action: mm_set_volume_50
+      description: mets le volume à 50% 
+      questions:
+        - met la musique à 50
+        - met la musique à 50%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_55: 
+  root: mm_set_volume_55
+  cat: music
+  rules:
+    - action: mm_set_volume_55
+      description: mets le volume à 55% 
+      questions:
+        - met la musique à 55
+        - met la musique à 55%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_60: 
+  root: mm_set_volume_60
+  cat: music
+  rules:
+    - action: mm_set_volume_60
+      description: mets le volume à 60% 
+      questions:
+        - met la musique à 60
+        - met la musique à 60%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_65: 
+  root: mm_set_volume_65
+  cat: music
+  rules:
+    - action: mm_set_volume_65
+      description: mets le volume à 65% 
+      questions:
+        - met la musique à 65
+        - met la musique à 65%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_70: 
+  root: mm_set_volume_70
+  cat: music
+  rules:
+    - action: mm_set_volume_70
+      description: mets le volume à 70% 
+      questions:
+        - met la musique à 70
+        - met la musique à 70%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_75: 
+  root: mm_set_volume_75
+  cat: music
+  rules:
+    - action: mm_set_volume_75
+      description: mets le volume à 75% 
+      questions:
+        - met la musique à 75
+        - met la musique à 75%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_80: 
+  root: mm_set_volume_80
+  cat: music
+  rules:
+    - action: mm_set_volume_80
+      description: mets le volume à 80% 
+      questions:
+        - met la musique à 80
+        - met la musique à 80%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_85: 
+  root: mm_set_volume_85
+  cat: music
+  rules:
+    - action: mm_set_volume_85
+      description: mets le volume à 85% 
+      questions:
+        - met la musique à 85
+        - met la musique à 85%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_90: 
+  root: mm_set_volume_90
+  cat: music
+  rules:
+    - action: mm_set_volume_90
+      description: mets le volume à 90% 
+      questions:
+        - met la musique à 90
+        - met la musique à 90%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_95: 
+  root: mm_set_volume_95
+  cat: music
+  rules:
+    - action: mm_set_volume_95
+      description: mets le volume à 95% 
+      questions:
+        - met la musique à 95
+        - met la musique à 95%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
+
+mm_set_volume_100: 
+  root: mm_set_volume_100
+  cat: music
+  rules:
+    - action: mm_set_volume_100
+      description: mets le volume à 100% 
+      questions:
+        - met la musique à 100
+        - met la musique à 100%
+      responses:
+        - D'accord
+        - Je m'en occupe 
+      interact:
+        output: none
