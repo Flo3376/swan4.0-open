@@ -111,14 +111,14 @@ class MusicManager {
     }
 
     // Méthode pour ajouter de la musique
-    async addMusics(track) {
+    async addMusics(track,callback) {
         if (!this.currentPlayer) {
             console.error("Aucun lecteur sélectionné ou le lecteur est hors service");
             return;
         }
         if (this._checkMethod('addMusics')) {
             try {
-                await this.currentPlayer.addMusics(track);
+                await this.currentPlayer.addMusics(track,callback);
                 console.log(`Musique ajoutée avec succès sur ${this.playerType}`);
             } catch (error) {
                 console.error(`Erreur lors de l'ajout de la musique sur ${this.playerType}:`, error);

@@ -179,7 +179,7 @@ class SpotifyController {
     }
   }
 
-  async addMusics(music)
+  async addMusics(music,callback)
   {
     // Gestion des différentes pistes selon leur type (playlist, track, album)
       if (music.includes("playlist")) {
@@ -187,18 +187,21 @@ class SpotifyController {
         let playlistId = music.split("/playlist/")[1].split("?")[0];
         //console.log("playlist id : " + playlistId);
         this.playPlaylist(playlistId);  // Lance une playlist sur Spotify
+        if (callback) callback( 'Playlist lancé sur spotify');
     }
     if (music.includes("track")) {
         console.log(music);
         let trackId = music.split("/track/")[1].split("?")[0];
         //console.log("track id : " + trackId);
         this.playTrack (trackId);  // Lance une piste spécifique sur Spotify
+        if (callback) callback( 'Morceau lancé sur spotify')
     }
     if (music.includes("album")) {
         console.log(music);
         let albumId = music.split("/album/")[1].split("?")[0];
         //console.log("album id : " + albumId);
         this.playAlbum (albumId);  // Lance un album sur Spotify
+        if (callback) callback( 'Album lancé sur spotify')
     }
   }
 

@@ -37,13 +37,17 @@ class LocalPlayer {
         });
     }
 
-    async addMusics(music)
+    async addMusics(music,callback)
     {
         // Ajouter plusieurs musiques avec 25% de volume et 250ms de délai entre chaque ajout
 
         console.log(music)
-        this.addMultipleMusics(music, 5, 250)
-        .then(() => console.log('Toutes les musiques ont été ajoutées avec succès'))
+        this.addMultipleMusics(music, 5, 250,callback)
+        .then((callback) => {
+            console.log('Toutes les musiques ont été ajoutées avec succès');
+            if (callback) callback( 'Playlist lancé sur local');
+        })
+        
         .catch((err) => console.error('Erreur:', err));
     }
 
@@ -67,27 +71,32 @@ class LocalPlayer {
     }
 
     // Méthode pour mettre en pause la lecture
-    async pause() {
+    async pause(callback) {
+        if (callback) callback( 'Lecture local mise en pause');
         return this.sendRequest('?class_action=sound&action=pausemusic');
     }
 
     // Méthode pour reprendre la lecture
-    async play() {
+    async play(callback) {
+        if (callback) callback( 'Lecture local lancé');
         return this.sendRequest('?class_action=sound&action=resumemusic');
     }
 
     // Méthode pour arrêter la lecture
-    async stop() {
+    async stop(callback) {
+        if (callback) callback( 'Lecture local mise en pause');
         return this.sendRequest('?class_action=sound&action=stopmusic');
     }
 
     // Méthode pour passer à la piste suivante
-    async next_track() {
+    async next_track(callback) {
+        if (callback) callback( 'Musique suivante');
         return this.sendRequest('?class_action=sound&action=playnext');
     }
 
     // Méthode pour régler le volume
-    async setVolume(volume) {
+    async setVolume(volume,callback) {
+        if (callback) callback(`Volume réglé à ${volume} sur local`);
         return this.sendRequest(`?class_action=sound&action=setvolume&volume=${volume}&type=music`);
     }
 }
