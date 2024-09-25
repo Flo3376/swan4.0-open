@@ -96,7 +96,7 @@ class SpotifyController {
     if (!this._checkAvailability()) return;
     try {
       const data = await this.spotifyApi.getMyDevices();
-      //console.log('Appareils disponibles:', data.body.devices);
+      console.log('Appareils disponibles:', data.body.devices);
       return data.body.devices;
     } catch (error) {
       console.error('Erreur lors de la récupération des appareils:', error);
